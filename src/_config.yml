@@ -35,3 +35,10 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
+
+sphinx:
+  config:
+    language: en
+  extra_extensions:
+    - sphinx_exercise
+    - sphinx_proof
