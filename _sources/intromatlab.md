@@ -1,47 +1,47 @@
 # An introduction to MATLAB
 
-MATLAB/Simulink è uno strumento software per:
-- Esecuzione di calcoli matematici ed elaborazione dei segnali,
-- Analisi e visualizzazione dei dati: possiedi svariati strumenti grafici,
-- Modellazione di sistemi e fenomeni fisici,
-- Test e simulazioni di progetti ingegneristici.
+MATLAB / Simulink is a software tool for:
+- Performing mathematical calculations and signal processing,
+- Data analysis and visualization: you have several graphical tools,
+- Modeling of physical systems and phenomena,
+- Testing and simulation of engineering projects.
 
-## Il Desktop di MATLAB
+## The MATLAB Desktop
 
 ```{figure} ./images/matlabdesktop.png
 :name: matlabdesktop
 
-Il Desktop di MATLAB
+The MATLAB Desktop
 ```
 
-1. La **command window** è dove digiti i comandi MATLAB seguendo il prompt:
+1. The **command window** is where you type MATLAB commands following the prompt:
   ```
   >>
   ```
-2. La finestra **workspace** mostra tutte le variabili che hai definito nella sessione
-corrente. Le variabili possono essere effettivamente manipolate all'interno della
-finestra dell'area di lavoro.
+2. The **workspace** window shows all the variables you have defined in the
+current session. Variables can actually be manipulated within the workspace
+window.
 
-3. La **command history** mostra tutti i comandi MATLAB che hai usato di recente,
-includendo anche le sessioni passate.
+3. The **command history** shows all MATLAB commands you have used recently,
+including past sessions as well.
 
-4. La **current folder** mostra tutti i file in qualsiasi cartella sia stata
-selezionata per essere la cartella corrente.
+4. The **current folder** shows all files in whichever folder has been selected
+to be the current folder.
 
-## Operazioni aritmetiche e ordine delle operazioni
+## Arithmetic operations and order of operations
 
-- Le operazioni di base sono l'addizione (`+`), sottrazione (`-`), la
-moltiplicazione (`*`), la divisione (`\`), l'elevamento a potenza (`^`),
-- L'ordine delle operazioni è quello *canonico* adoperato in matematica e segue
-le usuali convenzioni di una calcolatrice scientifica
-  1. Si completano tutte le operazioni tra parentesi `( )` usando le seguenti
-  regole di precedenza,
-  2. Elevamento a potenza (da sinistra verso destra)
-  3. Moltiplicazione e divisione (da sinistra verso destra)
-  4. Addizione e sottrazione (da sinistra verso destra)
+- The basic operations are addition (`+`), subtraction (`-`), the
+multiplication (`*`), division (`\`), exponentiation (`^`),
+- The order of the operations is the *canonical* one used in mathematics and follows
+the usual conventions of a scientific calculator
+  1. Complete all operations in parentheses `()` using the following
+   rules of precedence,
+  2. Exponentiation (left to right)
+  3. Multiplication and division (left to right)
+  4. Addition and subtraction (from left to right)
 
-  :::{admonition} Esempio
-  Si considerino ad esempio le seguenti operazioni:
+  :::{admonition} Example
+  For example, consider the following operations:
 
     ```matlab
     30/5*3
@@ -52,181 +52,179 @@ le usuali convenzioni di una calcolatrice scientifica
 
   :::
 (sec-variabili)=
-## Variabili
+## Variables
 
-Come in ogni linguaggio di programmazione, MATLAB fa utilizzo di **variabili**,
-che, in informatica, sono contenitori di dati situate in una porzione della
-memoria e destinate a contenere valori, che possono (in generale) essere
-modificati nel corso dell'esecuzione di un programma.
+As in any programming language, MATLAB makes use of **variables**, which, in
+computer science, are data containers located in a portion of the memory and
+intended to contain values, which can (in general) be modified during the
+running a program.
 
-Una variabile è caratterizzata da un nome (inteso solitamente come una sequenza
-di caratteri e cifre) che deve seguire un insieme di *convenzioni* che dipende
-dal linguaggio che si sta adoperando. In MATLAB le seguenti convenzioni devono
-essere adoperate:
-1. I nomi delle variabili devono iniziare con una lettera,
-2. I nomi possono includere ogni combinazione di lettere, numeri, e *underscore*,
-3. La lunghezza massima per il nome di una variabile è di 63 caratteri,
-4. MATLAB è **case sensitive**. La variabile di nome `pAlla` è diversa dalla
-variabile di nome `palla`,
-5. È buona norma evitare i seguenti nomi:  `i`, `j`, `pi`, e più in generale
-tutte i nomi di funzioni predefinite di MATLAB come, ad esempio, `length`,
-`char`, `size`, `plot`, `break`, `cos`, `log`, etc.
-6. È buona norma chiamare le variabili con nomi intellegibili, cioè con nomi che
-riflettano l'uso che se ne fa all'interno del programma piuttosto che usare dei
-nomi generici di variabili come ad esempio `x`, `y`, `z`.
+A variable is characterized by a name (usually intended as a sequence of
+characters and digits) which must follow a set of *conventions* that depends
+on the language being used. In MATLAB the following conventions must be used:
+1. Variable names must start with a letter,
+2. Names can include any combination of letters, numbers, and *underscores*,
+3. The maximum length for a variable name is 63 characters,
+4. MATLAB is **case sensitive**. The variable named `bAll` is different from the
+variable named `ball`,
+5. It is a good idea to avoid the following names: `i`,` j`, `pi`, and more
+generally all predefined MATLAB function names such as `length`, `char`,` size`,
+`plot`,` break`, `cos`,` log`, etc.
+6. It is good practice to call variables with intelligible names, that is, with
+names that reflect their use within the program rather than using gods
+generic variable names such as `x`,` y`, `z`.
 
 :::{tip}
-Se vogliamo calcolare l'aria superficiale di una sfera $A = 4\pi r^2$ di raggio $r = 5$, è molto
-meglio scrivere
+If we want to calculate the surface air of a sphere $A = 4 \pi r^2$ of radius
+$r=5$, it is better to write
 ```matlab
-raggio = 5;
-area_superficiale = 4*pi*raggio^2
+radius = 5;
+surface_area = 4 * pi * radius ^ 2
 ```
-al posto di
+in the place of
 ```matlab
 r = 5;
-A = 4*pi*r^2
+A = 4 * pi * r ^ 2
 ```
-Quando riapriremo il secondo codice fra un mese le possibilità di ricordarsi
-cosa intendevamo saranno piuttosto scarse (o, nel mio caso, anche se lo aprissi
-fra due ore).
+When we reopen the second code in a month, the chances of remembering
+what we meant will be pretty scarce (or, in my case, even if I open it
+in two hours).
 :::
 
-Dall'esempio che abbiamo appena inserito nella **workspace** osserviamo diverse
-cose
+From the example we have just entered in the **workspace** we observe several
+things
 ```matlab
-raggio = 5;
-area_superficiale = 4*pi*raggio^2
+radius = 5;
+surface_area = 4*pi*radius^2
 ```
-1. una variabile `raggio` di tipo `double` è stata creata,
-2. una posizione di memoria per la variabile `raggio` è stata allocata ed
-inizializzata al valore $5$,
-3. il `;` al termine dell'istruzione sopprime la stampa a schermo del contenuto
-della variabile,
-4. la variabile `area_superficiale` viene invece creata ed allocata utilizzando
-invece una delle quantità predeterminate di MATLAB, il valore di $\pi$, ed il
-contenuto della variabile `raggio` che abbiamo definito in precedenza. Poiché non
-abbiamo terminato la seconda istruzione con un `;`, vediamo stampato nella
-**command window**
+1. a `radius` variable of type `double` has been created,
+2. a memory location for the variable `radius` has been allocated and
+initialized to the value $5$,
+3. the `;` at the end of the instruction suppresses the screen printing of the content
+of the variable,
+4. the variable `surface_area` is instead created and allocated using
+instead one of MATLAB's predetermined quantities, the value of $\pi$, and the
+content of the variable `radius` we defined earlier. Since we didn't finish the
+second statement with a `;`, we see its value printed in the **command window**
 ```
-area_superficiale =
+surface_area =
 
   314.1593
 ```
-A questo punto possiamo cambiare il valore della variabile `raggio` semplicemente
-riassegnandolo ad una nuova quantità *senza* alterare il valore conservato nel
-**workspace** della variabile `area_superficiale`.
+At this point we can change the value of the `radius` variable simply by
+reassigning it to a new amount *without* altering the value stored in the
+**workspace** of the `surface_area` variable.
 
-Per mostrare il contenuto di una variabile, si può utilizzare il comando `disp`,
-ad esempio:
+To display the contents of a variable, you can use the `disp` command, for
+example:
 ```matlab
-disp("L'area superficiale della sfera è:"); disp(area_superficiale);
+disp ("The surface area of the sphere is:"); disp (area_surface);
 ```
-che produrrà nella **command window**:
+which will produce in the **command window**:
 ```
-L'area superficiale della sfera è:
-  314.1593
+The surface area of the sphere is:
+   314.1593
 ```
 
-### Variabili carattere e stringhe
+### Character variables and strings
 
-Non siamo obbligati ad usare unicamente variabili di tipo numerico. Ad **esempio**
-possiamo scrivere nella **command window**:
+We are not obliged to use only numeric variables. For **example** we can write
+in the **command window**:
 ```matlab
-studente='C.F. Gauss'
+student='C.F. Gauss'
 ```
-che ci stamperà
+that will print us
 ```
-studente =
+student =
 
     'C.F. Gauss'
 ```
-Abbiamo costruito un'**array** di `char`, cioè una variabile di nome `studente`
-a cui abbiamo assegnato uno spazio di memoria e in cui abbiamo inserito i
-caratteri `C.F. Gauss`. Nel dubbio, possiamo interrogare MATLAB riguardo il
-tipo della variabile con il comando
+We have built an **array** of `char`, that is a variable named` student` to
+which we have assigned a memory space and in which we have inserted the
+characters `C.F. Gauss`. If in doubt, we can query MATLAB about the type of
+the variable with the command
 ```matlab
-whos studente
+whos student
 ```
-che ci restituirà
+that will give us back
 ```
   Name          Size            Bytes  Class    Attributes
 
-  studente      1x10               20  char      
+  student       1x10               20  char      
 ```
-Una variante all'**array** di `char` è quello di definire invece un oggetto
-`string`, cioè assegnare
+A variation on the **array** of `char` is to define a` string` object instead,
+i.e. assign
 ```matlab
-studente_stringa = "C.F. Gauss"
+student_string = "C.F. Gauss"
 ```
-per cui `whos studente_stringa` ci dirà invece
+so `whos student_string` will tell us instead
 ```
 Name                  Size            Bytes  Class     Attributes
 
-studente_stringa      1x1               156  string              
+student_string       1x1               156  string              
 ```
-Riassumendo:
-- Un *array di `char`* è una sequenza di caratteri, proprio come un vettore
-numerico è una sequenza di numeri. Un suo uso tipico è quello di memorizzare
-brevi parti di testo come vettori di caratteri,
-- Un oggetto `string`, ovvero un *array* di `string` è un contenitore per
-parti di testo. Gli *array di stringhe* forniscono una serie di funzioni per
-lavorare con il testo come dati.
+Summing up:
+- An *array of `char`* is a sequence of characters, just as a numeric vector
+is a sequence of numbers. Its typical use is to store short pieces of text as
+character vectors,
+- A `string` object, that is, an *array* of` string` is a container for parts
+of text. *Arrays of Strings* provide a variety of functions for working with
+text as data.
 
-## Alcune funzioni di cui è opportuno ricordarsi
+## Some functions you should remember
 
-MATLAB contiene un grande numero di funzioni matematica già implementate, alcune
-di quelle di più frequente utilizzo sono riportate nella {numref}`tabfunzionidibase`
+MATLAB contains a large number of already implemented mathematical functions,
+some of them, the most frequently used ones, are listed in {numref}`tabfunzionidibase`
 
 ```{list-table} alcune funzioni di base.
 :header-rows: 1
 :name: tabfunzionidibase
 
-* - Funzione
+* - Function
   - MATLAB
-  - Funzione
+  - Function
   - MATLAB
-* - Coseno
+* - Cosine
   - `cos`
-  - Radice quadrata
+  - Square root
   - `sqrt`
-* - Seno
+* - Sine
   - `sin`
-  - Esponenziale
+  - Exponential
   - `exp`
-* - Tangente
+* - Tangent
   - `tan`
-  - Logaritmo (base 10)
+  - Logarithm (base 10)
   - `log10`
-* - Cotangente
+* - Cotangent
   - `cot`
-  - Logaritmo (naturale)
+  - Logarithm (natural)
   - `log`
-* - Arcocoseno
+* - Arccosine
   - `acos`
-  - Arrotonda all'intero più vicino
+  - Round to the nearest integer
   - `round`
-* - Arcotangente
+* - Arctangent
   - `atan`
-  - Arrotonda all'intero $\leq$
+  - Round up to the integer $\leq$
   - `floor`
-* - Arcocotangente
+* - Arc tangent
   - `acot`
-  - Arrotonda all'intero $\geq$
+  - Round up to the integer $\geq$
   - `ceil`
 ```
 :::{danger}
-Le funzioni trigonometriche così espresse assumono gli input in radianti, ovvero
-le funzioni inverse restituiscono l'angolo in radianti. Le versioni che fanno
-utilizzo dei gradi si invocano con il suffisso `d`, e.g., `cosd`, `acosd`.
+The trigonometric functions thus expressed take the inputs in radians, that is,
+the inverse functions return the angle in radians. Versions that use degrees
+are invoked with the suffix `d`, e.g.,` cosd`, `acosd`.
 :::
 
-Se si incontra una funzione di cui non si conosce l'utilizzo è possibile
-interrogare la guida di MATLAB dalla **command window** con, ad esempio,
+If you encounter a function you don't know how to use, you can query the
+MATLAB help from the **command window** with, for example,
 ```matlab
 help cosd
 ```
-che stamperà delle informazioni essenziali
+which will print essential information
 ```
 cosd   Cosine of argument in degrees.
    cosd(X) is the cosine of the elements of X, expressed in degrees.
@@ -241,167 +239,164 @@ cosd   Cosine of argument in degrees.
    Documentation for cosd
    Other functions named cosd
 ```
-per cui poi si potrà accedere alle informazioni complete utilizzando il link
+so you can then access the complete information using the link
 *Documentation for ...*.
 
-Un'ultima coppia di funzioni estremamente utili è rappresentata dalle funzioni
-* `clear` che svuota la **workspace** di tutte le variabili, ovvero `clear nomevariabile1 nomevariabile2` che cancella unicamente le variabili `nomevariabile1` e `nomevariabile2`,
-* `clc` che cancella il contenuto stampato nella **command window**.
+A final couple of extremely useful functions are the
+- `clear` functions which clear the **workspace** of all variables, i.e.` clear variablename1 variablename2`
+which only clears the variables `variablename1` and` variablename2`,
+- ` clc` which clears the content printed in the **command window**.
 
-## Creazione di Script
+## Script creation
 
-Tutti (o quasi) i comandi visti fino ad ora sono in realtà degli **script** o
-delle **funzioni** pre-costruite e rese disponibili nell'ambiente generale. MATLAB
-permette all'utente di costruire i suoi script e le sue funzioni per la soluzione
-di problemi specifici.
+All (or almost) the commands seen so far are actually **scripts** or **functions**
+pre-built and made available in the general environment. MATLAB allows the user
+to build his own scripts and functions for solving specific problems.
 
-Uno **script file** è semplicemente una *collezione* di comandi eseguibili di
-MATLAB e, in alcuni casi più raffinati, di interfacce verso software esterno
-prodotto in C o in Fortran.
+A **script file** is simply a *collection* of MATLAB executable commands and,
+in some more refined cases, interfaces to external software produced in C or
+Fortran.
 
-Per creare un nuovo script è sufficiente fare *click* sull'icona **New script**,
-{numref}`newscript`, che aprirà una nuova finestra *editor* in cui è possibile
-scrivere il proprio programma.
+To create a new script just *click* on the **New script** icon,
+{numref}`newscript`, which will open a new *editor* window where you can
+write your own program.
 
 ```{figure} ./images/newscript.png
 :name: newscript
 
-Crea un nuovo script.
+Create a new script.
 ```
 
-Come abbiamo detto uno script non è nient'altro che una sequenza di comandi da
-inserirsi nella finestra dell'editor. Per poter *eseguire* lo script è necessario
-che questo sia salvato nella **Current Folder**.
+As we said, a script is nothing more than a sequence of commands to be inserted
+in the editor window. In order to *execute* the script it must be saved in the
+**Current Folder**.
 
 :::{warning}
-Le convenzioni per i nomi degli script sono le stesse che per i nomi delle
-variabili ({ref}`sec-variabili`), in particolare è estremamente importante
-evitare di usare nomi di funzioni predefinite di MATLAB.
+The naming conventions for scripts are the same as for variable names
+({ref} `sec-variables`), in particular it is extremely important to avoid using
+predefined MATLAB function names.
 :::
 
-Per **eseguire** lo script si può
-1. Fare click sul bottone **Run** ![Run](/images/mrun.png)
-2. Inserire nella **command window** il nome con cui è stato salvato lo script
-(senza l'estensione `.m`).
+You can **run** the script
+1. Click on the **Run** button ![Run](/images/mrun.png)
+2. Enter the name with which the script was saved in the **command window**
+(without the `.m` extension).
 
 :::{admonition} Esempio
-Trasformiamo in uno script il nostro codice per il calcolo dell'area superficiale
-di una sfera. Ovvero, scriviamo all'interno dell'editor:
-  ```matlab
-  raggio = 5;
-  area_superficiale = 4*pi*raggio^2;
-  disp("L'Area Superficiale della Sfera è: "); disp(area_superficiale);
-  ```
-Salviamo il file come `areasfera.m` ed eseguiamolo una volta con il pulsante **Run**
-ed una volta scrivendo `areasfera` nella **Command Window**.
+Let's turn our code for calculating the surface area of a sphere into a script.
+That is, we write in the editor:
+   `` matlab
+   radius = 5;
+   surface_area = 4 * pi * radius ^ 2;
+   disp ("The Surface Area of the Sphere is:"); disp (surface_area);
+   ``
+We save the file as `spherearea.m` and run it once with the **Run** button and
+once by writing `spherearea` in the **Command Window**.
 :::
 
-**Riassumendo** I file di script sono estremamente utili quando si intende
-eseguire sequenze di molti comandi MATLAB. Immaginiamo ad esempio una sequenza
-di calcoli divisa in $n$ comandi, dopo averli inseriti tutti nel *prompt* ci
-accorgiamo che il valore assegnato ad una variabile al primo comando è sbagliato,
-o vogliamo cambiarlo. Lavorando solo nella **command window** dovremmo correggere
-l'errore nel primo comando, quindi eseguire di nuovo gli altri $n-1$ comandi.
+**To summarize** Script files are extremely useful when you intend to run
+sequences of many MATLAB commands. For example, let's imagine a sequence of
+calculations divided into $n$ commands, after having entered them all in the
+*prompt* we realize that the value assigned to a variable in the first command
+is wrong, or we want to change it. Working only in the **command window** we
+should fix the error in the first command, then rerun the other $n-1$ commands.
 
-Se avessimo prodotto invece uno script, potremmo semplicemente correggere il
-primo comando ed eseguire nuovamente l'intera sequenza premendo un solo tasto
-o scrivendo un solo comando: il nome dello script.
+If we had produced a script instead, we could simply correct the first command
+and rerun the entire sequence by pressing a single key or typing a single
+command: the name of the script.
 
-### Creazione di Funzioni
+## Creating Functions
 
-Una funzione (detta anche, a seconda del linguaggio di programmazione, routine,
-  subroutine, procedura, metodo), è un particolare costrutto sintattico che
-  raggruppa all'interno di un singolo programma, una sequenza di istruzioni in
-  un unico blocco. Il suo scopo è quello di portare a termine una operazione,
-  azione, o elaborazione in modo tale che, a partire da determinati *input*,
-  restituisca determinati *output*.
+A function (also called, depending on the programming language, routine,
+  subroutine, procedure, method), is a particular syntactic construct that
+  groups within a single program, a sequence of instructions in a single block.
+  Its purpose is to carry out an operation, action, or processing in such a way
+  that, starting from certain *inputs*, it returns certain *outputs*.
 
-In MATLAB una funzione di nome `miafunzione` è dichiarata come `function [y1,...,yN] = miafunzione(x1,...,xM)` che accetta come *input* `x1,...,xM` e restituisce come
-*output* `y1,...,yN`. Questa dichiarazione **deve** essere la prima istruzione
-eseguibile del file che contiene la funzione. Nomi validi di funzioni iniziano
-con un carattere alfabetico e possono contenere lettere, numeri o *underscore*.
+In MATLAB a function named `myfunction` is declared as` function [y1, ..., yN] = myfunction (x1, ..., xM) ` which accepts as *input* `x1, ..., xM` and returns as * output * `y1, ..., yN`.
+This declaration **must** be the first executable statement of the file that
+contains the function. Valid function names begin with an alphabetic character
+and can contain letters, numbers, or *underscores*.
 
-Si può salvare una funzione in
-- un file funzione che contiene solamente definizioni di funzione. Il nome del
-file *deve* corrispondere esattamente con il nome della prima funzione contenuta
-nel file;
-- uno script che contiene comandi e definizioni di funzione. In questo caso le
-funzioni *devono* essere contenute alla fine del file e lo *script* non può avere
-lo stesso nome di nessuna delle funzioni contenute al suo interno.
+You can save a function in
+- a function file that contains only function definitions. The file name *must*
+exactly match the name of the first function in the file;
+- a script that contains commands and function definitions. In this case the
+functions *must* be contained at the end of the file and the *script* cannot
+have the same name as any of the functions contained within it.
 
-I file possono includere molteplici funzioni locali o innestate. Al fine di
-produrre del codice leggibile, è consigliato utilizzare sempre la parola chiave
-`end` per indicare la fine di ogni funzione all'interno di un file.
+Files can include multiple local or nested functions. In order to
+produce human readable code, it is recommended to always use the `end`
+keyword to indicate the end of any function within a file.
 
-In particolare, la parola chiave `end` è richiesta ogni qual volta:
-- una qualunque funzione in un file contiene una funzione innestata,
-- la funzione è una funzione *locale* all'interno di un file che contiene solo
-funzioni e, a sua volta, ogni funzione locale usa la parola chiave `end`,
-- la funzione è una funzione *locale* all'intero di uno *script*.
+In particular, the `end` keyword is required whenever:
+- any function in a file contains a nested function,
+- the function is a *local* function within a file that contains only functions
+and, in turn, each local function uses the keyword `end`,
+- the function is a *local* function inside a *script*.
 
-Per interrompere l'esecuzione di una funzione prima del raggiungimento dell'`end`
-finale, si può utilizzare la parola chiave `return` che, come suggerisce il nome,
-restituisce il controllo allo script che ha invocato la funzione. Una chiamata
-diretta allo script o alla funzione che contiene `return`, non richiama alcun
-programma di origine e restituisce invece il controllo al prompt dei comandi.
+To interrupt the execution of a function before reaching the final `end`, you can
+use the` return` keyword which, as the name suggests, returns control to the script
+that invoked the function. A direct call to the script or function that contains
+`return` does not invoke any source program and instead returns control to the
+command prompt.
 
-:::{admonition} Esempio
-Trasformiamo in una funzione il nostro codice per il calcolo dell'area superficiale
-di una sfera. Ovvero, scriviamo all'interno dell'editor:
-```matlab
-function [area_superficiale] = areasfera(raggio)
-%%AREASFERA Funzione che calcola l'area superficiale di una sfera di raggio r
-area_superficiale = 4*pi*raggio^2;
+:::{admonition} Example
+We transform our code for calculating the surface area of a sphere into a function.
+That is, we write in the editor:
+`` matlab
+function [surface_area] = areasphere(radius)
+%% AREASPHERE Function that calculates the surface area of a sphere of radius r
+surface_area = 4 * pi * radius ^ 2;
 end
-```
-Salviamo il file come `areasfera.m` e possiamo eseguire la funzione direttamente
-nella **command window** come
-1. `area_superficiale = areasfera(raggio)`,
-2. `area_superficiale = areasfera(raggio);`,
-3. `areasfera(raggio)`.
-Si osservino le differenze.
+``
+We save the file as `areasfera.m` and we can execute the function directly
+in the **command window** such as
+1. `area_surface = areasphere (radius)`,
+2. `area_surface = areasphere (radius);`,
+3. `areasphere (radius)`.
+Note the differences.
 :::
 
-## Array e Matrici
+## Arrays and Matrices
 
-Abbiamo discusso fino ad ora l'utilizzo di variabili scalari, tuttavia in MATLAB
-i dati sono rappresentati in maniera naturale come **matrici**, **array** e, più
-in generale, **tensori**. È possibile applicare tutte le operazioni dell'algebra
-lineare agli array, in più si possono creare griglie comuni, combinare array
-esistenti, manipolare la forma e il contenuto di un array e utilizzare diverse
-modalità di indicizzazione per accedere ai loro elementi.
+We have been discussing the use of scalar variables so far, however in MATLAB,
+data is naturally represented as **matrices**, **arrays** and, more generally,
+**tensors**. You can apply all linear algebra operations to arrays, plus you can
+create common grids, combine existing arrays, manipulate the shape and content
+of an array, and use different indexing modes to access their elements.
 
-In realtà, abbiamo già surrettiziamente lavorato con degli array, poiché in MATLAB
-anche le variabili scalari non sono nient'altro che array unidimensionali, in
-notazione matematica un $a \in \mathbb{R}$ è sempre un $a \in \mathbb{R}^{1\times 1}$.
-Infatti se scriviamo nella **command window**:
+In fact, we have already surreptitiously worked with arrays, since in MATLAB
+even scalar variables are nothing more than one-dimensional arrays, in mathematical
+notation an $a \in \mathbb{R}$ is always a $a \in \mathbb{R}^{1 \times 1}$.
+In fact, if we write in the **command window**:
 ```matlab
 a = 100;
 whos a
 ```
-il sistema ci restituirà
+the system will give us back
 ```
 Name      Size            Bytes  Class     Attributes
 
 a         1x1                 8  double   
 ```
-Immaginiamo ora di disporre di uno specifico insieme di dati, che vogliamo disporre
-in una matrice. Possiamo farlo utilizzando la semantica delle parentesi quadre `[ ]`.
+Now let's imagine that we have a specific set of data, which we want to arrange
+in a matrix. We can do this using the semantics of square brackets `[]`.
 
-Una singola riga di dati contiene spazi o virgole `,` tra gli elementi e fa uso di
-un punto e virgola `;` per separare le righe.
+A single line of data contains spaces or commas `,` between elements and uses
+a semicolon `;` to separate rows.
 
-Ad esempio, se vogliamo crea una singola riga di tre elementi numerici
+For example, if we want to create a single row of three numeric elements
 ```matlab
 v = [ 1 2 3]
 ```
-oppure
+or
 ```matlab
 v = [ 1, 2, 3]
 ```
-La dimensione della matrice risultante è 1 per 3, poiché ha una riga e tre colonne.
-Una matrice di questa forma viene definita **vettore riga** e se chiamiamo la
-funzione `isrow(v)` ci vediamo rispondere
+The resulting matrix size is 1 by 3, as it has one row and three columns.
+A matrix of this form is called a **row vector** and if we call the `isrow (v)`
+function we get the answer
 ```
 ans =
 
@@ -409,11 +404,11 @@ ans =
 
    1
 ```
-Similmente, possiamo costuire un **vettore colonna** come
+Similarly, we can construct a **column vector** as
 ```matlab
 w = [ 1; 2; 3]
 ```
-per cui abbiamo che invece `iscolumn(w)` ci restituirà
+so we have that `iscolumn(w)` will return us instead
 ```
 ans =
 
@@ -421,22 +416,22 @@ ans =
 
    1
 ```
-Più in generale, possiamo costruire una matrice di $4 \times 4$ elementi come
+More generally, we can construct an array of $ 4 \times 4 $ elements like
 ```matlab
 A = [ 1 2 3 4; 5 6 7 8; 9 10 11 12; 13 14 15 16]
 ```
-oppure come
+or as
 ```matlab
 A = [ 1, 2, 3, 4; 5, 6, 7, 8; 9, 10, 11, 12; 13, 14, 15, 16]
 ```
-o
+or
 ```matlab
 A = [ 1, 2, 3, 4
       5, 6, 7, 8
       9, 10, 11, 12
       13, 14, 15, 16]
 ```
-In tutti i casi ci vedremo restituire
+In all cases we will see ourselves returned
 ```matlab
 A =
 
@@ -445,98 +440,97 @@ A =
      9    10    11    12
     13    14    15    16
 ```
-Possiamo indagare le dimensioni di una matrice mediante la funzione `size(A)`,
-che nel caso precedente ci restituirà
+We can investigate the dimensions of an array using the `size (A)` function,
+which in the previous case will return us
 ```
 ans =
 
      4     4
 ```
-### Costruttori predefiniti
+### Default constructors
 
-Costruire matrici semplicemente inserendo i valori all'interno in sequenza o in
-maniera esplicita è chiaramente scomodo (e molto noioso). A questo scopo MATLAB
-possiede i costruttori riportati in {numref}`costruttoriarray`.
+Constructing arrays simply by inserting values into them sequentially or
+explicitly is clearly cumbersome (and very boring). For this purpose MATLAB has
+the constructors listed in {numref}`costruttoriarray`.
 
-```{list-table} Costruttori per array e matrici.
+```{list-table} Constructors for arrays and matrices.
 :header-rows: 1
 :name: costruttoriarray
 
-* - Funzione
-  - Operazione
+* - Function
+  - Result
 * - `zeros`
-  - **Crea un array di tutti zeri**
-    Per costruire la matrice $0 = (O)_{i,j}$ $i,j=1,\ldots,n$ scriviamo
+  - **Create an array of all zeros**
+    To build the matrix $0 = (O)_{i,j}$ $i,j=1,\ldots,n$ we write
     ```matlab
     O = zeros(n,m);
     ```
 * - `ones`
-  - **Crea un array di tutti uno**
-    Per costruire la matrice $1 = (E)_{i,j}$ $i,j=1,\ldots,n$ scriviamo
+  - **Create an array of all ones**
+    To build the matrix $1 = (E)_{i,j}$ $i,j=1,\ldots,n$ we write
     ```matlab
     E = ones(n,m);
     ```
 * - `rand`
-  - **Crea un array di numeri casuali uniformemente distribuiti** in $[0,1]$.
+  - **Create an array of evenly distributed random numbers** in $[0,1]$.
     ```matlab
     R = rand(n,m);
     ```
-    Possiamo generare numeri uniformemente distribuiti nell'intervallo $[a,b]$ come
+    We can generate evenly distributed numbers in the range $ [a, b] $ as
     ```matlab
     R = a + (b-a).*rand(n,m);
     ```
 * - `eye`
-  - **Matrice identità** costruisce la matrice identità $(I)_{i,i} = 1$, $i=1,\ldots,n$
-  e $0$ altrimenti `I = eye(n)`.
+  - **Identity matrix** builds the identity matrix $(I)_{i,i} = 1$, $i=1,\ldots,n$
+  and $0$ otherwise `I = eye(n)`.
 * - `diag`
-  - Crea una **matrice diagonale** o estrae gli elementi diagonali di una matrice data. Se `v` è un vettore di lunghezza $n$, allora `diag(v)` è una matrice la cui diagonale principale è data dagli elementi di `v`. Se `A` è una matrice allora `diag(v)` è un vettore che contiene gli elementi della diagonale principale di $A$.
+  - Creates a **diagonal matrix** or extracts the diagonal elements of a given matrix. If `v` is a vector of length $n$, then `diag(v)` is a matrix whose leading diagonal is given by the elements of` v`. If `A` is a matrix then`diag(v)` is a vector containing the elements of the leading diagonal of $A$.
 ```
 
-Altre funzioni dello stesso tipo sono `true`, `false`, `blkdiag` e i loro
-funzionamento può essere esplorato mediante la funzione `help`.
+Other functions of the same type are `true`,` false`, `blkdiag` and theirs
+operation can be explored using the `help` function.
 
-Il secondo insieme di funzioni estremamente utile per costruire matrici è quello
-che si occupa di gestire le concatenazioni. Queste possono essere ottenute sia
-utilizzando la notazione con le parentesi quadre `[ ]`, ad esempio,
+The second set of functions extremely useful for building matrices is the one
+that deals with managing concatenations. These can be obtained either by using
+the notation with square brackets `[]`, for example,
 ```matlab
 A = rand(5,5);
 B = rand(5,10);
 C = [A,B];
 ```
-costruisce a partire dalle matrici $A \in \mathbb{R}^{5 \times 5}$,
-$B \in \mathbb{R}^{5\times 10}$, la matrice $C \in \mathbb{R}^{5\times 15}$ ottenuta
-ponendo una accanto alle altre tutte le colonne di $A$ seguite da quelle di $B$.
-Alla stesso modo, si può ottenere la concatenazione verticale come
+builds from matrices $ A \in \ mathbb {R}^ {5 \times 5} $,
+$ B \in \mathbb{R}^{5 \times 10} $, the matrix $ C \in \mathbb{R} ^ {5 \times 15}$
+obtained by placing next to each other all the columns of $ A $ followed by those of $ B $.
+Similarly, vertical concatenation can be achieved as
 ```matlab
 A = rand(8,8);
 B = rand(12,8);
 C = [A;B];
 ```
-che genererà la matrice $C \in \mathbb{R}^{20,8}$ ottenuta impilando tutte le
-righe di $A$ seguite dalle righe di $B$.
+which will generate the $ C \in \mathbb{R}^{20,8}$ matrix obtained by stacking all
+lines of $ A $ followed by lines of $ B $.
 
 :::{danger}
-Le operazioni di concatenazione devono essere fatte tra matrici di dimensione
-compatibile, non possono esserci "avanzi" tra le dimensioni in oggetto. Per
-provare ad ottenere un errore si esegua:
+The concatenation operations must be done between matrices of compatible size,
+there can be no "leftovers" between the dimensions in question. To try to get
+an error, execute:
 ```matlab
 A = rand(5,5);
 B = rand(5,10);
 C = [A;B];
 ```
-che restituirà
+which will return
 ```
 Error using vertcat
 Dimensions of arrays being concatenated are not consistent.
 ```
 :::
-Al posto della notazione con le parentesi quadre è possibile fare uso delle
-funzioni `horzcat` e `vertcat` che corrispondono, rispettivamente, alle
-concatenazioni della forma `[,]` e `[;]`.
+Instead of the notation with square brackets it is possible to make use of the
+functions `horzcat` and` vertcat` which correspond, respectively, to the
+concatenations of the form `[,]` and `[;]`.
 
-Se vogliamo costruire invece una matrice diagonale a blocchi a partire dai blocchi
-diagonali possiamo utilizzare la funzione `blkdiag` il cui `help` ci restituisce
-esattamente
+If we want to build instead a diagonal block matrix starting from the diagonal
+blocks we can use the `blkdiag` function whose` help` gives us exactly
 ```
 blkdiag  Block diagonal concatenation of matrix input arguments.
 
@@ -550,62 +544,59 @@ blkdiag  Block diagonal concatenation of matrix input arguments.
       char, logical
 ```
 
-### Slicing: accedere agli elementi
+### Slicing: access elements
 
-Il modo più comune di accedere ad un determinato elemento di un array o di una
-matrice è quello di specificare esplicitamente gli indici degli elementi.
-Ad **esempio**, per accedere a un singolo elemento di una matrice, specificare
-il numero di riga seguito dal numero di colonna dell'elemento:
+The most common way to access a particular element of an array or matrix is to
+explicitly specify the indices of the elements.
+For **example**, to access a single element of an array, specify the row number
+followed by the column number of the element:
 ```matlab
 A = [ 1 2 3 4
       17 8 2 1];
 A(2,1)
 ```
-che stamperà nella **command window** `17`, cioè l'elemento in posizione riga
-2 e colonna 1 di `A` ($a_{2,1}$).
+which will print in the **command window** `17`, i.e. the element in row 2 and
+column 1 position of `A` ($ a_{2,1} $).
 
-Possiamo anche fare riferimento a più elementi alla volta specificando i loro
-indici in un vettore. Ad **esempio**, accediamo al primo e al quarto elemento
-della seconda riga della `A` precedente, facendo
+We can also refer to multiple elements at a time by specifying their indices
+in a vector. For **example**, we access the first and fourth elements of the
+second line of the previous `A` by doing
 ```matlab
 A(2,[1,4])
 ```
-che restituirà
+which will return
 ```
 ans =
 
     17     1
 ```
-Per accedere agli elementi in un intervallo di righe o colonne, è possibile
-utilizzare l'operatore due punti `:`. Ad esempio, possiamo accedere accedi
-agli elementi dalla prima alla quinta riga e dalla seconda alla sesta colonna di
-una matrice $A$ come
+To access elements in a range of rows or columns, you can use the colon operator
+`:`. For example, we can access the elements from the first to the fifth row and
+from the second to the sixth column of a $ A $ matrix as
 ```matlab
 A = rand(10,10);
 A(1:5,2:6)
 ```
-Nel caso si voglia scorrere fino al termine di una dimensione è possibile
-sostituire il valore di destra nei `:` con la parola chiave `end`, ad esempio:
+If you want to scroll to the end of a dimension, you can replace the value on
+the right in the `:` with the keyword `end`, for example:
 ```matlab
 A(1:5,2:end)
 ```
-Invece l'utilizzo di `:` senza valori di inizio/fine estrae tutte le entrate della
-dimensione relativa, ad esempio, 5 colonna, `A(:,5)`, oppure colonne dalla quarta
-alla settima, `A(:,4:7)`.
+Instead, using `:` without start/end values extracts all entries of the relative
+dimension, for example, 5 column, `A(:, 5)`, or 4th to 7th columns, `A(:,4:7)`.
 
 ```{note}
-In generale, si può utilizzare l'indicizzazione per accedere agli elementi di
-qualsiasi array in MATLAB **indipendentemente** dal tipo di dati o dalle
-dimensioni.
+In general, indexing can be used to access elements of any array in MATLAB
+**regardless** of data type or size.
 ```
-L'ultimo modo di fare uno *slicing* di un vettore di cui vogliamo parlare è
-quello mediante **vettori logici**. L'utilizzo di indicatori logici `true` e
-`false` è particolarmente efficace quando si lavora con istruzioni condizionali.
-Ad **esempio**, supponiamo di voler sapere se gli elementi di una matrice $A$
-sono maggiori degli elementi corrispondenti di un'altra matrice $B$.
-L'operatore di confronto applicato alle due matrici restituisce un array
-logico i cui elementi sono 1 quando un elemento in $A$ soddisfa il confronto con il
-corrispondente elemento in $B$.  
+The last way to *slice* a vector we want to talk about is by using
+**logical vectors**. Using the `true` and` false` logical flags is especially
+effective when working with conditional statements.
+For **example**, suppose we want to know if the elements of one $A$ array are
+greater than the corresponding elements of another  $B$ array. The comparison
+operator applied to the two arrays returns a logical array whose elements are
+1 when an element in $A$ satisfies the comparison with the corresponding
+element in $ B $.
 ```matlab
 A = [1 2 6; 4 3 6];
 B = [0 3 7; 3 7 5];
@@ -613,7 +604,7 @@ ind = A>B
 A(ind)
 B(ind)
 ```
-ci restituisce
+gives us back
 ```
 ind =
 
@@ -636,20 +627,21 @@ ans =
      3
      5
 ```
-Gli operatori di confronto non sono gli unici per cui è possibile compiere questa
-operazione, MATLAB stesso implementa un certo numero di funzioni utili a questo
-scopo, si vedano  `isnan`, `isfinite`, `isinf`, `ismissing`. È inoltre possibile
-combinare insieme diverse richieste mediante l'uso degli **operatori logici**,
-si veda più avanti la sezione su {ref}`sec-ifelsestuff`.
+Comparison operators are not the only ones for which this can be done, MATLAB
+itself implements a number of useful functions for this purpose, see
+`isnan`,` isfinite`, `isinf`,` ismissing`. It is also possible to combine
+several requests together using the **logical operators**, see the section on
+{ref}`sec-ifelsestuff` below.
 
 ### Operazioni tra array e matrici
 
-MATLAB supporta tutte le operazioni che hanno senso in termini di algebra lineare,
-dunque prodotti matrici-vettore, somme di matrici e di vettori, trasposizione,
-coniugio, *etc.*, con i medesimi vincoli di consistenza tra gli operatori.
-Specificamente, il prodotto $A \mathbf{v}$ con $A \in \mathbb{R}^{n \times k_1}$
-e $\mathbf{v} \in \mathbb{R}^{k_2}$ è possibile se e solo se $k_1 \equiv k_2$,
-consideriamo ad esempio
+MATLAB supports all operations that make sense in terms of linear algebra,
+therefore matrix-vector products, sums of matrices and vectors, transposition,
+conjugation, *etc.*, with the same consistency constraints between the
+operators.
+Specifically, the product $ A \mathbf{v} $ with $ A \in \mathbb{R}^{n \times k_1}$
+and $\mathbf {v} \in \mathbb{R}^{k_2}$ is possible if and only if $k_1 \equiv k_2$,
+let's consider for example
 ```matlab
 A = [1 2 3 4;
      4 3 2 1;
@@ -658,15 +650,15 @@ A = [1 2 3 4;
 v1 = [1,2,3,4];
 v2 = [1;2;3;4];
 ```
-e proviamo a calcolare
-- `A*v1` da cui otteniamo un errore:
+and let's try to calculate
+- `A*v1` from which we get an error:
 ```
 Error using  *
 Incorrect dimensions for matrix multiplication. Check that the number of columns in the first matrix matches the number of rows in the second matrix. To perform elementwise multiplication, use '.*'.
 ```
-  poiché stiamo cercando di fare un'operazione che non ha senso dal punto di vista
-  dell'algebra lineare.
-- `A*v2` è invece l'operazione corretta e otteniamo
+  since we are trying to do an operation that does not make sense from the point
+  of view of linear algebra.
+- `A*v2` instead it is the correct operation and we get
 ```
 ans =
 
@@ -675,22 +667,22 @@ ans =
     23
     23
 ```
-- `v1*A` anche questa operazione ha senso dal punto di vista matriciale e infatti
-otteniamo
+- `v1*A` also this operation makes sense from the matrix point of view and in
+fact we get
 ```
 ans =
 
     27    28    32    13
 ```
-- `v2*A` ha il medesimo problema della prima, cioè abbiamo di nuovo delle dimensioni
-che non sono consistenti
+- `v2*A` it has the same problem as the first, that is, we again have dimensions
+that are not consistent
 ```
 Error using  *
 Incorrect dimensions for matrix multiplication. Check that the number of columns in the first matrix matches the number of rows in the second matrix. To perform elementwise multiplication, use '.*'.
 ```
-- `A*v1'` introduciamo qui l'operazione di trasposta-coniugata (che poiché stiamo
-  utilizzando vettori di numeri reali coincide con la semplice operazione di
-  trasposizione `.'`), che ci porta ad avere le dimensioni corrette e ci restituisce
+- `A*v1'` here we introduce the transpose-conjugate operation (which, since we
+  are using vectors of real numbers, coincides with the simple transposition
+  operation `. ''), which leads us to have the correct dimensions and returns
 ```
 ans =
 
@@ -699,25 +691,24 @@ ans =
     23
     23
 ```
-- `A*v2'` la trasposizione in questo caso rende le dimensioni di `v2` incompatibili
-per cui otteniamo di nuovo il medesimo errore
+- `A*v2'` transposition in this case makes the dimensions of `v2` incompatible
+so we get the same error again
 ```
 Error using  *
 Incorrect dimensions for matrix multiplication. Check that the number of columns in the first matrix matches the number of rows in the second matrix. To perform elementwise multiplication, use '.*'.
 ```
 
 :::{warning}
-Il messaggio di errore che abbiamo incontrato ci dice che l'operazione non ha senso
-in termine delle usuali operazioni dell'algebra lineare, tuttavia ci suggerisce
-che quello che potevamo avere intenzione di fare era un prodotto **elementwise**
-ovvero "elemento ad elemento". Questa operazione si ottiene utilizzando l'operatore
-`.*`, cioè con un `.` prefisso davanti all'operatore di prodotto che in genere
-significa proprio "esegui in maniera elemento-ad-elemento". Proviamo con la prima
-operazione sbagliata che abbiamo proposto:
+The error message we encountered tells us that the operation does not make sense
+in terms of the usual operations of linear algebra, however it suggests that
+what we might have intended to do was an **elementwise** product or "element by
+element ". This is done by using the `. *` Operator, that is, with a `.` prefix
+in front of the product operator which usually means" execute in an
+element-by-element fashion ". Let's try the first wrong operation we proposed:
 ```matlab
 A.*v1
 ```
-che ci restituisce
+that gives us back
 ```
 ans =
 
@@ -726,23 +717,22 @@ ans =
      2     8     9     4
      3     4    12     4
 ```
-Che operazione abbiamo eseguito? Si provi ad eseguire anche le operazioni di
-elevamento a potenza
+What operation did we perform? Try also the exponentiation operations
 ```matlab
 A^3
 A.^3
 v1^3
 v1.^3
 ```
-e si descriva il risultato.
+and describe the result.
 :::
 
-Le ultime due operazioni che ci sono rimaste da descrivere sono `+`/`-`. Di nuovo
-dobbiamo preoccuparci della compatibilità delle operazioni che vogliamo compiere.
-Se vogliamo essere sicuri di star eseguendo la somma tra array e matrici che abbiamo
-in mente dobbiamo assicurarci che le dimensioni siano compatibili.
+The last two operations we have left to describe are `+` / `-`. Again we have to
+worry about the compatibility of the operations we want to carry out. If we
+want to be sure we are doing the sum of arrays and matrices we have in mind
+we have to make sure that the dimensions are compatible.
 
-Supponiamo di avere i vettori riga e colonna
+Suppose we have the row and column vectors
 ```matlab
 v = [1 2 3 4]
 w = [1
@@ -750,21 +740,20 @@ w = [1
      3
      4]
 ```
-se vogliamo sommarli o sottrarli e ottenere un vettore rispettivamente riga o
-colonna dobbiamo fare in modo che abbiano ambedue la dimensione corretta. Ovvero,
-dobbiamo avere, rispettivamente,
+if we want to add or subtract them and obtain a vector row or column, we must
+ensure that both have the correct size. That is, we must have, respectively,
 ```matlab
 v + w'
 ```
-oppure
+or
 ```matlab
 v' + w
 ```
-Se inavvertitamente sommiamo i due vettori come
+If we inadvertently add the two vectors as
 ```matlab
 v + w
 ```
-otteniamo invece
+we get instead
 ```
 ans =
 
@@ -773,10 +762,10 @@ ans =
      4     5     6     7
      5     6     7     8
 ```
-che è invece una matrice! Non esattamente quello che ci aspettavamo (riuscite
-  a capire che operazione abbiamo ottenuto?). Uguale cautela va esercitata
-  nello scrivere operazioni di somma/sottrazioni tra matrici e vettori.
-  Si provi ad eseguire:
+which is instead a matrix! Not exactly what we expected (can you figure out what
+  operation we got?). Equal caution should be exercised in writing addition/subtraction
+  operations between matrices and vectors.
+   Try running:
   ```
   A = pascal(4);
   v = [1 3 2 4];
@@ -786,48 +775,47 @@ che è invece una matrice! Non esattamente quello che ci aspettavamo (riuscite
   v + 1
   ```
 
-  È legittimo domandarsi a questo punto perché mai queste operazioni vengano
-  eseguite senza restituire errori. Anche se dal punto di vista della pura
-  algebra lineare queste operazioni non sono di immediata sensatezza, dal punto
-  di vista implementativo permettono di semplificare (e velocizzare) un certo
-  numero di operazioni che altrimenti richiederebbero diverse righe di codice
-  (la cui ottimizzazione per le performance non è scontata) per essere
-  implementate.
+It is legitimate to wonder at this point why these operations are performed
+without returning errors. Even if from the point of view of pure linear algebra
+these operations are not immediately sensible, from the implementation point of
+view they allow to simplify (and speed up) a certain number of operations that
+would otherwise require several lines of code (whose optimization for
+performance does not is taken for granted) to be implemented.
 
 (sec-ifelsestuff)=
-## Selezione e Strutture Condizionali
+## Selection and Conditional Structures
 
-```{list-table} Strutture Condizionali.
+```{list-table} Conditional Structures.
 :header-rows: 1
 :name: tabcondizionali
 
-* - Funzione di MATLAB
-  - Descrizione
+* - MATLAB Function
+  - Description
 * - `if, elseif, else`
-  - Esegue comando se la condizione `if` è verificata
+  - Execute command if the `if` condition is true
 * - `switch, case, otherwise`
-  - Esegue uno o più gruppi di comandi a seconda che la variabile `switch`
-  abbia il valore indicato nel `case`, altrimenti esegue il comando o gruppo di
-  comandi identificati da `otherwise`
+  - Executes one or more groups of commands depending on whether the `switch`
+  variable has the value indicated in the` case`, otherwise it executes the
+  command or group of commands identified by `otherwise`
 * - `try, catch`
-  - Esegue i comandi nel gruppo `try`, se questi restituiscono errore non blocca
-  l'esecuzione e passa ai comandi racolti in `catch`
+  - Executes the commands in the `try` group, if they return an error it does
+  not block the execution and passes to the commands collected in the` catch`
 ```
 
-Consideriamo il seguente esempio che simula il lancio di una moneta.
+Let's consider the following example that simulates the flip of a coin.
 ```matlab
 a = rand();
 if a < 0.5
-  disp('Testa!')
+  disp('Head!')
 else
-  disp('Croce')
+  disp('Tail')
 end
 ```
-Ad ogni nuova esecuzione `rand()` genera un numero casuale in $[0,1]$ con
-probabilità uniforme. Il comando `if` controlla se il numero casuale generato
-è $< 0.5$ ed in questo caso entra nel primo gruppo di codice. Altrimenti, abbiamo
-ottenuto un numero $> 0.5$ e rientriamo nel secondo gruppo di codice. Possiamo
-decidere di simulare anche un dado a tre facce nel seguente modo
+With each new execution, `rand ()` generates a random number in $ [0,1] $ with
+uniform probability. The `if` command checks if the random number generated is
+$ <0.5 $ and in this case enters the first code group. Otherwise, we have got a
+number $> 0.5 $ and we fall into the second group of code. We can also decide
+to simulate a three-sided die in the following way
 ```matlab
 a = rand();
 if a < 1/3
@@ -838,34 +826,34 @@ else
   disp('3')
 end
 ```
-in cui abbiamo utilizzato il comando `elseif` per avere un ramo aggiuntivo.
+where we used the `elseif` command to have an additional branch.
 
 ```{note}
-All'interno dei nostri controlli di tipo `if` (e più in generale) possiamo combinare
-insieme il risultato di diverse operazioni logiche. Queste sono raccolte nella
-Tabella {numref}`logicalops`. Altre funzioni che agiscono sui vettori di logici
-e che potete esplorare richiamando la funzione `help` sono `any` e `all`.
+Within our `if` checks (and more generally) we can combine the result of several
+logical operations together. These are collected in Table {numref}`logicalops`.
+Other functions that operate on logical vectors and which you can explore by
+calling the `help` function are `any` and `all`.
 
-```{list-table} Operazioni logiche
+```{list-table} Logical operations
 :header-rows: 1
 :name: logicalops
 
-* - Funzione di MATLAB
-  - Descrizione
+* - MATLAB Function
+  - Description
 * - `&`
-  - AND Logico
+  - Logical AND
 * - `~`
-  - NOT Logico
+  - Logical NOT
 * - `|`
-  - OR Logico
+  - Logical OR
 * - `xor`	 
-  - OR Esclusivo Logico
+  - Logical exclusive OR
 ```
 
-Vediamo anche un esempio dell'istruzione di tipo `switch`.
+We also see an example of the `switch` type statement.
 ```matlab
-controllo = input("Inserisci un numero intero tra 0 e 3: ");
-switch controllo
+control = input("Insert an integer between 0 and 3:");
+switch control
 case 0
  A = pascal(4,4);
  disp(A);
@@ -879,33 +867,32 @@ case 3
  A = rand(4,4);
  disp(A);
 otherwise
- disp("Non so cosa fare con questo input!")
+ disp ("I don't know what to do with this input!")
 end
 ```
-Si sarebbe potuto implementare lo stesso codice con una serie di `if` e `elseif`
-ed un `else`, ma questo approccio è più rapido se non c'è la necessità di
-imporre molti controlli logici.
+The same code could have been implemented with a series of `if` and` elseif`
+and an `else`, but this approach is quicker if there is no need to enforce many
+logical checks.
 
-L'ultimo controllo che vogliamo testare è `try`. Per cui potete provare il seguente
-codice.
+The last control we want to test is `try`. So you can try the following code.
 ```matlab
 try
  A = rand(5,5);
  b = ones(1,5);
  A*b
 catch
- disp("C'è qualche problema con le dimensioni!");
+ disp ("There is some problem with the size!");
 end
 ```
-Poiché l'operazione algebrica che abbiamo richiesto non è ben posta (provate ad
-eseguirla al di fuori dell'operazione di `try`) il `try` cattura l'errore e
-invece di arrestare l'esecuzione esegue il codice nella clausola `catch`. Potete
-correggere il codice nel primo blocco e verificare che in tal caso non entrerete
-nel `catch`.
+Since the algebraic operation we requested is not well posed (try to execute it
+  outside the `try` operation) the` try` catches the error and instead of
+  stopping the execution it executes the code in the `catch` clause . You can
+  correct the code in the first block and verify that you will not enter the
+  `catch` in that case.
 
-## Cicli e Cicli Innestati
+## Cycles and Nested Cycles
 
-All'interno di qualsiasi programma, è possibile definire sezioni di codice che si ripetono in un ciclo.
+Within any program, you can define sections of code that repeat in a loop.
 
 ```{list-table} Strutture Condizionali.
 :header-rows: 1
@@ -913,277 +900,175 @@ All'interno di qualsiasi programma, è possibile definire sezioni di codice che 
 * - Funzione di MATLAB
   - Descrizione
 * - `for`
-  - ciclo `for` per ripetere delle istruzioni un numero prefissato di volte
+  - `for` loop to repeat statements a fixed number of times
 * - `while`
-  - ciclo `while` ripete il suo codice fintanto che la condizione è `true`
+  - The `while` loop repeats its code as long as the condition is` true`
 * - `break`
-  - Termina in maniera forzata l'esecuzione di un ciclo `for` o `while`
+  - Forcibly terminates the execution of a `for` or` while` loop
 * - `continue`
-  - Passa il controllo all'iterata successiva di un ciclo `for` o `while`
+  - Pass control to the next iteration of a `for` or` while` loop
 * - `pause`
-  - Mette temporaneamente in pausa l'esecuzione di MATLAB.
+  - Temporarily pause MATLAB execution.
 ```
 
-:::{margin} Funzioni di stampa
-MATLAB fornisce un porting abbastanza trasparente delle funzioni di stampa
-a schermo (su stream di dati) del C. Ovvero la funzione `fprintf`. Per la stampa
-a schermo il prototipo di questa funzione è
-```
-fprintf(FORMAT, A, ...)
-```
-dove FORMAT è una stringa che contiene informazioni sul formato da stampare e
-`A` è un array che contiene i dati che devono essere stampati secondo il formato
-FORMAT. In generale questo è una stringa che può contenere del testo accompagnato
-da dei caratteri di *escape* che dicono come formattare il dato contenuto nella
-variabile `A`.
-![Caratteri di *escape* per il formato](./images/format.png)
-Come descritto nell'immagine l'*escape* per un operatore di formattazione
-comincia con il segno di percentuale, `%`, e finisce con un carattere di
-conversione ({numref}`carattereconversione`). Il carattere di conversione è richiesto. In maniera opzionale,
-si possono specificare un identificatore, delle flag, l'ampiezza del campo,
-la *precisione*, e un operatore di *sottotipo* tra il `%` ed il carattere di
-conversione.
-
-```{list-table} Caratteri di conversione
-:header-rows: 1
-:name: carattereconversione
-* - Carattere
-  - Conversione
-* - `%d` o `%i`
-  - Intero base 10
-* - `%f`
-  - Floating point a precisione fissa
-* - `%e`
-  - Floating point notazione scientifica
-* - `%c`
-  - Singolo carattere
-* - `%s`
-  - Stringa
-```
-Un esempio:
+We use a `for` loop to calculate the sum of the first` n` integers.
 ```matlab
-fprintf("%f \n",pi);
-fprintf("%e \n",5*10^20);
-fprintf("%1.2f \n",pi);
-fprintf("%1.2e \n",5*10^20);
-fprintf("%c \n",'a')
-fprintf("%s \n",'Ciao, mondo!')
-```
-Nell'esempio abbiamo usato ripetutamente i caratteri `\n` che stanno a
-simboleggiare un carattere di fine linea. Altri caratteri utili di questo tipo
-sono in {numref}`carformattazione`.
-```{list-table} Caratteri di formattazione
-:header-rows: 1
-:name: carformattazione
-* - Risultato
-  - Stringa
-* - Singolo quotation mark
-  - `''`
-* - Simbolo percento
-  - `%%`
-* - Backslash
-  - `\\`
-* - Backspace
-  - `\b`
-* - Tab orizzontale
-  - `\t`
-* - Tab verticale
-  - `\v`
-```
-Ulteriori informazioni possono essere ottenuto scrivendo `help fprintf` nella
-*command line*.
-:::
-Utilizziamo un ciclo `for` per calcolare la somma dei primi `n` numeri interi.
-```matlab
-n = input("Inserisci un numero intero n: ");
-somma = 0;
+n = input ("Insert an integer n:");
+summation = 0;
 for i=1:n
-  somma = somma + i;
+  summation = summation + i;
 end
-fprintf("La somma degli interi da 1 a %d è %d.\n",n,somma);
+fprintf ("The sum of the integers 1 to% d is% d. \ n", n, summation);
 ```
-Questo non è ovviamente il modo migliore di fare questa operazione, avremmo
-ad esempio potuto calcolare la stessa quantità come `sum(1:10)`. Oppure, sfruttare
-un po' di idee matematiche per ricordarci che
-$\displaystyle S_n = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}.$ Ma è servito al nostro
-scopo dimostrativo.
+This is obviously not the best way to do this, for example we could have
+calculated the same quantity as `sum (1:10)`. Or, use some mathematical ideas
+to remind us that $ \displaystyle S_n = \sum_{i = 1}^{n} i = \frac{n (n + 1)}{2}.$
+But it helped our demonstration purpose.
 
-Vediamo ora un esempio di ciclo `while`.
+Let's now look at an example of a `while` loop.
 ```matlab
-somma = 0;
-while somma < 10
-  somma = somma + rand();
+summation = 0;
+while summation < 10
+  summation = summation + rand();
 end
-fprintf("Il valore finale della somma è: %f\n",somma);
+fprintf ("The final value of the sum is:% f \ n", summation);
 ```
-Poiché abbiamo inizializzato la variabile `somma` a 0, la condizione di innesco
-del ciclo `while` è `true` e dunque cominciamo ad iterare. Ad ogni nuova istanza
-del ciclo un nuovo numero casuale viene generato e aggiunto alla variabile `somma`.
-Non appena il valore di `somma` supera 10, il ciclo viene interrotto e il messaggio
-viene stampato a schermo.
+Since we initialized the `summation` variable to 0, the trigger condition of the
+`while` loop is `true` and so we start iterating. With each new instance of the
+loop a new random number is generated and added to the `summation` variable.
+As soon as the `summation` value exceeds 10, the cycle is interrupted and the
+message is printed on the screen.
 
-## Alcuni esercizi
+## Some exercises
 
-Gli esercizi qui raccolti hanno per lo più lo scopo di verificare che abbiate
-assorbito queste informazioni generali sul linguaggio MATLAB, cosicché dal
-**prossimo laboratorio** ci si possa concentrare sull'implementazione di algoritmi
-prettamente numerici e sulle questioni affrontate nelle lezioni di teoria.
+The exercises collected here are mostly intended to verify that you have
+absorbed this general information about the MATLAB language, so that we can
+concentrate on implementing algorithms for the solution of some modeling problem.
 
-:::{admonition} Esercizio 1
-La costante aurea $\varphi$ si può esprimere in forma compatta come
+::::{exercise}
+The golden constant $\varphi$ can be expressed in compact form as
 ```{math}
 \varphi = \frac{1+\sqrt{5}}{2}.
 ```
-Ammettiamo di non avere un algoritmo per estrarre le radici quadrate, allora
-possiamo provare ad approssimare il valore di $\phi$ usando la sua espansione
-in frazione continua:
+Let's assume we don't have an algorithm for extracting square roots, then we
+can try to approximate the value of $\phi$ using its continued fraction expansion:
 ```{math}
 \varphi = 1 + \frac{1}{1 + \frac{1}{1 + \frac{1}{1 + \frac{1}{1 + \frac{1}{1 + \frac{1}{1 + \vdots } } } } } }
 ```
-Si scriva una funzione con il seguente prototipo:
+Write a function with the following prototype:
 ```matlab
-function phi = frazionephi(n)
-%%FRAZIONEPHI prende in input il numero di termini da utilizzare
-%nell'approssimazione con frazione continua della sezione aurea e
-%restituisce l'approssimazione.
+function phi = fractionphi(n)
+%% FRACTIONPHI takes as input the number of terms to use
+% in the continuous fraction approximation of the golden section e
+% returns the approximation.
 end
 ```
-* Per costruire l'implementazione della funzione si usi un ciclo `for`.
-  **Suggerimento** si organizzi il calcolo partendo dal "livello più basso" verso
-  quello più alto.
-* Supponiamo di sapere che un valore esatto di $\varphi$ con 16 cifre
-  significative è `1.6180339887498949`. Si modifichi la funzione precedente in
-  una nuova funzione con il seguente prototipo
+* To build the function implementation, use a `for` loop.
+   **Hint** organize the calculation starting from the "lowest level" to the
+   highest one.
+* Suppose we know that an exact value of $\varphi $ with 16 significant digits
+  is `1.6180339887498949`. Change the previous function to a new function with
+  the following prototype
   ```matlab
-  function [n,phi] = quantiterminiphi(tol)
-  %%QUANTITERMINIPHI data in input una tolleranza tol sulla distanza tra
-  %l'approssimazione della costante phi e il valore reale questa funzione
-  %ci restituisce il numero di termini necessari e il valore dell'approssimazione
+  function [n,phi] = howmanytermsphi(tol)
+  %%HOWMANYTERMSPHI given in input a tolerance tol on the distance between
+   % the approximation of the constant phi and the real value of this function
+   % gives us the number of terms needed and the approximation value
 
   phitrue = 1.6180339887498949;
 
   end
   ```
-  Per farlo si usi un ciclo `while` e la funzione `abs` (che implementa il
-  valore assoluto) per misurare l'**errore assoluto** tra la nostra
-  approssimazione e il valore vero.
-* Si usi la funzione `fprintf` per stampare a schermo una tabella con tolleranza,
-  numero di termini per raggiungerla, valore ottenuto ed errore per le tolleranze
-  da `1e-1`, `1e-2`, fino a `1e-10`.
-:::
+  To do this we use a `while` loop and the` abs` function (which implements
+    the absolute value) to measure the **absolute error** between our
+    approximation and the true value.
+::::
 
-:::{admonition} Esercizio 2.
-Esercitiamoci ora nel costruire una *funzione ricorsiva*. Una sequenza collegata
-alla costante aurea $\varphi$ è la sequenza di Fibonacci, ovvero la sequenza di
-numeri interi $\{F_n\}_n = \{1,1,2,3,5,\ldots\}$ data da
+::::{exercise}
+Let's practice building a *recursive function* now. A sequence linked to the
+golden constant $\varphi$ is the Fibonacci sequence, i.e. the sequence of
+integers $ \{F_n \}_n = \{1,1,2,3,5, \ldots \} $ given by
 ```{math}
 F_{n+1} = F_{n} + F_{n-1}, \text{ se } n \geq 1, \; F_{1} = 1,\;F_{0} = 1.
 ```
-* Si implementi una *funzione ricorsiva* che calcola l'$n$mo numero di Fibonacci
-$n$ utilizzando solamente la struttura condizionale `switch`, di cui riportiamo
-al solito il prototipo.
+* Implement a *recursive function* that computes the $ n $ mo Fibonacci number
+$n$ using only the `switch` conditional structure, by using the following
+prototype
 ```matlab
 function f = fibonacci(n)
-%FIBONACCI Implementazione ricorsiva della successione di Fibonacci. Prende
-%in input il numero n e restituisce l'n-mo numero di Fibonacci Fn.
+%FIBONACCI Recursive implementation of the Fibonacci sequence. Takes
+% in input the number n and returns the nth Fibonacci number Fn.
 end
 ```
-* La funzione così costruita ha uno spiacevole difetto, se gli diamo in pasto
-$n$ ci fornisce l'$n$mo numero, tuttavia se successivamente chiediamo l'$n+1$mo
-il calcolo per ottenerlo non ha memoria di quello che abbiamo fatto e ricalcola
-comunque tutti i precedenti. Costruiamo ora una *versione non ricorsiva* della
-funzione `fibonacci`. Possiamo ottenerla in diversi modi, ma quasi sicuramente
-avremo bisogno di un ciclo `for`. Riportiamo come al solito il prototipo.
+* The function thus constructed has an unfortunate flaw, if we feed it  $n$ it
+gives us the $ n $ mo number, however if we subsequently ask for the $ n + 1 $th
+the calculation to obtain it has no memory of what we have done and recalculates
+all the previous ones anyway. Now let's build a **non-recursive version** of
+the `fibonacci` function. We can achieve it in several ways, but almost certainly
+we will need a `for` loop.
 ```matlab
 function f = fibonaccinonrecursive(n)
-%FIBONACCINONRECURSIVE Implementazione non ricorsiva della successione
-% di Fibonacci. Prende in input il numero n e restituisce un vettore
-% che contiene tutti i numeri di Fibonacci da F0 a Fn.
+%FIBONACCINONRECURSIVE Non-recursive implementation of the sequence
+% Fibonacci. It takes the number n as input and returns a vector
+% which contains all the Fibonacci numbers from F0 to Fn.
 end
 ```
-* Sfruttiamo ora la seconda implementazione che abbiamo fatto della funzione
-di Fibonacci per costruire una sequenza diversa. Consideriamo la sequenza di
-Viswanath {cite}`Viswanath` così definita
+* Let's now take advantage of the second implementation we made of the Fibonacci
+function to build a different sequence. Let us consider the Viswanath sequence
+{cite}`Viswanath` thus defined
 ```{math}
 v_{n+1} = v_{n} \pm v_{n-1}, \; n \geq 1,
 ```
-dove $v_{0}$ e $V_{1}$ sono assegnati a piacere e il $\pm$ ha la seguente
-interpretazione: con probabilità $1/2$ sommiamo, con probabilità $1/2$
-sottraiamo. Un'idea per implementare questa funzione è quella di utilizzare la
-funzione `sign` (provate a vedere a cosa serve facendo `help sign`).
-Un prototipo per questa funzione è ad esempio
+where  $v_{0}$ and $V_{1}$ are assigned at will and the $\pm$ has the following
+interpretation: with probability $ 1/2 $ we add, with probability $ 1/2 $ we
+subtract. One idea to implement this function is to use the `sign` function
+(see what it is for by doing` help sign`). A prototype for this function is
+for example
 ```matlab
 function v = viswanath(n,v0,v1)
-%VISWANATH Implementazione non ricorsiva della successione
-% di Viswanath. Prende in input il numero n, i valori di v0 e v1 e
-% restituisce un vettore che contiene tutti i numeri di Viswanath da v0 a vn.
+%VISWANATH Non-recursive implementation of the sequence
+% of Viswanath. It takes as input the number n, the values of v0 and v1 and
+% returns a vector that contains all Viswanath numbers v0 through vn.
 end
 ```
-* Una volta costruita la nostra funzione, possiamo visualizzare cosa otteniamo
-con essa (e confrontarlo con la successione di Fibonacci) tramite lo script:
+* Once our function is built, we can visualize what we get with it (and compare
+  it with the Fibonacci sequence) via the script:
 ```matlab
-%% Test della successione di Viswanath
+%% Viswanath sequence test
 
-n = 1000; % Numero di termini
+n = 1000; % Number of terms
 
-% Calcoliamo la successione di Fibonacci
+% Let's calculate the Fibonacci sequence
 f = fibonaccinonrecursive(n);
 
-% Calcoliamo la successione di Viswanath
+% We compute the Viswanath sequence
 v0 = 1;
 v1 = 1;
 v = viswanath(n,v0,v1);
 
-% Valore asintotico
+% Asymptotic value
 c = 1.13198824;
 phi = (1+sqrt(5))/2;
 figure(1)
 semilogy(0:n,abs(v),'o',0:n,c.^(1:n+1),'-',0:n,f,'x',0:n,phi.^(1:n+1),'-');
-legend({'Viswanath','Stima Asintotica','Fibonacci','Stima Asintotica'},...
+legend({'Viswanath','Asymptotic estimation','Fibonacci','Asymptotic estimation'},...
     'Location','northwest')
 ```
-Nella parte terminale dello script `% Valore asintotico` andiamo a confrontare
-in scala semi-logaritmica sull'asse delle $y$ i valori assoluti dei numeri
-$\{v_n\}_n$ e gli $\{F_n\}_n$. In particolare possiamo osservare che per
-entrambe le sequenza troviamo un numero $k$ per cui queste crescono come
-$k^{n+1}$. In particolare, per la sequenza di Fibonacci questo $k$ è la costante
-aurea $\varphi$ dell'esercizio precedente, mentre per la sequenza di Viswanath
-è il valore $c = 1.13198824\ldots$ (per una dimostrazione si veda {cite}`Viswanath`).
+In the terminal part of the script `% Asymptotic value` we are going to compare
+in semi-logarithmic scale on the $ y $ axis the absolute values of the numbers
+$ \{v_n\}_n $ and the $\{F_n \}_n$. In particular we can observe that for both
+sequences we find a number $ k $ for which they grow as $ k^{n + 1}$.
+In particular, for the Fibonacci sequence this $ k $ is the golden constant
+$\varphi$ of the previous exercise, while for the Viswanath sequence it is
+the value $ c = 1.13198824 \ldots $ (for a proof see {cite}`Viswanath`).
 
-**Approfittiamo** di questo anche per guarda come si possono ottenere dei
-grafici di funzione su MATLAB, per decodificare i comandi di questa sezione
-aiutatevi con `help`. Un esempio del grafico ottenuto con lo script precedente
-è il seguente:
-![Successione di Viswanath e Fibonacci e loro comportamento asintotico a confronto](./images/viswanath.png)
-:::
+**Let's take advantage** of this also to see how you can get function graphs
+on MATLAB, to decode the commands in this section use `help`. An example of the
+graph obtained with the previous script is the following:
+![Viswanath and Fibonacci sequences with their asymptotic behavior](./images/viswanath.png)
+::::
 
-:::{margin} Insieme di Mandelbrot
-![Insieme di Mandelbrot con 1000 iterazioni.](/images/mandelbroot.png)
-:::
-:::{Admonition} Esercizio 3
-Esploriamo ancora le funzioni di *plot* di MATLAB. Cerchiamo di produrre una
-stampa dell'insieme [frattale di Mandelbrot](https://en.wikipedia.org/wiki/Mandelbrot_set). Questo insieme è l'insieme è l'insieme dei numeri complessi
-$c$ per cui la funzione  $f_{c}(z)=z^{2}+c$ non *diverge* quando viene iterata
-a partire da $z = 0$, cioè, l'insieme di quei punti $c$ per cui la sequenza $f_{c}(0),f_{c}(f_{c}(0)),\ldots$ resta limitata in valore assoluto. Possiamo
-costruire uno *script* MATLAB che ci permetta di disegnare un'approssimazione
-di questo insieme.
-1. Utilizziamo la funzione `linspace` per costruire l'insieme dei numeri complessi $c$ su cui vogliamo fare la valutazione. Poiché `linspace` produce
-per noi un vettore reali, dobbiamo costruirne due -- uno per ciascuna direzione
--- e trasformarli in un insieme di coppie
-di valutazioni con la funzione `meshgrid`. Un buon insieme reale da valutare per disegnare l'insieme di Mandelbrot è $[-2.1,0.6]\times[-1.1,1.1]$.
-2. Ora che abbiamo le valutazioni reali è necessario trasformare in numeri complessi $c$. Possiamo ottenere questo risultato utilizzando la funzione `complex`: `C = complex(X,Y)` sulla coppia di matrici di valutazioni ottenute
-da `meshgrid`.
-3. Possiamo ora implementare un certo numero fissato di iterazioni della funzione $f_{c}(z)=z^{2}+c$ mediante un ciclo `for`.
-4. Concludiamo l'esercizio disegnando l'insieme di Mandelbrot con la funzione
-```matlab
-contourf(x,y,double(abs(Z)<1e6))
-title('Insieme di Mandelbrot')
-```
-che è una buona occasione per guardare cosa fa la funzione di *plot* `contourf`
-(`help contourf`).
-:::
-
-## Bibliografia
+## Bibliography
 
 ```{bibliography}
 :filter: docname in docnames

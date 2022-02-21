@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Numerical recipes for environmental sciences with MATLAB &#8212; Numerical recipes for environmental sciences with MATLAB</title>
+    <title>Graphs and Networks &#8212; Numerical recipes for environmental sciences with MATLAB</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -44,6 +44,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,7 +55,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="An introduction to MATLAB" href="intromatlab.html" />
+    <link rel="prev" title="Fitting data to models" href="parameterfitting.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -91,13 +93,13 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
    Numerical recipes for environmental sciences with MATLAB
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intromatlab.html">
    An introduction to MATLAB
@@ -118,8 +120,8 @@
    Fitting data to models
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="graphsandnetworks.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Graphs and Networks
   </a>
  </li>
@@ -164,7 +166,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/graphsandnetworks.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -184,7 +186,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/Cirdans-Home/recipesforenvsciences/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/Cirdans-Home/recipesforenvsciences/issues/new?title=Issue%20on%20page%20%2Fgraphsandnetworks.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -205,6 +207,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-social-network-made-of-dolphins">
+   A social network made of dolphins
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -213,12 +228,66 @@
         
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="numerical-recipes-for-environmental-sciences-with-matlab">
-<h1>Numerical recipes for environmental sciences with MATLAB<a class="headerlink" href="#numerical-recipes-for-environmental-sciences-with-matlab" title="Permalink to this headline">¶</a></h1>
-<p>Numerical simulations are computations we run on a computer with programs implementing a mathematical model for a chemical, physical or biological system. We need them to study the behavior of processes whose mathematical formulations are too complex to provide analytical solutions. The computational science area is itself a rapidly growing field. While the largest and most accurate simulations often use advanced computing capabilities, there is an ample layer of small and intermediate problems across many disciplines that we can face with easier-to-handle tools. This course will address one of such tools called MATLAB. We will use it to perform small-scale computer simulations. In the first place, we are going to introduce the <em>programming language</em> on its own and take some familiarity with it. Then, we will apply it to solve some problems in Earth, Life, and Chemical sciences.</p>
-<p><strong>Scheduling:</strong> Two lessons per week of two hours each from the 1<sup>st</sup> of March. Tuesday and Thursday from 9.00 to 11.00</p>
-<p><strong>Modalities:</strong> The course will take place online in synchronous mode.</p>
-<div class="toctree-wrapper compound">
+  <div class="tex2jax_ignore mathjax_ignore section" id="graphs-and-networks">
+<h1>Graphs and Networks<a class="headerlink" href="#graphs-and-networks" title="Permalink to this headline">¶</a></h1>
+<p>Understanding complex systems often requires a bottom-up analysis. This can be
+done by examining the elementary parts of the system individually and then
+by turning the analysis towards the connection between them. A natural way of
+performing this type of analysis is through the use of <strong>networks</strong> or
+<strong>graphs</strong>.</p>
+<div class="proof definition admonition" id="definition-0">
+<p class="admonition-title"><span class="caption-number">Definition 1 </span></p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>graph</strong> <span class="math notranslate nohighlight">\(G=(V,E)\)</span> consists of a finite set <span class="math notranslate nohighlight">\(V\)</span> of <strong>vertices</strong> (or nodes)
+and a finite set <span class="math notranslate nohighlight">\(E\)</span> of <strong>edges</strong>, where each edge <span class="math notranslate nohighlight">\(e\in E\)</span> is of the form
+<span class="math notranslate nohighlight">\(e=\{u,v\}\)</span> with <span class="math notranslate nohighlight">\(u,v\in V\)</span>.</p>
+</div>
+</div><p>And we will make here the following simplifying assumptions:</p>
+<ul class="simple">
+<li><p>we do not allow any edge to be a self-loop, i.e., an edge that starts and ends
+at the same vertex,</p></li>
+<li><p>we do not allow more than one edge between any pair of vertices,</p></li>
+<li><p>unless mentioned otherwise we will mostly consider undirected edges, that is
+edge <span class="math notranslate nohighlight">\(e = \{u,v\} = \{v,u\}\)</span>.</p></li>
+</ul>
+<p>Now, let us fix some notation and nomenclature.</p>
+<div class="proof definition admonition" id="definition-1">
+<p class="admonition-title"><span class="caption-number">Definition 2 </span></p>
+<div class="definition-content section" id="proof-content">
+<p>Two vertices, <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>, are called <strong>adjacent</strong> if there is an edge, <span class="math notranslate nohighlight">\(uv\)</span>,
+connecting them. We can express adjacency of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> by writing <span class="math notranslate nohighlight">\(u\sim v.\)</span></p>
+</div>
+</div><div class="proof definition admonition" id="definition-2">
+<p class="admonition-title"><span class="caption-number">Definition 3 </span></p>
+<div class="definition-content section" id="proof-content">
+<p>If <span class="math notranslate nohighlight">\(v\)</span> is a vertex in a graph <span class="math notranslate nohighlight">\(G\)</span>, the <strong>degree</strong> of <span class="math notranslate nohighlight">\(v\)</span>, denoted <span class="math notranslate nohighlight">\(\operatorname{deg}(v)\)</span>,
+is the number of edges adjacent to <span class="math notranslate nohighlight">\(v\)</span>.</p>
+</div>
+</div><div class="proof definition admonition" id="definition-3">
+<p class="admonition-title"><span class="caption-number">Definition 4 </span></p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>walk</strong> in a graph is a sequence of vertices and edges <span class="math notranslate nohighlight">\(v_0\)</span>, <span class="math notranslate nohighlight">\(e_1\)</span>, <span class="math notranslate nohighlight">\(v_1\)</span>, <span class="math notranslate nohighlight">\(e_2\)</span>, <span class="math notranslate nohighlight">\(v_2\)</span>, <span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(v_{k-1}\)</span>, <span class="math notranslate nohighlight">\(e_k\)</span>, <span class="math notranslate nohighlight">\(v_k\)</span> such that edge <span class="math notranslate nohighlight">\(e_i\)</span> connects vertices <span class="math notranslate nohighlight">\(v_{i-1}\)</span> and <span class="math notranslate nohighlight">\(v_i\)</span>, for <span class="math notranslate nohighlight">\(1 \leq i \leq k\)</span>.</p>
+</div>
+</div><div class="proof definition admonition" id="definition-4">
+<p class="admonition-title"><span class="caption-number">Definition 5 </span></p>
+<div class="definition-content section" id="proof-content">
+<p>A graph <span class="math notranslate nohighlight">\(G\)</span> is <strong>connected</strong> if for any two vertices <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> of <span class="math notranslate nohighlight">\(G\)</span>,
+there is a <em>walk</em> in <span class="math notranslate nohighlight">\(G\)</span> from <span class="math notranslate nohighlight">\(u\)</span> to <span class="math notranslate nohighlight">\(v\)</span>.</p>
+</div>
+</div><p>The first way to store a graph into a computer is as an <strong>adjacency matrix</strong>.
+Given a graph <span class="math notranslate nohighlight">\(G\)</span> with <span class="math notranslate nohighlight">\(n\)</span> vertices, we start by label them from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(n\)</span>, then
+the adjacency matrix representing this graph will be an <span class="math notranslate nohighlight">\(n\times n\)</span> matrix
+whose entries are either 0 or 1, specifically</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A(i,j) = \begin{cases}
+1, &amp; (v_i,v_j) \in E,\\
+0, &amp; \text{otherwise}.
+\end{cases}\end{split}\]</div>
+<p>We now have much of the dictionary we need to start investigating some examples
+of graphs and networks that are used in applications. We will uncover some more
+information by working through the test cases.</p>
+<div class="section" id="a-social-network-made-of-dolphins">
+<h2>A social network made of dolphins<a class="headerlink" href="#a-social-network-made-of-dolphins" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -246,13 +315,13 @@
               
         
             <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="intromatlab.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">An introduction to MATLAB</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="parameterfitting.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Fitting data to models</p>
+        </div>
     </a>
 </div>
         

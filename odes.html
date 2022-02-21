@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,6 +28,8 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -53,9 +55,10 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="An introduction to MATLAB" href="intromatlab.html" />
+    <link rel="next" title="Fitting data to models" href="parameterfitting.html" />
+    <link rel="prev" title="Reading, writing and plotting data" href="ioplot.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
+    <meta name="docsearch:language" content="en">
     
 
     <!-- Google Analytics -->
@@ -103,9 +106,24 @@
    An introduction to MATLAB
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ioplot.html">
+   Reading, writing and plotting data
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Modeling evolutionary problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="parameterfitting.html">
+   Fitting data to models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="graphsandnetworks.html">
+   Graphs and Networks
   </a>
  </li>
 </ul>
@@ -206,8 +224,13 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#a-gallery-of-test-problems">
-   A gallery of test problems
+  <a class="reference internal nav-link" href="#chemical-kinetics">
+   Chemical kinetics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#population-dynamics">
+   Population dynamics
   </a>
  </li>
 </ul>
@@ -331,7 +354,7 @@ a numerical solution is nothing more than an evaluation of the two functions
 </div>
 <p>In MATLAB you can specify any number of coupled ODE equations to solve, and
 at least in principle the number of equations is only limited by the available
-computer memory. In our case we can specify our <em>dynamic</em> by using a <code class="docutils literal notranslate"><span class="pre">function</span> <span class="pre">handle</span></code>, by adding to the previous script</p>
+computer memory. In our case we can specify our <em>dynamics</em> by using a <code class="docutils literal notranslate"><span class="pre">function</span> <span class="pre">handle</span></code>, by adding to the previous script</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.9776</span><span class="p">;</span><span class="w">      </span><span class="c">% Transition rate between stomach and blood</span><span class="w"></span>
 <span class="n">ke</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.2213</span><span class="p">;</span><span class="w">      </span><span class="c">% Eliminatio rate from the blood</span><span class="w"></span>
 <span class="n">A</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="o">-</span><span class="n">k1</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k1</span><span class="w"> </span><span class="o">-</span><span class="n">ke</span><span class="p">];</span><span class="w"> </span><span class="c">% Two by two matrix</span><span class="w"></span>
@@ -351,10 +374,10 @@ y_1(t)\\y_2(t)
 y_1(t)\\y_2(t)
 \end{bmatrix} \Leftrightarrow \dot{\mathbf{y}} = A \mathbf{y} = f(t,\mathbf{y}).\end{split}\]</div>
 <p>in a <code class="docutils literal notranslate"><span class="pre">function</span> <span class="pre">handle</span></code> form. That is, we can call <code class="docutils literal notranslate"><span class="pre">f(t,y)</span></code> to evaluate the
-dynamic.</p>
+dynamics.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The dynamic of the system must always be expressed with the arguments in this
+<p>The dynamics of the system must always be expressed with the arguments in this
 order: first the independent variable (<span class="math notranslate nohighlight">\(t\)</span>), then the function (<span class="math notranslate nohighlight">\(\mathbf{y}\)</span>).
 MATLAB expects it to be this way!</p>
 </div>
@@ -405,6 +428,11 @@ doing</p>
 </tr>
 </tbody>
 </table>
+<p>From which we observe somehow the expected behavior. The quantity of drug in
+the stomach (first compartment on the left) decreases with the time, while the
+quantity in the bloodstream starts (second compartment on the right) to
+increase, but since it is also eliminated from there with rate <span class="math notranslate nohighlight">\(k_e\)</span> it shows
+that hump.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p><code class="docutils literal notranslate"><span class="pre">ode45</span></code> performs well with <em>most</em> ODE problems and should generally be your
@@ -416,13 +444,189 @@ precise definition, but in general, stiffness occurs when there is a
 difference in scaling somewhere in the problem. For example, if an ODE has
 two solution components that vary on drastically different time scales,
 then the equation might be stiff. You can <strong>identify a problem as stiff</strong> if
-nonstiff solvers (such as <code class="docutils literal notranslate"><span class="pre">ode45</span></code>) are unable to solve the problem or are
+<em>nonstiff</em> solvers (such as <code class="docutils literal notranslate"><span class="pre">ode45</span></code>) are unable to solve the problem or are
 extremely slow. If you observe that a nonstiff solver is very slow, try using
 a stiff solver such as <code class="docutils literal notranslate"><span class="pre">ode15s</span></code> instead.</p>
 </div>
+<p>Let us <strong>summarize</strong> the different steps we need for a program solving an ODE
+(a system of ODEs),</p>
+<ol class="simple">
+<li><p>we <em>implement</em> in either a <em>function</em> or a <em>function handle</em> the <strong>dynamics of
+the system</strong>;</p></li>
+<li><p>we create a vector containing the <strong>initial condition</strong>;</p></li>
+<li><p>we fix the time interval <code class="docutils literal notranslate"><span class="pre">[t0,tf]</span></code> on which we want to solve our problem;</p></li>
+<li><p>we call an ODE solver (typically <code class="docutils literal notranslate"><span class="pre">ode45</span></code> or <code class="docutils literal notranslate"><span class="pre">ode15s</span></code>) using all these data.</p></li>
+</ol>
+<div class="admonition-remark admonition">
+<p class="admonition-title">Remark</p>
+<p>Instead of just <code class="docutils literal notranslate"><span class="pre">[t0,tf]</span></code> we could pass to the integrator the whole vector of
+time steps we want to use. A canonical way for doing so is, e.g., by generating
+a linearly spaced vector such has</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">linspace</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+</pre></div>
 </div>
-<div class="section" id="a-gallery-of-test-problems">
-<h2>A gallery of test problems<a class="headerlink" href="#a-gallery-of-test-problems" title="Permalink to this headline">¶</a></h2>
+<p>This can be useful if we want the (approximate) solution to be evaluated at
+certain time steps.</p>
+<p>If we are uncertain at the beginning on what time steps we may be interested
+MATLAB offers us a routine to query the solution at any point between <code class="docutils literal notranslate"><span class="pre">[t0,tf]</span></code>.
+To use it we need to slightly change the way in which we call the ODE solver:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">),[</span><span class="n">t0</span><span class="p">,</span><span class="n">tf</span><span class="p">],</span><span class="n">y0</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Now <code class="docutils literal notranslate"><span class="pre">sol</span></code> will be a <code class="docutils literal notranslate"><span class="pre">struct</span></code> variable, in the case of this example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">sol</span> <span class="o">=</span>
+
+  struct with fields:
+
+     solver: <span class="s1">&#39;ode45&#39;</span>
+    extdata: <span class="o">[</span><span class="m">1</span>×1 struct<span class="o">]</span>
+          x: <span class="o">[</span><span class="m">1</span>×20 double<span class="o">]</span>
+          y: <span class="o">[</span><span class="m">2</span>×20 double<span class="o">]</span>
+      stats: <span class="o">[</span><span class="m">1</span>×1 struct<span class="o">]</span>
+      idata: <span class="o">[</span><span class="m">1</span>×1 struct<span class="o">]</span>
+</pre></div>
+</div>
+<p>The information that was contained before in the <code class="docutils literal notranslate"><span class="pre">T</span></code> vector is in <code class="docutils literal notranslate"><span class="pre">sol.x</span></code>, while
+what we had stored in the <code class="docutils literal notranslate"><span class="pre">Y</span></code> matrix is in <code class="docutils literal notranslate"><span class="pre">sol.y</span></code>.</p>
+<p>Now let us say that we want to know the quantity of the drug in the bloodstream
+after 2 hours, we find it by doing</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">drug_in_blood</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">deval</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">deval</span></code> we have used takes as a first argument the <code class="docutils literal notranslate"><span class="pre">struct</span></code> coming
+from the ODE solver, as second the point <span class="math notranslate nohighlight">\(t \in [t_0,t_f]\)</span> on which we want
+the solution, and as last argument what component of the solution we want.
+In this case we have queried for the vale in the second <em>compartment</em>.</p>
+</div>
+<p>To see if we have understood how to work with this type of models you can try
+and solve the following variations on the theme, that have either different
+interactions, or a larger number of <em>compartments</em>.</p>
+<div class="exercise admonition" id="odes-exercise-0">
+
+<p class="admonition-title"><span class="caption-number">Exercise 4 </span> (Drug administration through blood and tissue)</p>
+<div class="section" id="exercise-content">
+<p>In this model, there are again only two <em>compartments</em>. The first one is the
+bloodstream into which the drug is injected and the second one is the tissue
+where the drug has the desired effect. The blood takes a part
+of drug at the rate of <span class="math notranslate nohighlight">\(k_b\)</span> onto tissue while a fraction of it gets
+eliminated from the stream with elimination rate of <span class="math notranslate nohighlight">\(k_e\)</span>.</p>
+<a class="reference internal image-reference" href="_images/drug2.png"><img alt="Drug administration through blood and tissue" class="align-center" src="_images/drug2.png" style="width: 400px;" /></a>
+<ol class="simple">
+<li><p>Write down the set of two differential equations for this model,</p></li>
+<li><p>Use MATLAB to simulate the solution for <span class="math notranslate nohighlight">\(y_0 = 500\)</span>, <span class="math notranslate nohighlight">\(k_b = 0.5\)</span>,
+<span class="math notranslate nohighlight">\(k_e = 0.05\)</span> and <span class="math notranslate nohighlight">\(k_t = 0.25\)</span> again on a 6 h interval.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">ODEs</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{\mathbf{y}} = \begin{bmatrix}
+-(k_b + k_e) &amp; k_t \\
+k_b &amp; -k_t
+\end{bmatrix} \mathbf{y}, \quad \mathbf{y} = \begin{bmatrix}
+y_1(t)\\ y_2(t)
+\end{bmatrix}, \quad \mathbf{y}_0 =  \begin{bmatrix}
+y_0\\ 0
+\end{bmatrix}.\end{split}\]</div>
+</div>
+</div>
+</div>
+<div class="exercise admonition" id="odes-exercise-1">
+
+<p class="admonition-title"><span class="caption-number">Exercise 5 </span> (…through arterial blood, tissue and venous blood)</p>
+<div class="section" id="exercise-content">
+<p>Another model can be obtained by considering that the blood flow in
+cardiovascular system is one directional. Thus we can administer our drug
+through arterial blood:</p>
+<a class="reference internal image-reference" href="_images/drug3.png"><img alt="Drug administration through blood and tissue" class="align-center" src="_images/drug3.png" style="width: 600px;" /></a>
+<p>The consumption of drug by arterial blood towards tissue has a rate <span class="math notranslate nohighlight">\(k_b\)</span>,
+from tissue compartment to the venous bloodstream has rate <span class="math notranslate nohighlight">\(k_t\)</span>. Then the
+kidneys and liver excrete the drug from the bloodstream with rate <span class="math notranslate nohighlight">\(k_e\)</span>.</p>
+<ol class="simple">
+<li><p>Write down the set of three differential equations for this model,</p></li>
+<li><p>Use MATLAB to simulate the solution for <span class="math notranslate nohighlight">\(y_0 = 500\)</span>, <span class="math notranslate nohighlight">\(k_b = 0.9776\)</span>,
+<span class="math notranslate nohighlight">\(k_e = 0.2213\)</span>, and <span class="math notranslate nohighlight">\(k_t = 0.3293\)</span> again on a 6 h interval.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">ODEs</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{\mathbf{y}} = \begin{bmatrix}
+-k_b &amp; 0 &amp; 0 \\
+k_b &amp; -k_t &amp; 0 \\
+0 &amp; k_t &amp; -k_e
+\end{bmatrix} \mathbf{y}, \quad \mathbf{y} = \begin{bmatrix}
+y_1(t)\\ y_2(t)\\ y_3(t)
+\end{bmatrix}, \quad \mathbf{y}_0 =  \begin{bmatrix}
+y_0\\ 0 \\ 0
+\end{bmatrix}.\end{split}\]</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="chemical-kinetics">
+<h2>Chemical kinetics<a class="headerlink" href="#chemical-kinetics" title="Permalink to this headline">¶</a></h2>
+<p>Another class of problems that ends up producing ODEs are the one coming from
+<strong>chemical kinetics</strong>, as you sure know better than me, this is the study of
+the rates of chemical reactions. The following examples focus on a couple of
+reaction mechanisms for which we can find ODEs that will allow us to calculate
+the concentration of the different species that take part of the reaction
+during the whole reaction time.</p>
+<div class="admonition-oscillating-reactions admonition">
+<p class="admonition-title">Oscillating reactions</p>
+<p>Let us consider the following chemical reactions:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+A + X \overset{k_1}{\longrightarrow} 2X,\\
+X + Y \overset{k_2}{\longrightarrow} 2Y,\\
+Y \overset{k_3}{\longrightarrow} B,\\
+\end{array}\end{split}\]</div>
+<p>in which each reaction step refers to the molecular mechanism
+by which the reactant molecules combine produce some intermediate products
+before yielding the final one. In the first step a molecule of species <span class="math notranslate nohighlight">\(A\)</span>
+combines with a molecule of species <span class="math notranslate nohighlight">\(X\)</span> yielding two molecules of species <span class="math notranslate nohighlight">\(X\)</span>.
+This step consumes molecules of species <span class="math notranslate nohighlight">\(A\)</span> in favor of molecules of species
+<span class="math notranslate nohighlight">\(X\)</span> at a rate that is proportional to the product of the concentrations of <span class="math notranslate nohighlight">\(A\)</span>
+and <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>If we write down the system of differential equations for this formulation
+we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\frac{{\rm d} [A]}{{\rm d} t} = -k_1 [A] [X], \\
+\frac{{\rm d} [X]}{{\rm d} t} = +k_1 [A] [X] -k_2 [X][Y],\\
+\frac{{\rm d} [Y]}{{\rm d} t} = +k_2 [X] [Y] -k_3 [Y],\\
+\frac{{\rm d} [B]}{{\rm d} t} = -k_3 [Y],
+\end{cases}\end{split}\]</div>
+<p>that are four differential equations in four variables.</p>
+<p>It is <strong>important to observe</strong> that for this case, the equations are <strong>nonlinear</strong>:
+they depend on the product of variables, i.e., we cannot represent them as we
+have done for the other examples in matrix form.</p>
+<p>To solve this system we will make some assumptions, and observation</p>
+<ol class="simple">
+<li><p>the concentration of the reactant <span class="math notranslate nohighlight">\(A\)</span> is held constant: somebody is feeding
+the system at a rate equal to <span class="math notranslate nohighlight">\(k_1\)</span> a supply of <span class="math notranslate nohighlight">\(A\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\frac{ {\rm d} [A]+[X]+[Y]+[B] }{{\rm d}t} = 0\)</span>, so <span class="math notranslate nohighlight">\([A]+[X]+[Y]+[B]\)</span> is
+constant,</p></li>
+<li><p>at the beginning there is no <span class="math notranslate nohighlight">\([B]\)</span>, thus <span class="math notranslate nohighlight">\([A]+[B]+[X]+[Y] = [A]_ 0 +[X]_ 0 +[Y]_ 0\)</span>,</p></li>
+</ol>
+<p>This means that we do not need to solve the last equation, we can just compute
+<span class="math notranslate nohighlight">\([B] = [X]_ 0 - X + [Y]_ 0 - Y\)</span>, and the first equation is also solved because
+we have decided to make the quantity of <span class="math notranslate nohighlight">\([A]\)</span> constant. We have thus reduced
+to solving the system</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\frac{{\rm d} [X]}{{\rm d} t} = +k_1 [A]_0 [X] -k_2 [X][Y],\\
+\frac{{\rm d} [Y]}{{\rm d} t} = +k_2 [X] [Y] -k_3 [Y],
+\end{cases}\end{split}\]</div>
+<p>We can write the dynamics in MATLAB again as a <em>function handle</em>, after we
+have defined the constants <code class="docutils literal notranslate"><span class="pre">k1</span></code>, <code class="docutils literal notranslate"><span class="pre">k2</span></code>, and <code class="docutils literal notranslate"><span class="pre">A0</span></code> by writing</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="n">k1</span><span class="o">*</span><span class="n">A0</span><span class="o">*</span><span class="n">y1</span><span class="w"> </span><span class="o">-</span><span class="n">k2</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="n">k2</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="n">k3</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">)];</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="population-dynamics">
+<h2>Population dynamics<a class="headerlink" href="#population-dynamics" title="Permalink to this headline">¶</a></h2>
+<p>The last class of problem we want to look at are <strong>population dynamics</strong> and
+<strong>predator-pray</strong> models.</p>
 </div>
 </div>
 
@@ -451,12 +655,19 @@ a stiff solver such as <code class="docutils literal notranslate"><span class="p
         
             <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="intromatlab.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="ioplot.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">An introduction to MATLAB</p>
+            <p class="prev-next-title">Reading, writing and plotting data</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="parameterfitting.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Fitting data to models</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
     </a>
 </div>
         
