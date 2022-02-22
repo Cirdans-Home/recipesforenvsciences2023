@@ -406,7 +406,3 @@ f = @(t,y) [k1*A0*y1 -k2*y(1)*y(2); k2*y(1)*y(2) -k3*y(2)];
 
 The last class of problem we want to look at are **population dynamics** and
 **predator-pray** models.
-
-:::{admonition} SIR Model
-
-:::
