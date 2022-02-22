@@ -147,6 +147,179 @@ disp(curve)
 disp(gof)
 ```
 
+::::{exercise} Puromycin
+We use some data on the "velocity" of an enzymatic reaction. Specifically we
+have measured the number of counts per minute of radioactive product from the
+reaction as a function of substrate concentration in parts per million (ppm).
+From these counts the initial rate, or "velocity", of the reaction was
+calculated ($\text{counts}/\text{min}^2$). The experiment was conducted once
+with the enzyme treated with Puromycin and once with the untreated enzyme.
+
+The *velocity* is assumed to depend on the substrate concentration according to
+the Michaelis-Menten, i.e.,
+```{math}
+f(x,\theta) = \frac{\theta_1 x}{\theta_2 + x},
+```
+we want to
+1. Compute the parameters $\theta_1$ and $\theta_2$ in the two cases (with and
+  without using Puromycin),
+2. Verify the hypothesis on the fact that the ultimate velocity parameter
+  $\theta_1$ should be affected by the introduction of the Puromycin, but not
+  the half-velocity parameter $\theta_2$.
+
+```{code} matlab
+data = [ % substrate treated untreated
+  0.02 76 67
+  0.02 47 51
+  0.06 97 84
+  0.06 107 86
+  0.11 123 98
+  0.11 139 115
+  0.22 159 131
+  0.22 152 124
+  0.56 191 144
+  0.56 201 158
+  1.10 207 160
+  1.10 200 NaN   
+ ]
+```
+::::
+
+::::{exercise} Growth of leaves
+Try to find parameters for the Richards model for the growth of leaves, i.e.,
+```{math}
+f(x,\theta) = \frac{\theta_1}{(1+ \theta_2 e^{-\theta_3 x})^{1/\theta4}},
+```
+on the following data
+```{code} matlab
+data = [ % Time (days) Leaf length (cm)
+  0.5 1.3
+  1.5 1.3
+  2.5 1.9
+  3.5 3.4
+  4.5 5.3
+  5.5 7.1
+  6.5 10.6
+  7.5 16.0
+  8.5 16.4
+  9.5 18.3
+  10.5 20.9
+  11.5 20.5
+  12.5 21.3
+  13.5 21.2
+  14.5 20.9
+]
+```
+::::
+
+## Fitting data to a differential model
+
+Until now we have always assumed to explicitly know the model. Nevertheless,
+such models often come as the solution of a differential equation. As we have
+hinted in the last topic, an explicit solution of a differential equation is
+usually hard to come by.
+
+We could be in the case of having a problem of the form
+```{math}
+x' = f(x,\theta), \quad x \in \mathbb{R}^d, \; t \in [0,t_{\max}], \quad x(0) = x_0,
+```
+depending on a set of parameters $\theta in \mathbb{R}^m$. Then we have
+observations at discrete time points $t_1,\ldots,t_p \in [0,t_{\max}]$ in the
+form
+```{math}
+(t_1,g(x^{(1)})), (t_2,g(x^{(2)})), \ldots, (t_p,g(x^{(p)})),
+```
+for a function $g(\cdot)$ representing some observable of the system. We can
+state this problem again in a **least square** formulation as
+```{math}
+\text{ find }\theta \in \mathbb{R}^m \,:\, \min \sum_{i=1}^{p} \| g(x(t_i,\theta)) - g(x^{(i)}) \|^2,
+```
+where $\|g(x)-g(y)\| = \sum_{i=1}^{n} |g_i(x) - g_i(y)|^2$. Thus, by manipulating
+a bit the quantities we have, we can use again the same strategy we have seen
+before.
+
+Let us use this procedure to **estimate the parameters of a SIR model**. Let us
+proceed step-by-step
+- first of all we need the dynamic of the system, since we will work with
+uncertain data, we will run this time all three differential equations
+```{code-cell} matlab
+% We order the variables as y(t) = [S(t),I(t)]
+% lambda = theta(1) gamma = theta(2)
+sirModel = @(t,y,theta) [-theta(1)*y(1)*y(2); ...
+    theta(1)*y(1)*y(2)-theta(2)*y(2);...
+    theta(2)*y(2)];
+```
+- then we use the function we have seen in the last topic for integrating
+differential equations, this will be our workhorse, here we are using the
+computational resources
+```{code-cell} matlab
+sirSOL = @(theta,IC,t) deval(ode45( @(t,y) sirModel(t,y,theta),t,IC),t);
+```
+- now we generate our noisy data, that will represent the measurements taken
+on the field
+```{code-cell} matlab
+% we fix the random number generator so that we generate always the same random numbers:
+rng(10);
+numpts=20;
+tdata = [0, sort(20*rand (1,numpts))];
+width = 0.1;
+ndataSIR = 20*[0, normrnd(0,width,[1,numpts]);
+    0, normrnd(0,width,[1,numpts]);
+    0, normrnd(0,width,[1,numpts])];
+
+lambda = 0.01;
+gamma = 0.1;
+S0 = 50;
+I0 = 1;
+R0 = 0;
+theta = [lambda; gamma];
+IC = [S0; I0; R0];
+SIRData = sirSOL(theta,IC,tdata) + ndataSIR;
+```
+- now the matrix `SIRData` contains the noisy data of our system with
+given parameters (that are indeed the parameters that we will try to guess back).
+To march the optimization procedure we will focus only on the data for
+for $I(t)$ and $N(t)$
+```{code-cell} matlab
+SIRDatared = [0 1 0; 1 1 1]*SIRData;
+
+% Let us look at the data we have obtained
+figure(1)
+plot(tdata,SIRDatared(1,:),'*',tdata,SIRDatared(2,:),'x')
+xlabel('t')
+legend('I^*(t)','S^*(t) + I^*(t) + R^*(t)')
+```
+- We can now build the **objective** function we wish to optimize
+```{code-cell} matlab
+SIRthetaSol = @(theta,t) [0 1 0;1 1 1]*sirSOL([theta(1) theta(2)],IC,t);
+objective = @(theta) sum(sum( (SIRthetaSol(theta,tdata) - SIRDatared).^2 ));
+```
+- that we optimize by means of the `fmincon` function. Moreover, we tell to it
+to print some information on the procedure, and we request that the parameters
+$\lambda$ and $\gamma$ to be in between $[0,0]$ and $[1,4]$ respectively.
+```{code-cell} matlab
+options = optimset('Display','iter');
+[SIRtheta, fval, exitflag] = ...
+    fmincon(objective,[0.1 4],[],[],[],[],[0 0],[1 4],[],options);
+```
+- In the final step we can print the results we have obtained to screen:
+```{code-cell} matlab
+tsol = linspace(0,max(tdata),400);
+SIRSOL = sirSOL(SIRtheta,IC,tsol);
+
+figure(1)
+plot(tdata,SIRData(1,:),'b*',...
+    tdata,SIRData(2,:),'rx',...
+    tdata,SIRData(3,:),'g^',...
+    tdata,sum(SIRData),'k.',...
+    tsol,SIRSOL(1,:),'b-',tsol,SIRSOL(2,:),'r-',tsol,SIRSOL(3,:),'g-',...
+    tsol,sum(SIRSOL),'k--');
+xlabel('t')
+legend({'S^*(t)','I^*(t)','R^*(t)','N^*(t)',...
+    'S(t)','I(t)','R(t)','N'},'Location','eastoutside')
+axis tight
+```
+
 
 ## Bibliography
 

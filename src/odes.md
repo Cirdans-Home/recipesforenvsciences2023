@@ -1,3 +1,15 @@
+---
+jupytext:
+  formats: md:myst
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Matlab
+  name: matlab
+  language: Matlab
+---
+
 # Modeling evolutionary problems
 
 One of the ways in which mathematics is used to translate experimental
@@ -402,7 +414,114 @@ f = @(t,y) [k1*A0*y1 -k2*y(1)*y(2); k2*y(1)*y(2) -k3*y(2)];
 ```
 :::
 
-## Population dynamics
+## A simple epidemiological model
 
-The last class of problem we want to look at are **population dynamics** and
-**predator-pray** models.
+We consider again a compartmental model, but this time for the spread of an
+epidemics in a population. We first partition the host population into three
+compartments:
+- $S$ susceptible hosts,
+- $I$ infectious hosts,
+- $R$ recovered hosts.
+The objective of our modeling effort is again to track the number of hosts in
+each of the three compartments at any given time $t$, that is we want to
+know the functions $S(t)$, $I(t)$, and $R(t)$.
+
+By applying again the conservation principle, we know that the net change of
+the number of hosts in a compartment can be expressed as the difference between
+the number coming into the compartment and the number leaving it during the
+time interval under consideration:
+```{math}
+\begin{split}
+\Delta S(t) = & \text{"new susceptible"} + \text{"transfer from "}R - \text{"new infections"} - \text{"removal from "}S, \\
+\Delta I(t) = & \text{"new infections"} - \text{"transfer into "}R - \text{"removal from "}I,\\
+\Delta R(t) = & \text{"transfer from "}I - \text{"transfer into "}S - \text{"removal from "}R,
+\end{split}
+```
+then we divide both sides by $\Delta t$, and we let it go to 0, $\Delta t \rightarrow 0$,
+we find the derivatives of the tree functions $S(t)$, $I(t)$, and $R(t)$ on the
+left-hand side, and the *transfer rate* on the right-hand side. Succinctly:
+```{math}
+\begin{cases}
+S'(t) = - \lambda I S, & S(0) = S_0 > 0\\
+I'(t) = \lambda I S - \gamma I, & I(0) = I_0 > 0,\\
+R'(t) = \gamma I, & R(0) = R_0.
+\end{cases}
+```
+Where have **assumed** that
+- transmission occurs through direct contact between hosts;
+- the *incidence rate*, that is the number of new infections per unit time, can
+be expressed as $\lambda I(t) S(t)$ for a given *transmission coefficient* $\lambda$,
+- the *recovery rate* can be written as $\gamma I(t)$ for some constant rate $\gamma$,
+- the population is fixed, there is no possibility of being reinfected after healing.
+
+These assumptions will be much or less reasonable depending on the the infectious
+disease. For our illustrative needs, this simple model will be good enough.
+
+Now we have our system of ODEs together with the initial condition, so given
+some values for the constants $\lambda$, $\gamma$, $S_0$ and $I_0$ we could jump
+right in and apply one of the numerical integrator from MATLAB to get the
+solution. **However** we can slightly simplify the model by observing that
+```{math}
+N = S(t) + I(t) + R(t) = S(0) + I(0) + R(0) = S(0) + I(0),
+```
+therefore $d N / d t = 0$, and thus we don't need to solve the equation for $R(t)$, since
+```{math}
+R(t) = N - S(t) - I(t).
+```
+
+Now let us **build a simulation**.
+```{code-cell} matlab
+clear; clc; close all
+
+N = 261;         % Size of the population
+I0 = 7;          % Initially infected
+S0 = N-I0;       % Number of susceptible individuals
+lambda = 0.0178; % Transmission coefficient
+gamma = 2.73;    % Recovery rate
+
+% We order the variables as y(t) = [S(t),I(t)]
+f = @(t,y) [-lambda*y(1)*y(2); lambda*y(1)*y(2)-gamma*y(2)];
+[T,Y] = ode45(@(t,y) f(t,y),linspace(0,5,1000),[S0;I0]);
+
+% We plot the three curves on the same graph
+figure(1)
+subplot(1,2,1)
+plot(T,Y(:,1),'r-',...
+    T,Y(:,2),'b-',...
+    T,N-Y(:,1)-Y(:,2),'c-',...
+    T,N*ones(size(T)),'k--','LineWidth',2);
+xlabel('Time')
+ylabel('Population')
+legend({'S(t)','Y(t)','R(t)'},'Location','best')
+axis tight
+subplot(1,2,2)
+plot(Y(:,1),Y(:,2),'LineWidth',2);
+xlabel('S(t)');
+ylabel('Y(t)');
+```
+The parameters in this example have been obtained from the *great plague in Eyam*,
+a village near Sheffield in England from 1665-1666 (possibly a secondary outbreak
+from the *Great Plague of London*). The Plague was survived only by 83 people of
+an original population of 350. Observe that the data here starts from a smaller
+population, i.e., we are neglecting the initial insurgence, $S(0) = 254$, $I(0) = 7$.
+
+The infective period of the bubonic plague can be estimated to be around 11 days,
+and this gives a value of $\lambda = 0.0178$ and a value of $\beta = 2.73$. To
+obtain these values we have used a couple of mathematical observations. If we sum
+the two equations for $S'(t)$ and $I'(t)$ we find
+```{math}
+(S + I)' = - \alpha I < 0,
+```
+thus this a decreasing positive function, henceforth it has a finite limit, and
+since $\lim_{t\rightarrow +\infty} I(t) = 0$, this limit is equal to the total
+number of susceptible hosts at the end of the epidemics. By performing some
+integrals (out of our scope) one finds that
+```{math}
+\log \frac{S_0}{S_\infty} = \frac{\lambda}{\gamma} [1 - \frac{S_\infty}{N}] = \mathcal{R}_0 [1 - \frac{S_\infty}{N}],
+```
+where $\mathcal{R}_0$ is called the basic reproduction number. As you may have
+heard lately, then to prevent the occurrence of an epidemic it is then necessary
+to reduce $\mathcal{R}_0$ below the threshold of $1$.
+
+As an **exercise** you can try to play around with the parameters of this model
+to generate the different outcomes of an epidemic obeying it.
