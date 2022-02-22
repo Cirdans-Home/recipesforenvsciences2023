@@ -164,7 +164,10 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
+        <a class="dropdown-buttons"
+            href="_sources/graphsandnetworks.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="_sources/graphsandnetworks.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
@@ -202,6 +205,23 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences/main?urlpath=tree/src/graphsandnetworks.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -215,6 +235,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-social-network-made-of-dolphins">
    A social network made of dolphins
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
   </a>
  </li>
 </ul>
@@ -288,6 +313,221 @@ of graphs and networks that are used in applications. We will uncover some more
 information by working through the test cases.</p>
 <div class="section" id="a-social-network-made-of-dolphins">
 <h2>A social network made of dolphins<a class="headerlink" href="#a-social-network-made-of-dolphins" title="Permalink to this headline">¶</a></h2>
+<p>How can we use these abstract objects to model some systems of interest? We have
+said from the beginning that graphs are useful to describe pairwise interactions
+between vertices. We will start as usual from an example, and in particular we
+will focus on the network of social relationship between a population of
+Doubtful Sound bottlenose dolphins <span id="id1">[<a class="reference internal" href="#id6">Lus03</a>]</span>. It has been
+observed that gregarious, long-lived animals, such as gorillas (<em>Gorilla
+gorilla</em>), deer (<em>Cervus elaphus</em>), elephants (<em>Loxodonta
+africanus</em>) and bottlenose dolphins (<em>Tursiops truncatus</em>) rely
+on information transfer to exploit their habitat. Thus investigating their
+social structure is surely of interest.</p>
+<p>First of all, let us fetch and load the data into the MATLAB environment</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">websave</span><span class="p">(</span><span class="s">&#39;dolphins.mat&#39;</span><span class="p">,</span><span class="s">&#39;https://suitesparse-collection-website.herokuapp.com/mat/Newman/dolphins.mat&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">load</span><span class="p">(</span><span class="s">&#39;dolphins.mat&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">Problem</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      name: &#39;Newman/dolphins&#39;
+     title: &#39;social network of dolphins, Doubtful Sound, New Zealand&#39;
+         A: [62x62 double]
+        id: 2396
+      date: &#39;2003&#39;
+    author: &#39;D. Lusseau&#39;
+      kind: &#39;undirected graph&#39;
+     notes: [19x75 char]
+       aux: [1x1 struct]
+        ed: &#39;M. Newman&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">Problem</span></code> is a <code class="docutils literal notranslate"><span class="pre">struct</span></code> variables containing several information,
+what mostly concerns us now is the field <code class="docutils literal notranslate"><span class="pre">Problem.A</span></code> that contains the <strong>adjacency</strong>
+matrix of our graph. We can now use MATLAB to transform it into the graph
+format and visualize it</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">graph</span><span class="p">(</span><span class="n">Problem</span><span class="p">.</span><span class="n">A</span><span class="p">);</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">G</span><span class="p">)</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="n">Problem</span><span class="p">.</span><span class="n">title</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_3_0.png" src="_images/graphsandnetworks_3_0.png" />
+</div>
+</div>
+<p>What are we seeing? In the word of the <em>author</em> <span id="id2">[<a class="reference internal" href="#id6">Lus03</a>]</span>:</p>
+<blockquote>
+<div><p>Every time that
+a school of dolphins was encountered in the fjord between 1995 and
+2001, each adult member of the school was photographed and identified from natural markings on the dorsal fin. This information was
+used to determine how often two individuals were seen together. To
+measure how closely two individuals were associated in the population (i.e. how often they were to be found together) I calculated a half-weight index (HWI) of association for each pair of individuals
+(Cairns &amp; Schwäger 1987). This index estimates the likelihood that
+two individuals would be seen together compared with the likelihood
+of seeing any of the two individuals when encountering a school: […]
+Over the 7 years of observation the composition of 1292
+schools was gathered. There were 64 adult individuals in
+this social network linked by 159 preferred companionships (edges)</p>
+</div></blockquote>
+<p>Now let us  try to investigate some properties of the network to infer some
+information on the dolphins. The first thing we want to look at are the <strong>degrees</strong>
+of the vertexes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">degree</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">G</span><span class="p">.</span><span class="n">degree</span><span class="p">;</span><span class="w"></span>
+<span class="p">[</span><span class="n">sorted_degree</span><span class="p">,</span><span class="nb">rank</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="nb">degree</span><span class="p">,</span><span class="s">&#39;descend&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">G</span><span class="p">.</span><span class="n">numnodes</span><span class="p">,</span><span class="n">sorted_degree</span><span class="p">,</span><span class="s">&#39;o&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">axis</span><span class="p">([</span><span class="mi">1</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">degree</span><span class="p">)])</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Vertex&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Degree&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xticks</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">G</span><span class="p">.</span><span class="n">numnodes</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xticklabels</span><span class="p">(</span><span class="nb">rank</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xtickangle</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_5_0.png" src="_images/graphsandnetworks_5_0.png" />
+</div>
+</div>
+<p>The behavior of the (reordered) degree distribution seem suspicious… let us
+look more into it, we call <span class="math notranslate nohighlight">\(k\)</span> the degree and <span class="math notranslate nohighlight">\(p(k)\)</span> the number of nodes with
+that degree</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">gc</span><span class="p">,</span><span class="n">gr</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">groupcounts</span><span class="p">(</span><span class="nb">degree</span><span class="p">);</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">gr</span><span class="p">,</span><span class="n">gc</span><span class="p">,</span><span class="s">&#39;o&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;k&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;p(k)&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_7_0.png" src="_images/graphsandnetworks_7_0.png" />
+</div>
+</div>
+<p>Now we observe that the behavior for smaller degree is uncertain, while the data
+clearly exhibit a <em>tail</em> (an <em>asymptotic</em>) that decays as a power law. Let us
+use the techinique for parameter estimation we have seen in the last topic for
+this case</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">fo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fitoptions</span><span class="p">(</span><span class="s">&#39;Method&#39;</span><span class="p">,</span><span class="s">&#39;NonlinearLeastSquares&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;Lower&#39;</span><span class="p">,[</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;Upper&#39;</span><span class="p">,[</span><span class="nb">Inf</span><span class="w"> </span><span class="nb">Inf</span><span class="p">],</span><span class="k">...</span><span class="w"></span>
+<span class="w">               </span><span class="s">&#39;StartPoint&#39;</span><span class="p">,[</span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="n">ft</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fittype</span><span class="p">(</span><span class="s">&#39;a*x.^(-b)&#39;</span><span class="p">,</span><span class="s">&#39;options&#39;</span><span class="p">,</span><span class="n">fo</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">curve</span><span class="p">,</span><span class="n">gof</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">gr</span><span class="p">(</span><span class="mi">6</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">gc</span><span class="p">(</span><span class="mi">6</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">ft</span><span class="p">);</span><span class="w"></span>
+<span class="c">% We plot the results</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span><span class="n">gr</span><span class="p">(</span><span class="mi">6</span><span class="p">:</span><span class="k">end</span><span class="p">),</span><span class="n">gc</span><span class="p">(</span><span class="mi">6</span><span class="p">:</span><span class="k">end</span><span class="p">))</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;k&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;p(k)&#39;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_9_0.png" src="_images/graphsandnetworks_9_0.png" />
+</div>
+</div>
+<p>We have obtained a reasonable fit</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">disp</span><span class="p">(</span><span class="n">curve</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     General model:
+     curve(x) = a*x.^(-b)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     Coefficients (with 95% confidence bounds):
+       a =       592.1  (-381.8, 1566)
+       b =       2.365  (1.523, 3.208)
+</pre></div>
+</div>
+</div>
+</div>
+<p>with <span class="math notranslate nohighlight">\(p(k) \sim k^{-2.365}\)</span>.</p>
+<div class="tip admonition">
+<p class="admonition-title">Scale-free networks</p>
+<p>A <strong>scale-free</strong> network is a network whose degree distribution follows a power
+law, at least <em>asymptotically</em>. That is, the fraction <span class="math notranslate nohighlight">\(p(k)\)</span> of nodes in the
+network having degree <span class="math notranslate nohighlight">\(k\)</span> behaves for large values of <span class="math notranslate nohighlight">\(k\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[p(k) \sim k^{-\alpha}, \quad 2 &lt; \alpha &lt; 3.\]</div>
+</div>
+<p>This type of networks have usually several properties that we can use to
+interpret the underlying phenomena. One of them is that they usually have a
+<em>small diameter</em>, that is, the length of the “longest shortest path”, i.e.,
+the largest number of vertices which must be traversed in order to travel
+from one vertex to another when paths which backtrack, detour, or loop are
+excluded from consideration. We can compute it by doing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">diameter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">distances</span><span class="p">(</span><span class="n">G</span><span class="p">),[],</span><span class="s">&#39;all&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="n">diameter</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     8
+</pre></div>
+</div>
+</div>
+</div>
+<p>Thank to this property, dolphin scale-free network is <em>resilient to random
+attacks</em>. If we remove some random nodes the increase in the diameter is small:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">percentage_of_removed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.20</span><span class="p">];</span><span class="w"></span>
+
+<span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">percentage_of_removed</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">percentage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">percentage_of_removed</span><span class="p">(</span><span class="nb">j</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="mi">500</span><span class="w"></span>
+<span class="w">        </span><span class="n">H</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">G</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">removednodes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">randi</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">numnodes</span><span class="p">,</span><span class="nb">floor</span><span class="p">(</span><span class="n">percentage</span><span class="o">*</span><span class="n">G</span><span class="p">.</span><span class="n">numnodes</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">H</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">rmnode</span><span class="p">(</span><span class="n">removednodes</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="n">bin</span><span class="p">,</span><span class="n">binsize</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">conncomp</span><span class="p">(</span><span class="n">H</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">binsize</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">binsize</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">SG</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">subgraph</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">diameters</span><span class="p">(</span><span class="nb">j</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">distances</span><span class="p">(</span><span class="n">SG</span><span class="p">),[],</span><span class="s">&#39;all&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="nb">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="n">boxplot</span><span class="p">(</span><span class="n">diameters</span><span class="p">.</span><span class="o">&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Diameter&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Percentage of removed nodes&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xticklabels</span><span class="p">(</span><span class="n">percentage_of_removed</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_15_0.png" src="_images/graphsandnetworks_15_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="id3"><dl class="citation">
+<dt class="label" id="id6"><span class="brackets">Lus03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p>David Lusseau. The emergent properties of a dolphin social network. <em>Proceedings of the Royal Society of London. Series B: Biological Sciences</em>, 270(suppl_2):S186–S188, 2003.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 
@@ -300,16 +540,16 @@ information by working through the test cases.</p>
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "matlab"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "matlab",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'matlab'</script>
 
               </div>
               
