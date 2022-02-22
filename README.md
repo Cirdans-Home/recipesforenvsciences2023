@@ -5,3 +5,7 @@ Numerical simulations are computations we run on a computer with programs implem
 **Scheduling:** Two lessons per week of two hours each from the 1<sup>st</sup> of March. Tuesday and Thursday from 9.00 to 11.00
 
 **Modalities:** The course will take place online in synchronous mode.
+
+**Web pages:** The material is available in web format on
+[GitHub Pages](https://cirdans-home.github.io/recipesforenvsciences/intro.html),
+updated information on the course are available on [my website](https://fdurastante.github.io/teaching.html#numrecp2022).
