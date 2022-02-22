@@ -1,42 +1,53 @@
 %% Parameter fitting
-% Problem of data fitting for observed retention and conductivity data of 
-% crushed Bandalier tuff
 
 clear; clc; close all;
 
-headwcontent = [-293.9 0.165 
--322.5 0.162 
--409.6 0.147 
--453.2 0.139 
--596.6 0.127 
--641.5 0.125 
--801.5 0.116 
--860.1 0.113 
--949.7 0.109 
--1192.0 0.103 
--1298.0 0.101 
--1445.0 0.0988 
--1594.0 0.0963 
--1760.0 0.0915
--1980.0 0.0875];
+%% Rumford of Bavaria
 
-wcontenthcond = [0.0859 0.000411
-0.0912 0.000457
-0.0948 0.000719
-0.0982 0.00087
-0.102 0.00149
-0.108 0.00314
-0.114 0.00377
-0.125 0.00635
-0.140 0.018
-0.161 0.0303];
+data = [ 4 126 % Time (min) and Temperature (°F)
+  5 125
+  7 123
+  12 120
+  14 119
+  16 118
+  20 116
+  24 115
+  28 114
+  31 113
+  34 112
+  37.5 111
+  41 110
+];
+
+fo = fitoptions('Method','NonlinearLeastSquares',...
+               'Lower',[0],...
+               'Upper',[Inf],...
+               'StartPoint',[1]);
+ft = fittype('60 + 70*exp(-a*x)','options',fo);
+[curve,gof] = fit(data(:,1),data(:,2),ft);
 
 figure(1)
-subplot(1,2,1)
-loglog(headwcontent(:,1),headwcontent(:,2),'x')
-xlabel('Metric head')
-ylabel('Water content')
-subplot(1,2,2)
-loglog(wcontenthcond(:,1),wcontenthcond(:,2),'x')
-xlabel('Water content')
-ylabel('Hydraulic conductivity')
+plot(curve,data(:,1),data(:,2))
+xlabel('Time (m)');
+ylabel('Temperature (°F)');
+
+%% Chlorine example
+
+data = csvread('chlorine.csv',1,0);
+
+figure(1)
+plot(data(:,1),data(:,2),'o')
+xlabel('Time (s)');
+ylabel('Concentration %');
+
+fo = fitoptions('Method','NonlinearLeastSquares',...
+               'Lower',[0,0,0],...
+               'Upper',[Inf,Inf,Inf],...
+               'StartPoint',[1 1 1]);
+ft = fittype('a*(1-b*exp(-c*x))','options',fo);
+
+[curve,gof] = fit(data(:,1),data(:,2),ft);
+ci = confint(curve,0.95);
+
+figure(1)
+plot(curve)
