@@ -165,7 +165,10 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
+        <a class="dropdown-buttons"
+            href="_sources/odes.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="_sources/odes.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
@@ -203,6 +206,23 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences/main?urlpath=tree/src/odes.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -229,8 +249,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#population-dynamics">
-   Population dynamics
+  <a class="reference internal nav-link" href="#a-simple-epidemiological-model">
+   A simple epidemiological model
   </a>
  </li>
 </ul>
@@ -623,10 +643,116 @@ have defined the constants <code class="docutils literal notranslate"><span clas
 </div>
 </div>
 </div>
-<div class="section" id="population-dynamics">
-<h2>Population dynamics<a class="headerlink" href="#population-dynamics" title="Permalink to this headline">¶</a></h2>
-<p>The last class of problem we want to look at are <strong>population dynamics</strong> and
-<strong>predator-pray</strong> models.</p>
+<div class="section" id="a-simple-epidemiological-model">
+<h2>A simple epidemiological model<a class="headerlink" href="#a-simple-epidemiological-model" title="Permalink to this headline">¶</a></h2>
+<p>We consider again a compartmental model, but this time for the spread of an
+epidemics in a population. We first partition the host population into three
+compartments:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S\)</span> susceptible hosts,</p></li>
+<li><p><span class="math notranslate nohighlight">\(I\)</span> infectious hosts,</p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span> recovered hosts.
+The objective of our modeling effort is again to track the number of hosts in
+each of the three compartments at any given time <span class="math notranslate nohighlight">\(t\)</span>, that is we want to
+know the functions <span class="math notranslate nohighlight">\(S(t)\)</span>, <span class="math notranslate nohighlight">\(I(t)\)</span>, and <span class="math notranslate nohighlight">\(R(t)\)</span>.</p></li>
+</ul>
+<p>By applying again the conservation principle, we know that the net change of
+the number of hosts in a compartment can be expressed as the difference between
+the number coming into the compartment and the number leaving it during the
+time interval under consideration:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{split}
+\Delta S(t) = &amp; \text{&quot;new susceptible&quot;} + \text{&quot;transfer from &quot;}R - \text{&quot;new infections&quot;} - \text{&quot;removal from &quot;}S, \\
+\Delta I(t) = &amp; \text{&quot;new infections&quot;} - \text{&quot;transfer into &quot;}R - \text{&quot;removal from &quot;}I,\\
+\Delta R(t) = &amp; \text{&quot;transfer from &quot;}I - \text{&quot;transfer into &quot;}S - \text{&quot;removal from &quot;}R,
+\end{split}\end{split}\]</div>
+<p>then we divide both sides by <span class="math notranslate nohighlight">\(\Delta t\)</span>, and we let it go to 0, <span class="math notranslate nohighlight">\(\Delta t \rightarrow 0\)</span>,
+we find the derivatives of the tree functions <span class="math notranslate nohighlight">\(S(t)\)</span>, <span class="math notranslate nohighlight">\(I(t)\)</span>, and <span class="math notranslate nohighlight">\(R(t)\)</span> on the
+left-hand side, and the <em>transfer rate</em> on the right-hand side. Succinctly:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+S'(t) = - \lambda I S, &amp; S(0) = S_0 &gt; 0\\
+I'(t) = \lambda I S - \gamma I, &amp; I(0) = I_0 &gt; 0,\\
+R'(t) = \gamma I, &amp; R(0) = R_0.
+\end{cases}\end{split}\]</div>
+<p>Where have <strong>assumed</strong> that</p>
+<ul class="simple">
+<li><p>transmission occurs through direct contact between hosts;</p></li>
+<li><p>the <em>incidence rate</em>, that is the number of new infections per unit time, can
+be expressed as <span class="math notranslate nohighlight">\(\lambda I(t) S(t)\)</span> for a given <em>transmission coefficient</em> <span class="math notranslate nohighlight">\(\lambda\)</span>,</p></li>
+<li><p>the <em>recovery rate</em> can be written as <span class="math notranslate nohighlight">\(\gamma I(t)\)</span> for some constant rate <span class="math notranslate nohighlight">\(\gamma\)</span>,</p></li>
+<li><p>the population is fixed, there is no possibility of being reinfected after healing.</p></li>
+</ul>
+<p>These assumptions will be much or less reasonable depending on the the infectious
+disease. For our illustrative needs, this simple model will be good enough.</p>
+<p>Now we have our system of ODEs together with the initial condition, so given
+some values for the constants <span class="math notranslate nohighlight">\(\lambda\)</span>, <span class="math notranslate nohighlight">\(\gamma\)</span>, <span class="math notranslate nohighlight">\(S_0\)</span> and <span class="math notranslate nohighlight">\(I_0\)</span> we could jump
+right in and apply one of the numerical integrator from MATLAB to get the
+solution. <strong>However</strong> we can slightly simplify the model by observing that</p>
+<div class="math notranslate nohighlight">
+\[N = S(t) + I(t) + R(t) = S(0) + I(0) + R(0) = S(0) + I(0),\]</div>
+<p>therefore <span class="math notranslate nohighlight">\(d N / d t = 0\)</span>, and thus we don’t need to solve the equation for <span class="math notranslate nohighlight">\(R(t)\)</span>, since</p>
+<div class="math notranslate nohighlight">
+\[R(t) = N - S(t) - I(t).\]</div>
+<p>Now let us <strong>build a simulation</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">clear</span><span class="p">;</span><span class="w"> </span><span class="nb">clc</span><span class="p">;</span><span class="w"> </span><span class="n">close</span><span class="w"> </span><span class="s">all</span><span class="w"></span>
+
+<span class="n">N</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">261</span><span class="p">;</span><span class="w">         </span><span class="c">% Size of the population</span><span class="w"></span>
+<span class="n">I0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w">          </span><span class="c">% Initially infected</span><span class="w"></span>
+<span class="n">S0</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">N</span><span class="o">-</span><span class="n">I0</span><span class="p">;</span><span class="w">       </span><span class="c">% Number of susceptible individuals</span><span class="w"></span>
+<span class="n">lambda</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.0178</span><span class="p">;</span><span class="w"> </span><span class="c">% Transmission coefficient</span><span class="w"></span>
+<span class="nb">gamma</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">2.73</span><span class="p">;</span><span class="w">    </span><span class="c">% Recovery rate</span><span class="w"></span>
+
+<span class="c">% We order the variables as y(t) = [S(t),I(t)]</span><span class="w"></span>
+<span class="n">f</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">@(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="n">lambda</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="n">lambda</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="nb">gamma</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">)];</span><span class="w"></span>
+<span class="p">[</span><span class="n">T</span><span class="p">,</span><span class="n">Y</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ode45</span><span class="p">(@(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1000</span><span class="p">),[</span><span class="n">S0</span><span class="p">;</span><span class="n">I0</span><span class="p">]);</span><span class="w"></span>
+
+<span class="c">% We plot the three curves on the same graph</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">Y</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="s">&#39;r-&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span><span class="p">,</span><span class="n">Y</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;b-&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="n">Y</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">Y</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;c-&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span><span class="p">,</span><span class="n">N</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">T</span><span class="p">)),</span><span class="s">&#39;k--&#39;</span><span class="p">,</span><span class="s">&#39;LineWidth&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Population&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">legend</span><span class="p">({</span><span class="s">&#39;S(t)&#39;</span><span class="p">,</span><span class="s">&#39;Y(t)&#39;</span><span class="p">,</span><span class="s">&#39;R(t)&#39;</span><span class="p">},</span><span class="s">&#39;Location&#39;</span><span class="p">,</span><span class="s">&#39;best&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">axis</span><span class="w"> </span><span class="n">tight</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">Y</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">Y</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;LineWidth&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;S(t)&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Y(t)&#39;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/odes_1_0.png" src="_images/odes_1_0.png" />
+</div>
+</div>
+<p>The parameters in this example have been obtained from the <em>great plague in Eyam</em>,
+a village near Sheffield in England from 1665-1666 (possibly a secondary outbreak
+from the <em>Great Plague of London</em>). The Plague was survived only by 83 people of
+an original population of 350. Observe that the data here starts from a smaller
+population, i.e., we are neglecting the initial insurgence, <span class="math notranslate nohighlight">\(S(0) = 254\)</span>, <span class="math notranslate nohighlight">\(I(0) = 7\)</span>.</p>
+<p>The infective period of the bubonic plague can be estimated to be around 11 days,
+and this gives a value of <span class="math notranslate nohighlight">\(\lambda = 0.0178\)</span> and a value of <span class="math notranslate nohighlight">\(\beta = 2.73\)</span>. To
+obtain these values we have used a couple of mathematical observations. If we sum
+the two equations for <span class="math notranslate nohighlight">\(S'(t)\)</span> and <span class="math notranslate nohighlight">\(I'(t)\)</span> we find</p>
+<div class="math notranslate nohighlight">
+\[(S + I)' = - \alpha I &lt; 0,\]</div>
+<p>thus this a decreasing positive function, henceforth it has a finite limit, and
+since <span class="math notranslate nohighlight">\(\lim_{t\rightarrow +\infty} I(t) = 0\)</span>, this limit is equal to the total
+number of susceptible hosts at the end of the epidemics. By performing some
+integrals (out of our scope) one finds that</p>
+<div class="math notranslate nohighlight">
+\[\log \frac{S_0}{S_\infty} = \frac{\lambda}{\gamma} [1 - \frac{S_\infty}{N}] = \mathcal{R}_0 [1 - \frac{S_\infty}{N}],\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{R}_0\)</span> is called the basic reproduction number. As you may have
+heard lately, then to prevent the occurrence of an epidemic it is then necessary
+to reduce <span class="math notranslate nohighlight">\(\mathcal{R}_0\)</span> below the threshold of <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p>As an <strong>exercise</strong> you can try to play around with the parameters of this model
+to generate the different outcomes of an epidemic obeying it.</p>
 </div>
 </div>
 
@@ -639,16 +765,16 @@ have defined the constants <code class="docutils literal notranslate"><span clas
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "matlab"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "matlab",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'matlab'</script>
 
               </div>
               
