@@ -202,7 +202,10 @@ xlabel('Percentage of removed nodes')
 xticklabels(percentage_of_removed);
 ```
 
+## Finding important nodes
 
+Another classical problem in graph analysis is represented by the problem of
+finding what are the **most important** nodes in a network.
 
 ## Bibliography
 
