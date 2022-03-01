@@ -285,11 +285,11 @@ You can **run** the script
 :::{admonition} Esempio
 Let's turn our code for calculating the surface area of a sphere into a script.
 That is, we write in the editor:
-   `` matlab
+   ```matlab
    radius = 5;
    surface_area = 4 * pi * radius ^ 2;
    disp ("The Surface Area of the Sphere is:"); disp (surface_area);
-   ``
+   ```
 We save the file as `spherearea.m` and run it once with the **Run** button and
 once by writing `spherearea` in the **Command Window**.
 :::
