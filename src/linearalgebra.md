@@ -1,4 +1,4 @@
-# Linar Algebra
+# Linear Algebra
 
 We collect here some Linear Algebra concepts that appears here and there in these
 notes.
