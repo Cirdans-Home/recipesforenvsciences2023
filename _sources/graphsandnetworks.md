@@ -180,7 +180,7 @@ disp(diameter)
 Thank to this property, dolphin scale-free network is *resilient to random
 attacks*. If we remove some random nodes the increase in the diameter is small:
 ```{code-cell} matlab
-percentage_of_removed = [0.05,0.01,0.15,0.20];
+percentage_of_removed = [0.05,0.10,0.15,0.20];
 
 for j=1:length(percentage_of_removed)
     percentage = percentage_of_removed(j);
@@ -201,11 +201,6 @@ ylabel('Diameter')
 xlabel('Percentage of removed nodes')
 xticklabels(percentage_of_removed);
 ```
-
-## Finding important nodes
-
-Another classical problem in graph analysis is represented by the problem of
-finding what are the **most important** nodes in a network.
 
 ## Bibliography
 
