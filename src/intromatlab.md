@@ -633,7 +633,7 @@ itself implements a number of useful functions for this purpose, see
 several requests together using the **logical operators**, see the section on
 {ref}`sec-ifelsestuff` below.
 
-### Operazioni tra array e matrici
+### Operations between arrays and matrices
 
 MATLAB supports all operations that make sense in terms of linear algebra,
 therefore matrix-vector products, sums of matrices and vectors, transposition,
