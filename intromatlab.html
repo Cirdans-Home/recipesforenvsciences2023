@@ -1368,7 +1368,7 @@ integers <span class="math notranslate nohighlight">\( \{F_n \}_n = \{1,1,2,3,5,
 <div class="math notranslate nohighlight">
 \[F_{n+1} = F_{n} + F_{n-1}, \text{ se } n \geq 1, \; F_{1} = 1,\;F_{0} = 1.\]</div>
 <ul class="simple">
-<li><p>Implement a <em>recursive function</em> that computes the <span class="math notranslate nohighlight">\( n \)</span> mo Fibonacci number
+<li><p>Implement a <em>recursive function</em> that computes the <span class="math notranslate nohighlight">\( n \)</span>th Fibonacci number
 <span class="math notranslate nohighlight">\(n\)</span> using only the <code class="docutils literal notranslate"><span class="pre">switch</span></code> conditional structure, by using the following
 prototype</p></li>
 </ul>
@@ -1380,7 +1380,7 @@ prototype</p></li>
 </div>
 <ul class="simple">
 <li><p>The function thus constructed has an unfortunate flaw, if we feed it  <span class="math notranslate nohighlight">\(n\)</span> it
-gives us the <span class="math notranslate nohighlight">\( n \)</span> mo number, however if we subsequently ask for the <span class="math notranslate nohighlight">\( n + 1 \)</span>th
+gives us the <span class="math notranslate nohighlight">\( n \)</span>th number, however if we subsequently ask for the <span class="math notranslate nohighlight">\( n + 1 \)</span>th
 the calculation to obtain it has no memory of what we have done and recalculates
 all the previous ones anyway. Now let’s build a <strong>non-recursive version</strong> of
 the <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> function. We can achieve it in several ways, but almost certainly

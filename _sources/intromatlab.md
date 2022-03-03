@@ -991,7 +991,7 @@ integers $ \{F_n \}_n = \{1,1,2,3,5, \ldots \} $ given by
 ```{math}
 F_{n+1} = F_{n} + F_{n-1}, \text{ se } n \geq 1, \; F_{1} = 1,\;F_{0} = 1.
 ```
-* Implement a *recursive function* that computes the $ n $ mo Fibonacci number
+* Implement a *recursive function* that computes the $ n $th Fibonacci number
 $n$ using only the `switch` conditional structure, by using the following
 prototype
 ```matlab
@@ -1001,7 +1001,7 @@ function f = fibonacci(n)
 end
 ```
 * The function thus constructed has an unfortunate flaw, if we feed it  $n$ it
-gives us the $ n $ mo number, however if we subsequently ask for the $ n + 1 $th
+gives us the $ n $th number, however if we subsequently ask for the $ n + 1 $th
 the calculation to obtain it has no memory of what we have done and recalculates
 all the previous ones anyway. Now let's build a **non-recursive version** of
 the `fibonacci` function. We can achieve it in several ways, but almost certainly
