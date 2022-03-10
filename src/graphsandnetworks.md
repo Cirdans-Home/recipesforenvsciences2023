@@ -208,22 +208,22 @@ Let us start again from an example, we consider here some data from {cite}`van20
 related to the behavior of a specie of *social birds* that nest in communal
 chambers. These contains a set of networks constructed in the following way:
 > An individual was assigned to a given nest chamber once it had been observed
-to enter it, irrespective of the activity car-ried out, i.e. either building the
-nest chamber or roosting in it.A network ‘edge’ was drawn between individuals
+to enter it, irrespective of the activity carried out, i.e. either building the
+nest chamber or roosting in it. A network ‘edge’ was drawn between individuals
 that used the same nest chambers either for roosting or nest-building at any
-given time within a series of observations at the same col-ony in the same year,
-either together in the nest chamber atthe same time or at different times.
+given time within a series of observations at the same colony in the same year,
+either together in the nest chamber at the same time or at different times.
 These individuals werethus assumed to be associated.
 
-We read from the {data file}`./data/aves-wildbird-network-1.edges` the nodes,
+We read from the [data file](data/aves-wildbird-network-1.edges) the nodes,
 and edges of the network. The file (that we obtained from the Network Repository {cite}`nr`)
 is not formatted as a CSV file, but has instead spaces to separate the data,
 thus we use the command `dlmread`, that generalizes the `csvread` command
 ```{code-cell} matlab
 data = dlmread('aves-wildbird-network-1.edges');
 ```
-with this we have obtained a matrix with three columsn and number of edges rows
-in which the first column represens the starting node, the second column the
+with this we have obtained a matrix with three columns and number of edges rows
+in which the first column represents the starting node, the second column the
 ending node, and the third one the edge weight. With this data we can build
 a graph
 ```{code-cell} matlab
@@ -236,13 +236,13 @@ plot(G,'Layout',"force3");
 From the plot we suspect that we can identify two communities in our set of
 birds, but how can we do it mathematically? This task is called a task of
 **community detection**, and there are many algorithms and strategies for
-achieving it. We are going to focus here on the case on a techinique that is
+achieving it. We are going to focus here on a techinique that is
 called **spectral clustering**. First of all we need a particular representation
 of the network with a *matrix* called a *Laplacian of the network*:
 ```{code-cell} matlab
 L = laplacian(G);
 ```
-Then we recover the **spectra information** by the command:
+Then we recover the **spectral information** by the command:
 ```{code-cell} matlab
 [v,l] = eigs(L,2,'smallestabs');
 ```
@@ -282,6 +282,10 @@ highlight(h,ind1,"NodeColor",'red',"MarkerSize",6)
 highlight(h,ind2,"NodeColor",'blue',"MarkerSize",6)
 highlight(h,ind3,"NodeColor",'green',"MarkerSize",6)
 ```
+now we don't have a clear cut between positive and negative values in a single
+vector, thus we have to employ another algorithm to do the separation for us.
+This is the **kmeans** algorithm that returns as a vector of indexes for the
+corresponding communities.
 
 
 ## Bibliography
