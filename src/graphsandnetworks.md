@@ -202,6 +202,88 @@ xlabel('Percentage of removed nodes')
 xticklabels(percentage_of_removed);
 ```
 
+## Finding communities
+
+Let us start again from an example, we consider here some data from {cite}`van2014cooperative`
+related to the behavior of a specie of *social birds* that nest in communal
+chambers. These contains a set of networks constructed in the following way:
+> An individual was assigned to a given nest chamber once it had been observed
+to enter it, irrespective of the activity car-ried out, i.e. either building the
+nest chamber or roosting in it.A network ‘edge’ was drawn between individuals
+that used the same nest chambers either for roosting or nest-building at any
+given time within a series of observations at the same col-ony in the same year,
+either together in the nest chamber atthe same time or at different times.
+These individuals werethus assumed to be associated.
+
+We read from the {data file}`./data/aves-wildbird-network-1.edges` the nodes,
+and edges of the network. The file (that we obtained from the Network Repository {cite}`nr`)
+is not formatted as a CSV file, but has instead spaces to separate the data,
+thus we use the command `dlmread`, that generalizes the `csvread` command
+```{code-cell} matlab
+data = dlmread('aves-wildbird-network-1.edges');
+```
+with this we have obtained a matrix with three columsn and number of edges rows
+in which the first column represens the starting node, the second column the
+ending node, and the third one the edge weight. With this data we can build
+a graph
+```{code-cell} matlab
+G = graph(data(:,1),data(:,2),data(:,3));
+```
+and then plot it
+```{code-cell} matlab
+plot(G,'Layout',"force3");
+```
+From the plot we suspect that we can identify two communities in our set of
+birds, but how can we do it mathematically? This task is called a task of
+**community detection**, and there are many algorithms and strategies for
+achieving it. We are going to focus here on the case on a techinique that is
+called **spectral clustering**. First of all we need a particular representation
+of the network with a *matrix* called a *Laplacian of the network*:
+```{code-cell} matlab
+L = laplacian(G);
+```
+Then we recover the **spectra information** by the command:
+```{code-cell} matlab
+[v,l] = eigs(L,2,'smallestabs');
+```
+This gives us two vectors $\mathbf{v}_1$ and $\mathbf{v}_2$ and two values
+$\lambda_1$ and $\lambda_2$ such that
+```{math}
+L \mathbf{v}_1 = \lambda_1 \mathbf{v}_1, \quad L \mathbf{v}_2 = \lambda_2 \mathbf{v}_2,
+```
+these are called, respectively, **eigenvectors**, and **eigenvalues**. If
+we inspect them we observe that $v_1(i) > 0$ for all $i = 1,\ldots,N$, and
+moreover it has a constant value. The second one, is the one we are actually
+interested in, this has both values that are $> 0$ and $< 0$. We are going to
+use them to determine the communities:
+```{code-cell} matlab
+ind1 = find(v(:,2) > 0);
+ind2 = find(v(:,2) < 0);
+```
+Now let us evidentiate the nodes on the graph
+```{code-cell} matlab
+h = plot(G,'Layout',"force3");
+highlight(h,ind1,"NodeColor",'red',"MarkerSize",6)
+highlight(h,ind2,"NodeColor",'blue',"MarkerSize",6)
+```
+and as you can observe the procedure did evidentiate the two communities we
+were suspecting by working directly on the data. On the other hand, now that
+we look better at the data, we suspect that there could be more than two
+communities, the larger one seems to be splittable in two. We can try to
+identify larger number of communities, by **computing more eigenvectors**
+```{code-cell} matlab
+[v,l] = eigs(L,3,'smallestabs');
+idx = kmeans(v(:,2:3),3);
+ind1 = find(idx == 1);
+ind2 = find(idx == 2);
+ind3 = find(idx == 3);
+h = plot(G,'Layout',"force3");
+highlight(h,ind1,"NodeColor",'red',"MarkerSize",6)
+highlight(h,ind2,"NodeColor",'blue',"MarkerSize",6)
+highlight(h,ind3,"NodeColor",'green',"MarkerSize",6)
+```
+
+
 ## Bibliography
 
 ```{bibliography}
