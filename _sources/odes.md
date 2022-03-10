@@ -410,7 +410,7 @@ to solving the system
 We can write the dynamics in MATLAB again as a *function handle*, after we
 have defined the constants `k1`, `k2`, and `A0` by writing
 ```{code-block} matlab
-f = @(t,y) [k1*A0*y1 -k2*y(1)*y(2); k2*y(1)*y(2) -k3*y(2)];
+f = @(t,y) [k1*A0*y(1)-k2*y(1)*y(2); k2*y(1)*y(2)-k3*y(2)];
 ```
 :::
 
