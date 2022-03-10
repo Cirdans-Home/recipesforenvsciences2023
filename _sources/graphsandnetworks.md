@@ -215,7 +215,7 @@ given time within a series of observations at the same colony in the same year,
 either together in the nest chamber at the same time or at different times.
 These individuals werethus assumed to be associated.
 
-We read from the [data file](data/aves-wildbird-network-1.edges) the nodes,
+We read from the [data file](https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/aves-wildbird-network-1.edges) the nodes,
 and edges of the network. The file (that we obtained from the Network Repository {cite}`nr`)
 is not formatted as a CSV file, but has instead spaces to separate the data,
 thus we use the command `dlmread`, that generalizes the `csvread` command
@@ -284,9 +284,271 @@ highlight(h,ind3,"NodeColor",'green',"MarkerSize",6)
 ```
 now we don't have a clear cut between positive and negative values in a single
 vector, thus we have to employ another algorithm to do the separation for us.
-This is the **kmeans** algorithm that returns as a vector of indexes for the
+This is the **$K$-means** algorithm that returns as a vector of indexes for the
 corresponding communities.
 
+:::{tip}
+$K$-means is a *clustering method* that uses the process of **vector quantization**,
+it was originally devised in the signal processing community with the aims of
+partitioning $n$ observations into $k$ clusters in which each observation
+belongs to the cluster with the nearest mean, i.e., the mean servs as a
+prototype of the cluster.
+
+It can be formally expressed as the minimization problem
+```{math}
+\arg\min_{\mathbf{S}=\{S_1,\ldots,S_k\}} \sum_{i=1}^{k}\sum_{\mathbf{x} \in S_i} \| \mathbf{x} - \mathbf{\mu}_i\|^2,
+```
+where we are given $\{\mathbf{x}_1,\ldots,\mathbf{x}_n\}$ observations, to
+cluster in $k\,(\leq n)$ groups $\{S_1,\ldots,S_k\}$, and $\mathbf{\mu}_i$ is
+the mean of the points in $S_i$.
+:::
+
+But how do we know if we haven't lost some community in our analysis? To test
+this idea we can use another concept from graph theory that is called **modularity**.
+
+```{prf:definition}
+**Modularity** is a measure of the structure of networks or graphs which measures
+the strength of division of a network into communities, it is computed as
+the fraction of the edges that fall within the given groups minus the expected
+fraction if edges were distributed at random.
+```
+
+There are several ways for computing this quantity, we give here a very
+straigthforward
+```{code} matlab
+function Q = modularity(A, g)
+%% MODULARITY computes the modularity of the of the partition in group g of the
+% graph with adjacency matrix A.
+
+nCommunities = numel(unique(g));
+nNodes = length(g);
+
+e = zeros(nCommunities);
+for i = 1:nNodes
+    for j = 1:nNodes
+        e(g(i), g(j)) = e(g(i), g(j)) + A(i, j);
+    end
+end
+nEdges = sum(A(:));  % we could use nnz(A), but we want to take into account weights
+a_out = sum(e, 2);   % out-degree
+a_in = (sum(e, 1))'; % in-degree
+a = a_in.*a_out/nEdges^2;
+Q = trace(e)/nEdges - sum(a);
+
+end
+```
+and we try to use it to evaluate the communities we have found
+```{code-cell} matlab
+%% Analysis of Community Structure
+addpath('matlabcodes')
+data = dlmread('aves-wildbird-network-1.edges');
+color = {'red','blue','magenta','green'};
+G = graph(data(:,1),data(:,2),data(:,3));
+L = laplacian(G);
+for i = 1:3
+    [v,l] = eigs(L,i+1,'smallestabs');
+    groupvec = kmeans(v(:,2:i+1),i+1);
+    figure(1)
+    subplot(1,3,i);
+    h = plot(G,'Layout',"force3");
+    for j = 1:i+1
+       ind = find(groupvec == j);
+       highlight(h,ind,"NodeColor",color{j},"MarkerSize",6)
+    end
+    Q = modularity(adjacency(G),groupvec);
+    title(['Modularity is ',string(Q)])
+end
+set(gcf,'Position',[-1984 426 1301 395]);
+```
+from which we observe that if we try to find more than three communities the
+modularity starts decreasing. Thus it seems that we are done with three
+communities for this dataset.
+
+::::{exercise}
+We write a function that looks for in a graph up to $n$ communities and returns
+the number of communities within $n$ with the highest modularity.
+
+```{code} matlab
+function [groups,outmodularity,optimum] = findcommunities(G,k)
+%%FINDCOMMUNITIES looks in G up to n communities and returns the number
+%of communities within n with the highest modularity.
+%   G = graph
+%   k = maximum number of communities
+
+if (k > G.numnodes)
+    error("You cannot have more than number of nodes communities");
+end
+if (k < 2)
+    error("You cannot have less than 2 communities");
+end
+
+% Allocate the space for the groups matrix of number of nodes rows and
+% k-1 columns
+
+% Allocate the space for the modularities: vector with k-1 entries
+
+% Loop through the possible community size
+% | Compute eigenvectors
+% | Use k-means
+% | Compute modularity
+% end of the for loop
+
+% Compute the index for which maximum modularity is obtained
+
+end
+```
+
+You can test the algorithm on some of the networks on some [Animal social networks](https://networkrepository.com/asn.php).
+
+:::{tip} To ensure that the function also automatically produces graphs highlighting the
+communities, the following two auxiliary codes can be used:
+- [Generate maximally perceptually-distinct colors](https://it.mathworks.com/matlabcentral/fileexchange/29702-generate-maximally-perceptually-distinct-colors) This function generates a set
+of colors which are distinguishable by reference to the "Lab" color space, which
+more closely matches human color perception than RGB.
+- [neatly arrange subplots](https://it.mathworks.com/matlabcentral/fileexchange/26310-numsubplots-neatly-arrange-subplots) Sometimes a graphing function will not know in advance how many
+sub-plots are to be created. This function produces reasonable values for the
+row and column inputs to subplot given the number of desired sub-plots.
+:::
+
+::::
+
+## Centrality
+
+The next type of analysis we want to address is the computation of a
+**node centrality score**, this type of analysis can (usually) be done by
+employing some *topological* measures, i.e., that depends only on the
+connections of the nodes, to score nodes by their "importance".
+
+::::{prf:definition}
+A **graph Centrality measures** are scalar values given to each node in the
+graph $G = (V,E)$ to quantify its *importance*. The definition of what is
+*important* depends on the underlying model assumption.
+::::
+
+Let us see some **measures** on a sample graph $G = (V,E)$ that could be, e.g.,
+the *contact network* [ia-infect-hyper.mtx](https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/data/ia-infect-hyper.mtx)
+where nodes represent humans and edges between them represent proximity, i.e.,
+a contact for a given period of time in the physical world; see {cite}`nr`.
+```{code-cell} matlab
+addpath('./data')
+data = dlmread('ia-infect-hyper.mtx',' ',2,0);
+G = graph(data(:,1),data(:,2));
+fprintf("G is a Network with %d nodes and %d edges.\n",G.numnodes,G.numedges);
+```
+
+- **Degree centrality**. It is defined as the number of node neighbors for each
+node in the graph. If the network is directed, we have two versions of this
+measure: the *in-degree* is the number of incoming edges, and the *out-degree*
+that is in turn the number of out-going edges. This is a *local measure*, that
+means that as a measure it doesn't take neighbors connectivity into account.
+It can be interpreted as a form of popularity.
+```{code-cell} matlab
+degree_centrality = G.degree;
+```
+- **Closeness centrality**. This centrality measures node efficiency in terms
+of connection to other nodes. Is defined as the average length of the shortest
+path between the node and all other nodes in the graph, i.e., the more central
+a node is, the closer it is to all other nodes.
+```{math}
+v \in V, \quad C(v) =  \frac{1}{\sum_{w \in V} d(v,w)}.
+```
+```{code-cell} matlab
+closeness_centrality = centrality(G,"closeness");
+```
+- **Betweenness centrality**. This measure quantifies the number of times a
+node acts as a *bridge* along the shortest path between two other nodes, that is,
+let us say that we want to compute it for a vertex $v \in V$. We first compute
+**all** the shortest paths between each pair of vertices $(s,t)$, then for each
+of the couples we determine the fraction of shortest paths that pass through $v$.
+The measure is then the sum this fraction over all pairs of vertices, succinctly
+```{math}
+v \in V, \quad B(v) = \sum_{s \neq v \neq t \in V} \frac{\sigma_{st}(v)}{\sigma_{st}}, \; \begin{array}{l}
+\sigma_{st} = |\{ \text{shortest paths between s and t }\}|, \\ \sigma_{st}(v) = |\{ \text{shortest paths between s and t passing per v}\}|.
+\end{array}
+```
+```{code-cell} matlab
+betweenness_centrality = centrality(G,"betweenness");
+```
+- **Eigenvector centrality**.  It assigns relative scores to all nodes in the
+network based on the *assumption* that "connections to important nodes
+matters more to the score of the node we are looking at than equal
+connections to low importance nodes". This idea can be formalized in different
+ways. The first we consider is the case in which we use the *eigenvector*
+corresponding to the *largest eigenvalue* of the graph adjacency matrix.
+```{code-cell} matlab
+eigenvector_centrality = centrality(G,"eigenvector");
+```
+- **PageRank**. This is the algorithm used by Google Search to rank the web
+pages in their search engine results. The score given by this algorithm is a
+*probability distribution* representing the likelihood of randomly exploring
+the network and arriving at any particular page.
+```{math}
+\mathbf{p} = \mathbf{p}\left(\gamma P + (1-\gamma) \mathbf{v}\mathbf{1}^T\right),  \quad P = \operatorname{diag}(A\mathbf{1})^{-1}A,\; \gamma \in [0,1], \; \mathbf{1}^T\mathbf{v} = 1.
+```
+```{code-cell} matlab
+pagerank_centrality = centrality(G,"pagerank");
+```
+
+We can now try to look at the most-important nodes for the different measures.
+Since we are only interested in the ranking (and not in the actual value of
+the measure) we will make use of the `sort` function from MATLAB to get the
+information we want
+```{code-cell} matlab
+[~,degree_rank] = sort(degree_centrality,"descend");
+[~,closeness_rank] = sort(closeness_centrality,"descend");
+[~,betweenness_rank] = sort(betweenness_centrality,"descend");
+[~,eigenvector_rank] = sort(eigenvector_centrality,"descend");
+[~,pagerank_rank] = sort(pagerank_centrality,"descend");
+
+rankings = table(degree_rank,closeness_rank,betweenness_rank,...
+    eigenvector_rank,pagerank_rank,'VariableNames',...
+    {'Degree','Closeness','Betweenness','Eigenvector','PageRank'});
+disp(head(rankings))
+```
+
+To compare the different rankings we can also look at the **scatter plot** of
+the rankings, e.g.,
+```{code-cell} matlab
+figure(1)
+subplot(1,2,1);
+plot(degree_rank,closeness_rank,'o');
+xlabel('Degree centrality')
+ylabel('Closeness centrality')
+axis square
+subplot(1,2,2);
+plot(degree_rank,eigenvector_rank,'o');
+xlabel('Degree centrality')
+ylabel('Eigenvector centrality')
+axis square
+```
+
+In general it would be better to have also a **quantitative way** of comparing
+the rankings. We can go for a *statistical test*, in this case a good solution
+is the Kendall $\tau$ test.
+
+The Kendall $\tau$ coefficient is defined as:
+```{math}
+\tau = \frac{(\text{number of concordant pairs}) - (\text{number of discordant pairs})}{
+ {n \choose 2} }.
+```
+Where ${n \choose 2} = {n (n-1) \over 2}$ is the **binomial coefficient** for
+the number of ways to choose two items from $n$ items.
+We can compute it in MATLAB (together with the relevant $p$-value) by doing:
+```{code-cell} matlab
+[tau,pval] = corr(degree_rank,closeness_rank,'type','Kendall');
+fprintf("Degree vs Closeness tau = %f p-value = %e.\n",tau,pval);
+[tau,pval] = corr(degree_rank,eigenvector_rank,'type','Kendall');
+fprintf("Degree vs Eigenvector tau = %f p-value = %e.\n",tau,pval);
+```
+
+:::{warning}
+Every **centrality measure** is based on an assumption about the concept of
+importance, e.g, *closeness* and *betweenness* centralities define the importance
+as an evaluation of the information exchange efficiency within the networks.
+Others like the degree are purely local popularity measure, while the ones
+based on the eigenvectors tend to reward highly connected nodes. You should
+always select your measure while taking into account the model behind the choice.
+:::
 
 ## Bibliography
 

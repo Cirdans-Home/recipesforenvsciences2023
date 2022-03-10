@@ -249,6 +249,11 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#centrality">
+   Centrality
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bibliography">
    Bibliography
   </a>
@@ -328,7 +333,7 @@ information by working through the test cases.</p>
 said from the beginning that graphs are useful to describe pairwise interactions
 between vertices. We will start as usual from an example, and in particular we
 will focus on the network of social relationship between a population of
-Doubtful Sound bottlenose dolphins <span id="id1">[<a class="reference internal" href="#id8">Lus03</a>]</span>. It has been
+Doubtful Sound bottlenose dolphins <span id="id1">[<a class="reference internal" href="#id9">Lus03</a>]</span>. It has been
 observed that gregarious, long-lived animals, such as gorillas (<em>Gorilla
 gorilla</em>), deer (<em>Cervus elaphus</em>), elephants (<em>Loxodonta
 africanus</em>) and bottlenose dolphins (<em>Tursiops truncatus</em>) rely
@@ -375,7 +380,7 @@ format and visualize it</p>
 <img alt="_images/graphsandnetworks_3_0.png" src="_images/graphsandnetworks_3_0.png" />
 </div>
 </div>
-<p>What are we seeing? In the word of the <em>author</em> <span id="id2">[<a class="reference internal" href="#id8">Lus03</a>]</span>:</p>
+<p>What are we seeing? In the word of the <em>author</em> <span id="id2">[<a class="reference internal" href="#id9">Lus03</a>]</span>:</p>
 <blockquote>
 <div><p>Every time that
 a school of dolphins was encountered in the fjord between 1995 and
@@ -533,7 +538,7 @@ attacks</em>. If we remove some random nodes the increase in the diameter is sma
 </div>
 <div class="section" id="finding-communities">
 <h2>Finding communities<a class="headerlink" href="#finding-communities" title="Permalink to this headline">¶</a></h2>
-<p>Let us start again from an example, we consider here some data from <span id="id3">[<a class="reference internal" href="#id10">vDKArguellesTico+14</a>]</span>
+<p>Let us start again from an example, we consider here some data from <span id="id3">[<a class="reference internal" href="#id11">vDKArguellesTico+14</a>]</span>
 related to the behavior of a specie of <em>social birds</em> that nest in communal
 chambers. These contains a set of networks constructed in the following way:</p>
 <blockquote>
@@ -545,8 +550,8 @@ given time within a series of observations at the same colony in the same year,
 either together in the nest chamber at the same time or at different times.
 These individuals werethus assumed to be associated.</p>
 </div></blockquote>
-<p>We read from the <span class="xref myst">data file</span> the nodes,
-and edges of the network. The file (that we obtained from the Network Repository <span id="id4">[<a class="reference internal" href="#id9">RA15</a>]</span>)
+<p>We read from the <a class="reference external" href="https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/aves-wildbird-network-1.edges">data file</a> the nodes,
+and edges of the network. The file (that we obtained from the Network Repository <span id="id4">[<a class="reference internal" href="#id10">RA15</a>]</span>)
 is not formatted as a CSV file, but has instead spaces to separate the data,
 thus we use the command <code class="docutils literal notranslate"><span class="pre">dlmread</span></code>, that generalizes the <code class="docutils literal notranslate"><span class="pre">csvread</span></code> command</p>
 <div class="cell docutils container">
@@ -654,19 +659,375 @@ identify larger number of communities, by <strong>computing more eigenvectors</s
 </div>
 <p>now we don’t have a clear cut between positive and negative values in a single
 vector, thus we have to employ another algorithm to do the separation for us.
-This is the <strong>kmeans</strong> algorithm that returns as a vector of indexes for the
+This is the <strong><span class="math notranslate nohighlight">\(K\)</span>-means</strong> algorithm that returns as a vector of indexes for the
 corresponding communities.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><span class="math notranslate nohighlight">\(K\)</span>-means is a <em>clustering method</em> that uses the process of <strong>vector quantization</strong>,
+it was originally devised in the signal processing community with the aims of
+partitioning <span class="math notranslate nohighlight">\(n\)</span> observations into <span class="math notranslate nohighlight">\(k\)</span> clusters in which each observation
+belongs to the cluster with the nearest mean, i.e., the mean servs as a
+prototype of the cluster.</p>
+<p>It can be formally expressed as the minimization problem</p>
+<div class="math notranslate nohighlight">
+\[\arg\min_{\mathbf{S}=\{S_1,\ldots,S_k\}} \sum_{i=1}^{k}\sum_{\mathbf{x} \in S_i} \| \mathbf{x} - \mathbf{\mu}_i\|^2,\]</div>
+<p>where we are given <span class="math notranslate nohighlight">\(\{\mathbf{x}_1,\ldots,\mathbf{x}_n\}\)</span> observations, to
+cluster in <span class="math notranslate nohighlight">\(k\,(\leq n)\)</span> groups <span class="math notranslate nohighlight">\(\{S_1,\ldots,S_k\}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{\mu}_i\)</span> is
+the mean of the points in <span class="math notranslate nohighlight">\(S_i\)</span>.</p>
+</div>
+<p>But how do we know if we haven’t lost some community in our analysis? To test
+this idea we can use another concept from graph theory that is called <strong>modularity</strong>.</p>
+<div class="proof definition admonition" id="definition-5">
+<p class="admonition-title"><span class="caption-number">Definition 6 </span></p>
+<div class="definition-content section" id="proof-content">
+<p><strong>Modularity</strong> is a measure of the structure of networks or graphs which measures
+the strength of division of a network into communities, it is computed as
+the fraction of the edges that fall within the given groups minus the expected
+fraction if edges were distributed at random.</p>
+</div>
+</div><p>There are several ways for computing this quantity, we give here a very
+straigthforward</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>Q<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">modularity</span><span class="p">(</span>A, g<span class="p">)</span><span class="w"></span>
+<span class="c">%% MODULARITY computes the modularity of the of the partition in group g of the</span><span class="w"></span>
+<span class="c">% graph with adjacency matrix A.</span><span class="w"></span>
+
+<span class="n">nCommunities</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="nb">unique</span><span class="p">(</span><span class="n">g</span><span class="p">));</span><span class="w"></span>
+<span class="n">nNodes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">length</span><span class="p">(</span><span class="n">g</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">e</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">nCommunities</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nNodes</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">nNodes</span><span class="w"></span>
+<span class="w">        </span><span class="n">e</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="nb">i</span><span class="p">),</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nb">j</span><span class="p">))</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">e</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="nb">i</span><span class="p">),</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nb">j</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="nb">i</span><span class="p">,</span><span class="w"> </span><span class="nb">j</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="n">nEdges</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">A</span><span class="p">(:));</span><span class="w">  </span><span class="c">% we could use nnz(A), but we want to take into account weights</span><span class="w"></span>
+<span class="n">a_out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w">   </span><span class="c">% out-degree</span><span class="w"></span>
+<span class="n">a_in</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span><span class="w"> </span><span class="c">% in-degree</span><span class="w"></span>
+<span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">a_in</span><span class="o">.*</span><span class="n">a_out</span><span class="o">/</span><span class="n">nEdges</span>^<span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="n">Q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">trace</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">/</span><span class="n">nEdges</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<p>and we try to use it to evaluate the communities we have found</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Analysis of Community Structure</span><span class="w"></span>
+<span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;matlabcodes&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dlmread</span><span class="p">(</span><span class="s">&#39;aves-wildbird-network-1.edges&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="n">color</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="s">&#39;red&#39;</span><span class="p">,</span><span class="s">&#39;blue&#39;</span><span class="p">,</span><span class="s">&#39;magenta&#39;</span><span class="p">,</span><span class="s">&#39;green&#39;</span><span class="p">};</span><span class="w"></span>
+<span class="n">G</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">graph</span><span class="p">(</span><span class="n">data</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">data</span><span class="p">(:,</span><span class="mi">2</span><span class="p">),</span><span class="n">data</span><span class="p">(:,</span><span class="mi">3</span><span class="p">));</span><span class="w"></span>
+<span class="n">L</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">laplacian</span><span class="p">(</span><span class="n">G</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">v</span><span class="p">,</span><span class="n">l</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">eigs</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="nb">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;smallestabs&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">groupvec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kmeans</span><span class="p">(</span><span class="n">v</span><span class="p">(:,</span><span class="mi">2</span><span class="p">:</span><span class="nb">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="nb">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="nb">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">plot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s">&#39;Layout&#39;</span><span class="p">,</span><span class="s">&quot;force3&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nb">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">i</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
+<span class="w">       </span><span class="n">ind</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">find</span><span class="p">(</span><span class="n">groupvec</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">j</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="nb">highlight</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">ind</span><span class="p">,</span><span class="s">&quot;NodeColor&quot;</span><span class="p">,</span><span class="n">color</span><span class="p">{</span><span class="nb">j</span><span class="p">},</span><span class="s">&quot;MarkerSize&quot;</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="n">Q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modularity</span><span class="p">(</span><span class="nb">adjacency</span><span class="p">(</span><span class="n">G</span><span class="p">),</span><span class="n">groupvec</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nb">title</span><span class="p">([</span><span class="s">&#39;Modularity is &#39;</span><span class="p">,</span><span class="nb">string</span><span class="p">(</span><span class="n">Q</span><span class="p">)])</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nb">set</span><span class="p">(</span><span class="nb">gcf</span><span class="p">,</span><span class="s">&#39;Position&#39;</span><span class="p">,[</span><span class="o">-</span><span class="mi">1984</span><span class="w"> </span><span class="mi">426</span><span class="w"> </span><span class="mi">1301</span><span class="w"> </span><span class="mi">395</span><span class="p">]);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_33_0.png" src="_images/graphsandnetworks_33_0.png" />
+</div>
+</div>
+<p>from which we observe that if we try to find more than three communities the
+modularity starts decreasing. Thus it seems that we are done with three
+communities for this dataset.</p>
+<div class="exercise admonition" id="graphsandnetworks-exercise-6">
+
+<p class="admonition-title"><span class="caption-number">Exercise 8 </span></p>
+<div class="section" id="exercise-content">
+<p>We write a function that looks for in a graph up to <span class="math notranslate nohighlight">\(n\)</span> communities and returns
+the number of communities within <span class="math notranslate nohighlight">\(n\)</span> with the highest modularity.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[groups,outmodularity,optimum]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">findcommunities</span><span class="p">(</span>G,k<span class="p">)</span><span class="w"></span>
+<span class="c">%%FINDCOMMUNITIES looks in G up to n communities and returns the number</span><span class="w"></span>
+<span class="c">%of communities within n with the highest modularity.</span><span class="w"></span>
+<span class="c">%   G = graph</span><span class="w"></span>
+<span class="c">%   k = maximum number of communities</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">.</span><span class="n">numnodes</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&quot;You cannot have more than number of nodes communities&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">&quot;You cannot have less than 2 communities&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c">% Allocate the space for the groups matrix of number of nodes rows and</span><span class="w"></span>
+<span class="c">% k-1 columns</span><span class="w"></span>
+
+<span class="c">% Allocate the space for the modularities: vector with k-1 entries</span><span class="w"></span>
+
+<span class="c">% Loop through the possible community size</span><span class="w"></span>
+<span class="c">% | Compute eigenvectors</span><span class="w"></span>
+<span class="c">% | Use k-means</span><span class="w"></span>
+<span class="c">% | Compute modularity</span><span class="w"></span>
+<span class="c">% end of the for loop</span><span class="w"></span>
+
+<span class="c">% Compute the index for which maximum modularity is obtained</span><span class="w"></span>
+
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+<p>You can test the algorithm on some of the networks on some <a class="reference external" href="https://networkrepository.com/asn.php">Animal social networks</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To ensure that the function also automatically produces graphs highlighting the
+communities, the following two auxiliary codes can be used:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://it.mathworks.com/matlabcentral/fileexchange/29702-generate-maximally-perceptually-distinct-colors">Generate maximally perceptually-distinct colors</a> This function generates a set
+of colors which are distinguishable by reference to the “Lab” color space, which
+more closely matches human color perception than RGB.</p></li>
+<li><p><a class="reference external" href="https://it.mathworks.com/matlabcentral/fileexchange/26310-numsubplots-neatly-arrange-subplots">neatly arrange subplots</a> Sometimes a graphing function will not know in advance how many
+sub-plots are to be created. This function produces reasonable values for the
+row and column inputs to subplot given the number of desired sub-plots.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="centrality">
+<h2>Centrality<a class="headerlink" href="#centrality" title="Permalink to this headline">¶</a></h2>
+<p>The next type of analysis we want to address is the computation of a
+<strong>node centrality score</strong>, this type of analysis can (usually) be done by
+employing some <em>topological</em> measures, i.e., that depends only on the
+connections of the nodes, to score nodes by their “importance”.</p>
+<div class="proof definition admonition" id="definition-7">
+<p class="admonition-title"><span class="caption-number">Definition 7 </span></p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>graph Centrality measures</strong> are scalar values given to each node in the
+graph <span class="math notranslate nohighlight">\(G = (V,E)\)</span> to quantify its <em>importance</em>. The definition of what is
+<em>important</em> depends on the underlying model assumption.</p>
+</div>
+</div><p>Let us see some <strong>measures</strong> on a sample graph <span class="math notranslate nohighlight">\(G = (V,E)\)</span> that could be, e.g.,
+the <em>contact network</em> <a class="reference external" href="https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/data/ia-infect-hyper.mtx">ia-infect-hyper.mtx</a>
+where nodes represent humans and edges between them represent proximity, i.e.,
+a contact for a given period of time in the physical world; see <span id="id5">[<a class="reference internal" href="#id10">RA15</a>]</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;./data&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">dlmread</span><span class="p">(</span><span class="s">&#39;ia-infect-hyper.mtx&#39;</span><span class="p">,</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="n">G</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">graph</span><span class="p">(</span><span class="n">data</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="n">data</span><span class="p">(:,</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;G is a Network with %d nodes and %d edges.\n&quot;</span><span class="p">,</span><span class="n">G</span><span class="p">.</span><span class="n">numnodes</span><span class="p">,</span><span class="n">G</span><span class="p">.</span><span class="n">numedges</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>G is a Network with 113 nodes and 2196 edges.
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Degree centrality</strong>. It is defined as the number of node neighbors for each
+node in the graph. If the network is directed, we have two versions of this
+measure: the <em>in-degree</em> is the number of incoming edges, and the <em>out-degree</em>
+that is in turn the number of out-going edges. This is a <em>local measure</em>, that
+means that as a measure it doesn’t take neighbors connectivity into account.
+It can be interpreted as a form of popularity.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">degree_centrality</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">G</span><span class="p">.</span><span class="n">degree</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Closeness centrality</strong>. This centrality measures node efficiency in terms
+of connection to other nodes. Is defined as the average length of the shortest
+path between the node and all other nodes in the graph, i.e., the more central
+a node is, the closer it is to all other nodes.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[v \in V, \quad C(v) =  \frac{1}{\sum_{w \in V} d(v,w)}.\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">closeness_centrality</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">centrality</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s">&quot;closeness&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Betweenness centrality</strong>. This measure quantifies the number of times a
+node acts as a <em>bridge</em> along the shortest path between two other nodes, that is,
+let us say that we want to compute it for a vertex <span class="math notranslate nohighlight">\(v \in V\)</span>. We first compute
+<strong>all</strong> the shortest paths between each pair of vertices <span class="math notranslate nohighlight">\((s,t)\)</span>, then for each
+of the couples we determine the fraction of shortest paths that pass through <span class="math notranslate nohighlight">\(v\)</span>.
+The measure is then the sum this fraction over all pairs of vertices, succinctly</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}v \in V, \quad B(v) = \sum_{s \neq v \neq t \in V} \frac{\sigma_{st}(v)}{\sigma_{st}}, \; \begin{array}{l}
+\sigma_{st} = |\{ \text{shortest paths between s and t }\}|, \\ \sigma_{st}(v) = |\{ \text{shortest paths between s and t passing per v}\}|.
+\end{array}\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">betweenness_centrality</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">centrality</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s">&quot;betweenness&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Eigenvector centrality</strong>.  It assigns relative scores to all nodes in the
+network based on the <em>assumption</em> that “connections to important nodes
+matters more to the score of the node we are looking at than equal
+connections to low importance nodes”. This idea can be formalized in different
+ways. The first we consider is the case in which we use the <em>eigenvector</em>
+corresponding to the <em>largest eigenvalue</em> of the graph adjacency matrix.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">eigenvector_centrality</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">centrality</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s">&quot;eigenvector&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>PageRank</strong>. This is the algorithm used by Google Search to rank the web
+pages in their search engine results. The score given by this algorithm is a
+<em>probability distribution</em> representing the likelihood of randomly exploring
+the network and arriving at any particular page.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mathbf{p} = \mathbf{p}\left(\gamma P + (1-\gamma) \mathbf{v}\mathbf{1}^T\right),  \quad P = \operatorname{diag}(A\mathbf{1})^{-1}A,\; \gamma \in [0,1], \; \mathbf{1}^T\mathbf{v} = 1.\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">pagerank_centrality</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">centrality</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s">&quot;pagerank&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now try to look at the most-important nodes for the different measures.
+Since we are only interested in the ranking (and not in the actual value of
+the measure) we will make use of the <code class="docutils literal notranslate"><span class="pre">sort</span></code> function from MATLAB to get the
+information we want</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">degree_rank</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">degree_centrality</span><span class="p">,</span><span class="s">&quot;descend&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">closeness_rank</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">closeness_centrality</span><span class="p">,</span><span class="s">&quot;descend&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">betweenness_rank</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">betweenness_centrality</span><span class="p">,</span><span class="s">&quot;descend&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">eigenvector_rank</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">eigenvector_centrality</span><span class="p">,</span><span class="s">&quot;descend&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">pagerank_rank</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sort</span><span class="p">(</span><span class="n">pagerank_centrality</span><span class="p">,</span><span class="s">&quot;descend&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">rankings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">table</span><span class="p">(</span><span class="n">degree_rank</span><span class="p">,</span><span class="n">closeness_rank</span><span class="p">,</span><span class="n">betweenness_rank</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="n">eigenvector_rank</span><span class="p">,</span><span class="n">pagerank_rank</span><span class="p">,</span><span class="s">&#39;VariableNames&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="s">&#39;Degree&#39;</span><span class="p">,</span><span class="s">&#39;Closeness&#39;</span><span class="p">,</span><span class="s">&#39;Betweenness&#39;</span><span class="p">,</span><span class="s">&#39;Eigenvector&#39;</span><span class="p">,</span><span class="s">&#39;PageRank&#39;</span><span class="p">});</span><span class="w"></span>
+<span class="nb">disp</span><span class="p">(</span><span class="nb">head</span><span class="p">(</span><span class="n">rankings</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Degree    Closeness    Betweenness    Eigenvector    PageRank
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    ______    _________    ___________    ___________    ________
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      30          30            30             30           30   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      38          38            42            102           42   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      42          42            33             38           38   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     102         102            38             42          102   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      33          33           102             33           33   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      48          48            12             48           48   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      12          12            48             34           12   
+      34          34            34             12           34   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To compare the different rankings we can also look at the <strong>scatter plot</strong> of
+the rankings, e.g.,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">degree_rank</span><span class="p">,</span><span class="n">closeness_rank</span><span class="p">,</span><span class="s">&#39;o&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Degree centrality&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Closeness centrality&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">axis</span><span class="w"> </span><span class="n">square</span><span class="w"></span>
+<span class="nb">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">degree_rank</span><span class="p">,</span><span class="n">eigenvector_rank</span><span class="p">,</span><span class="s">&#39;o&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&#39;Degree centrality&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&#39;Eigenvector centrality&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">axis</span><span class="w"> </span><span class="n">square</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/graphsandnetworks_49_0.png" src="_images/graphsandnetworks_49_0.png" />
+</div>
+</div>
+<p>In general it would be better to have also a <strong>quantitative way</strong> of comparing
+the rankings. We can go for a <em>statistical test</em>, in this case a good solution
+is the Kendall <span class="math notranslate nohighlight">\(\tau\)</span> test.</p>
+<p>The Kendall <span class="math notranslate nohighlight">\(\tau\)</span> coefficient is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\tau = \frac{(\text{number of concordant pairs}) - (\text{number of discordant pairs})}{
+ {n \choose 2} }.\]</div>
+<p>Where <span class="math notranslate nohighlight">\({n \choose 2} = {n (n-1) \over 2}\)</span> is the <strong>binomial coefficient</strong> for
+the number of ways to choose two items from <span class="math notranslate nohighlight">\(n\)</span> items.
+We can compute it in MATLAB (together with the relevant <span class="math notranslate nohighlight">\(p\)</span>-value) by doing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">tau</span><span class="p">,</span><span class="n">pval</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">corr</span><span class="p">(</span><span class="n">degree_rank</span><span class="p">,</span><span class="n">closeness_rank</span><span class="p">,</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;Kendall&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;Degree vs Closeness tau = %f p-value = %e.\n&quot;</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">pval</span><span class="p">);</span><span class="w"></span>
+<span class="p">[</span><span class="n">tau</span><span class="p">,</span><span class="n">pval</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">corr</span><span class="p">(</span><span class="n">degree_rank</span><span class="p">,</span><span class="n">eigenvector_rank</span><span class="p">,</span><span class="s">&#39;type&#39;</span><span class="p">,</span><span class="s">&#39;Kendall&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;Degree vs Eigenvector tau = %f p-value = %e.\n&quot;</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">pval</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Degree vs Closeness tau = 0.581226 p-value = 7.253673e-20.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Degree vs Eigenvector tau = 0.099558 p-value = 1.185833e-01.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Every <strong>centrality measure</strong> is based on an assumption about the concept of
+importance, e.g, <em>closeness</em> and <em>betweenness</em> centralities define the importance
+as an evaluation of the information exchange efficiency within the networks.
+Others like the degree are purely local popularity measure, while the ones
+based on the eigenvectors tend to reward highly connected nodes. You should
+always select your measure while taking into account the model behind the choice.</p>
+</div>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="id5"><dl class="citation">
-<dt class="label" id="id8"><span class="brackets">Lus03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<p id="id6"><dl class="citation">
+<dt class="label" id="id9"><span class="brackets">Lus03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
 <dd><p>David Lusseau. The emergent properties of a dolphin social network. <em>Proceedings of the Royal Society of London. Series B: Biological Sciences</em>, 270(suppl_2):S186–S188, 2003.</p>
 </dd>
-<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">RA15</a></span></dt>
+<dt class="label" id="id10"><span class="brackets">RA15</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id5">2</a>)</span></dt>
 <dd><p>Ryan A. Rossi and Nesreen K. Ahmed. The network data repository with interactive graph analytics and visualization. In <em>AAAI</em>. 2015. URL: <a class="reference external" href="https://networkrepository.com">https://networkrepository.com</a>.</p>
 </dd>
-<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id3">vDKArguellesTico+14</a></span></dt>
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id3">vDKArguellesTico+14</a></span></dt>
 <dd><p>Rene E van Dijk, Jennifer C Kaden, Araceli Argüelles-Ticó, Deborah A Dawson, Terry Burke, and Ben J Hatchwell. Cooperative investment in public goods is kin directed in communal nests of social birds. <em>Ecology letters</em>, 17(9):1141–1148, 2014.</p>
 </dd>
 </dl>
