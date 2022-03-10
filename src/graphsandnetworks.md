@@ -215,7 +215,7 @@ given time within a series of observations at the same colony in the same year,
 either together in the nest chamber at the same time or at different times.
 These individuals werethus assumed to be associated.
 
-We read from the [data file](data/aves-wildbird-network-1.edges) the nodes,
+We read from the [data file](https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/aves-wildbird-network-1.edges) the nodes,
 and edges of the network. The file (that we obtained from the Network Repository {cite}`nr`)
 is not formatted as a CSV file, but has instead spaces to separate the data,
 thus we use the command `dlmread`, that generalizes the `csvread` command
@@ -284,9 +284,85 @@ highlight(h,ind3,"NodeColor",'green',"MarkerSize",6)
 ```
 now we don't have a clear cut between positive and negative values in a single
 vector, thus we have to employ another algorithm to do the separation for us.
-This is the **kmeans** algorithm that returns as a vector of indexes for the
+This is the **$K$-means** algorithm that returns as a vector of indexes for the
 corresponding communities.
 
+:::{tip}
+$K$-means is a *clustering method* that uses the process of **vector quantization**,
+it was originally devised in the signal processing community with the aims of
+partitioning $n$ observations into $k$ clusters in which each observation
+belongs to the cluster with the nearest mean, i.e., the mean servs as a
+prototype of the cluster.
+
+It can be formally expressed as the minimization problem
+```{math}
+\arg\min_{\mathbf{S}=\{S_1,\ldots,S_k\}} \sum_{i=1}^{k}\sum_{\mathbf{x} \in S_i} \| \mathbf{x} - \mathbf{\mu}_i\|^2,
+```
+where we are given $\{\mathbf{x}_1,\ldots,\mathbf{x}_n\}$ observations, to
+cluster in $k\,(\leq n)$ groups $\{S_1,\ldots,S_k\}$, and $\mathbf{\mu}_i$ is
+the mean of the points in $S_i$.
+:::
+
+But how do we know if we haven't lost some community in our analysis? To test
+this idea we can use another concept from graph theory that is called **modularity**.
+
+```{prf:definition}
+**Modularity** is a measure of the structure of networks or graphs which measures
+the strength of division of a network into communities, it is computed as
+the fraction of the edges that fall within the given groups minus the expected
+fraction if edges were distributed at random.
+```
+
+There are several ways for computing this quantity, we give here a very
+straigthforward
+```{code} matlab
+function Q = modularity(A, g)
+%% MODULARITY computes the modularity of the of the partition in group g of the
+% graph with adjacency matrix A.
+
+nCommunities = numel(unique(g));
+nNodes = length(g);
+
+e = zeros(nCommunities);
+for i = 1:nNodes
+    for j = 1:nNodes
+        e(g(i), g(j)) = e(g(i), g(j)) + A(i, j);
+    end
+end
+nEdges = sum(A(:));  % we could use nnz(A), but we want to take into account weights
+a_out = sum(e, 2);   % out-degree
+a_in = (sum(e, 1))'; % in-degree
+a = a_in.*a_out/nEdges^2;
+Q = trace(e)/nEdges - sum(a);
+
+end
+```
+and we try to use it to evaluate the communities we have found
+```{code-cell} matlab
+%% Analysis of Community Structure
+addpath('matlabcodes')
+data = dlmread('aves-wildbird-network-1.edges');
+color = {'red','blue','magenta','green'};
+G = graph(data(:,1),data(:,2),data(:,3));
+L = laplacian(G);
+for i = 1:3
+    [v,l] = eigs(L,i+1,'smallestabs');
+    groupvec = kmeans(v(:,2:i+1),i+1);
+    figure(1)
+    subplot(1,3,i);
+    h = plot(G,'Layout',"force3");
+    for j = 1:i+1
+       ind = find(groupvec == j);
+       highlight(h,ind,"NodeColor",color{j},"MarkerSize",6)
+    end
+    Q = modularity(adjacency(G),groupvec);
+    title(['Modularity is ',string(Q)])
+end
+set(gcf,'Position',[-1984 426 1301 395]);
+```
+from which we observe that if we try to find more than three communities the
+modularity starts decreasing. Thus it seems that we are done with three
+communities for this dataset.
 
 ## Bibliography
 
