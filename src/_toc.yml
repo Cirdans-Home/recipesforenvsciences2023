@@ -9,4 +9,5 @@ chapters:
         - file: odes
         - file: parameterfitting
         - file: graphsandnetworks
+        - file: images
         - file: linearalgebra
