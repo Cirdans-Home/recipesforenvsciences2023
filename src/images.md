@@ -324,3 +324,15 @@ figure(3)
 imshow(Restored);
 ```
 That is indeed a better result.
+
+
+To have a complete introduction to this type of problems a good starting point
+is the book {cite}`MR2584074`, there are then a number of books covering
+specific aspects ranging from the atmosphere {cite}`doicu2010numerical` to
+geophysical {cite}`zhdanov2002geophysical,sun2013inverse`. 
+
+## Bibliography
+
+```{bibliography}
+:filter: docname in docnames
+```
