@@ -4,11 +4,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Working with images &#8212; Numerical recipes for environmental sciences with MATLAB</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,41 +20,40 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/exercise.css" />
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Linear Algebra" href="linearalgebra.html" />
@@ -64,7 +65,21 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +88,10 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +109,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
-   Numerical recipes for environmental sciences with MATLAB
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Numerical recipes for environmental sciences with MATLAB
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intromatlab.html">
    An introduction to MATLAB
@@ -139,110 +156,226 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="_sources/images.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/images.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/Cirdans-Home/recipesforenvsciences"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/Cirdans-Home/recipesforenvsciences/issues/new?title=Issue%20on%20page%20%2Fimages.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences/main?urlpath=tree/src/images.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences2023/main?urlpath=tree/src/images.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/Cirdans-Home/recipesforenvsciences2023"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/Cirdans-Home/recipesforenvsciences2023/issues/new?title=Issue%20on%20page%20%2Fimages.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/images.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download notebook file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="_sources/images.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#denoising-images">
    Denoising images
@@ -260,17 +393,50 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Working with images</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#denoising-images">
+   Denoising images
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deblurring-images">
+   Deblurring images
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="working-with-images">
-<h1>Working with images<a class="headerlink" href="#working-with-images" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="working-with-images">
+<h1>Working with images<a class="headerlink" href="#working-with-images" title="Permalink to this headline">#</a></h1>
 <p>Up to now we have worked with numerical data (data from experiments to be
 adapted to models, simulations of differential equations) and relational data
 (networks). This isn’t the only type of data you can happen to be dealing with.
@@ -395,18 +561,20 @@ to a file.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning: Division by zero when processing .  The value has been set to NaN.
-&gt; In matlab.io.internal.imagesci.imjpginfo&gt;incorporate_exif_metadata (line 68)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&gt; In matlab.io.internal.imagesci.imjpginfo&gt;incorporate_exif_metadata (line 68)
 In matlab.io.internal.imagesci.imjpginfo (line 51)
 In imjpginfo (line 20)
-In imfinfo (line 234)
+In imfinfo (line 228)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iminfo = 
 
   struct with fields:
 
-           Filename: &#39;/home/cirdan/Documenti/RTDa-PISA/Didattica/NumRecipes/recipesforenvsciences/src/cat.jpg&#39;
-        FileModDate: &#39;23-Mar-2022 23:20:15&#39;
+           Filename: &#39;/home/cirdan/Documenti/Didattica/phdmodena/recipesforenvsciences2023/src/cat.jpg&#39;
+        FileModDate: &#39;25-Apr-2023 18:33:17&#39;
            FileSize: 5210752
              Format: &#39;jpg&#39;
       FormatVersion: &#39;&#39;
@@ -419,6 +587,7 @@ In imfinfo (line 234)
        CodingMethod: &#39;Huffman&#39;
       CodingProcess: &#39;Sequential&#39;
             Comment: {}
+            XMPData: [1x1 struct]
                Make: &#39;Canon&#39;
               Model: &#39;Canon EOS-1D Mark IV&#39;
         Orientation: 1
@@ -460,8 +629,8 @@ neighboring pixel values</p></li>
 <img alt="_images/images_13_0.png" src="_images/images_13_0.png" />
 </div>
 </div>
-<div class="section" id="denoising-images">
-<h2>Denoising images<a class="headerlink" href="#denoising-images" title="Permalink to this headline">¶</a></h2>
+<section id="denoising-images">
+<h2>Denoising images<a class="headerlink" href="#denoising-images" title="Permalink to this headline">#</a></h2>
 <p>A part from photos of cats sometimes we get photos from experimental instruments
 that are littered with noise, and that we wish to remove. This may be either for
 simply having a better looking photo, or as a first step in a following analysis.</p>
@@ -479,7 +648,13 @@ image:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/images_15_0.png" src="_images/images_15_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;wdenoise2&#39; requires Wavelet Toolbox.</span>
+
+
+</pre></div>
+</div>
+<img alt="_images/images_15_1.png" src="_images/images_15_1.png" />
 </div>
 </div>
 <div class="admonition tip">
@@ -521,7 +696,18 @@ be called by doing:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/images_17_0.png" src="_images/images_17_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using toolboxdir</span>
+<span class=" -Color -Color-Red">Could not locate the base directory for nnet.</span>
+
+<span class=" -Color -Color-Red">Error in images.internal.requiresNeuralNetworkToolbox (line 7)</span>
+<span class=" -Color -Color-Red">if ~isfolder(toolboxdir(&#39;nnet&#39;))</span>
+
+<span class=" -Color -Color-Red">Error in denoisingNetwork (line 45)</span>
+<span class=" -Color -Color-Red">images.internal.requiresNeuralNetworkToolbox(mfilename);</span>
+
+
+</pre></div>
+</div>
 </div>
 </div>
 <p>the network <code class="docutils literal notranslate"><span class="pre">denoisingNetwork('DnCNN')</span></code> is a rather complex object whose
@@ -533,174 +719,9 @@ structure can be investigated by doing</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  59x1 Layer array with layers:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     1   &#39;InputLayer&#39;             Image Input           50x50x1 images
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     2   &#39;Conv1&#39;                  Convolution           64 3x3x1 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     3   &#39;ReLU1&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     4   &#39;Conv2&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     5   &#39;BNorm2&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     6   &#39;ReLU2&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     7   &#39;Conv3&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     8   &#39;BNorm3&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     9   &#39;ReLU3&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    10   &#39;Conv4&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    11   &#39;BNorm4&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    12   &#39;ReLU4&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    13   &#39;Conv5&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    14   &#39;BNorm5&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    15   &#39;ReLU5&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    16   &#39;Conv6&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    17   &#39;BNorm6&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    18   &#39;ReLU6&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    19   &#39;Conv7&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-    20   &#39;BNorm7&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    21   &#39;ReLU7&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    22   &#39;Conv8&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    23   &#39;BNorm8&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    24   &#39;ReLU8&#39;                  ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    25   &#39;Conv9&#39;                  Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    26   &#39;BNorm9&#39;                 Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    27   &#39;ReLU9&#39;                  ReLU                  ReLU
-    28   &#39;Conv10&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    29   &#39;BNorm10&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    30   &#39;ReLU10&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    31   &#39;Conv11&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    32   &#39;BNorm11&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    33   &#39;ReLU11&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    34   &#39;Conv12&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    35   &#39;BNorm12&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    36   &#39;ReLU12&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    37   &#39;Conv13&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    38   &#39;BNorm13&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    39   &#39;ReLU13&#39;                 ReLU                  ReLU
-    40   &#39;Conv14&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    41   &#39;BNorm14&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    42   &#39;ReLU14&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    43   &#39;Conv15&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-    44   &#39;BNorm15&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    45   &#39;ReLU15&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    46   &#39;Conv16&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    47   &#39;BNorm16&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    48   &#39;ReLU16&#39;                 ReLU                  ReLU
-    49   &#39;Conv17&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    50   &#39;BNorm17&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    51   &#39;ReLU17&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    52   &#39;Conv18&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    53   &#39;BNorm18&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    54   &#39;ReLU18&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    55   &#39;Conv19&#39;                 Convolution           64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    56   &#39;BNorm19&#39;                Batch Normalization   Batch normalization with 64 channels
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    57   &#39;ReLU19&#39;                 ReLU                  ReLU
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    58   &#39;Conv20&#39;                 Convolution           1 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    59   &#39;FinalRegressionLayer&#39;   Regression Output     mean-squared-error with response &#39;Response&#39;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Unable to resolve the name &#39;net.Layers&#39;.</span>
+
+
 </pre></div>
 </div>
 </div>
@@ -708,9 +729,9 @@ structure can be investigated by doing</p>
 <p>We could <strong>train</strong> a new network for this task, but this is a rater complex
 topic, and a computationally intensive task. Therefore, we are not going to
 pursue it.</p>
-</div>
-<div class="section" id="deblurring-images">
-<h2>Deblurring images<a class="headerlink" href="#deblurring-images" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="deblurring-images">
+<h2>Deblurring images<a class="headerlink" href="#deblurring-images" title="Permalink to this headline">#</a></h2>
 <p>The <strong>blurring</strong> of an image can be caused by many factors, the classical are</p>
 <ul class="simple">
 <li><p>a movement during the image capture process, e.g., a slight movement of the
@@ -883,13 +904,14 @@ sense. Thus, let us try with a better guess:</p>
 </div>
 <p>That is indeed a better result.</p>
 <p>To have a complete introduction to this type of problems a good starting point
-is the book <span id="id1">[<a class="reference internal" href="#id10">Han10</a>]</span>, there are then a number of books covering
-specific aspects ranging from the atmosphere <span id="id2">[<a class="reference internal" href="#id11">DTS10</a>]</span> to
-geophysical <span id="id3">[<a class="reference internal" href="#id13">Sun13</a>, <a class="reference internal" href="#id12">Zhd02</a>]</span>.</p>
-</div>
-<div class="section" id="bibliography">
-<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="id4"><dl class="citation">
+is the book <span id="id1">[<a class="reference internal" href="#id10" title="Per Christian Hansen. Discrete inverse problems. Volume 7 of Fundamentals of Algorithms. Society for Industrial and Applied Mathematics (SIAM), Philadelphia, PA, 2010. ISBN 978-0-898716-96-2. Insight and algorithms. URL: https://doi.org/10.1137/1.9780898718836, doi:10.1137/1.9780898718836.">Han10</a>]</span>, there are then a number of books covering
+specific aspects ranging from the atmosphere <span id="id2">[<a class="reference internal" href="#id11" title="Adrian Doicu, Thomas Trautmann, and Franz Schreier. Numerical regularization for atmospheric inverse problems. Springer Science &amp; Business Media, 2010.">DTS10</a>]</span> to
+geophysical <span id="id3">[<a class="reference internal" href="#id13" title="Ne-Zheng Sun. Inverse problems in groundwater modeling. Volume 6. Springer Science &amp; Business Media, 2013.">Sun13</a>, <a class="reference internal" href="#id12" title="Michael S Zhdanov. Geophysical inverse theory and regularization problems. Volume 36. Elsevier, 2002.">Zhd02</a>]</span>.</p>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id4">
+<dl class="citation">
 <dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id2">DTS10</a></span></dt>
 <dd><p>Adrian Doicu, Thomas Trautmann, and Franz Schreier. <em>Numerical regularization for atmospheric inverse problems</em>. Springer Science &amp; Business Media, 2010.</p>
 </dd>
@@ -903,9 +925,9 @@ geophysical <span id="id3">[<a class="reference internal" href="#id13">Sun13</a>
 <dd><p>Michael S Zhdanov. <em>Geophysical inverse theory and regularization problems</em>. Volume 36. Elsevier, 2002.</p>
 </dd>
 </dl>
-</p>
 </div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -929,9 +951,11 @@ geophysical <span id="id3">[<a class="reference internal" href="#id13">Sun13</a>
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="graphsandnetworks.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -947,26 +971,28 @@ geophysical <span id="id3">[<a class="reference internal" href="#id13">Sun13</a>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Fabio Durastante<br/>
-        
-            &copy; Copyright 2022.<br/>
-      </p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Fabio Durastante<br/>
+  
+      &copy; Copyright 2023.<br/>
+</p>
+        </footer>
     </div>
-  </footer>
-</main>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

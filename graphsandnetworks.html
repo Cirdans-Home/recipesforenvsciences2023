@@ -4,11 +4,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Graphs and Networks &#8212; Numerical recipes for environmental sciences with MATLAB</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,41 +20,40 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/exercise.css" />
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Working with images" href="images.html" />
@@ -64,7 +65,21 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +88,10 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +109,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
-   Numerical recipes for environmental sciences with MATLAB
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Numerical recipes for environmental sciences with MATLAB
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intromatlab.html">
    An introduction to MATLAB
@@ -139,110 +156,226 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="_sources/graphsandnetworks.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/graphsandnetworks.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/Cirdans-Home/recipesforenvsciences"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/Cirdans-Home/recipesforenvsciences/issues/new?title=Issue%20on%20page%20%2Fgraphsandnetworks.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences/main?urlpath=tree/src/graphsandnetworks.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences2023/main?urlpath=tree/src/graphsandnetworks.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/Cirdans-Home/recipesforenvsciences2023"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/Cirdans-Home/recipesforenvsciences2023/issues/new?title=Issue%20on%20page%20%2Fgraphsandnetworks.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/graphsandnetworks.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download notebook file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="_sources/graphsandnetworks.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-social-network-made-of-dolphins">
    A social network made of dolphins
@@ -265,17 +398,55 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Graphs and Networks</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-social-network-made-of-dolphins">
+   A social network made of dolphins
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-communities">
+   Finding communities
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#centrality">
+   Centrality
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="graphs-and-networks">
-<h1>Graphs and Networks<a class="headerlink" href="#graphs-and-networks" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="graphs-and-networks">
+<h1>Graphs and Networks<a class="headerlink" href="#graphs-and-networks" title="Permalink to this headline">#</a></h1>
 <p>Understanding complex systems often requires a bottom-up analysis. This can be
 done by examining the elementary parts of the system individually and then
 by turning the analysis towards the connection between them. A natural way of
@@ -283,11 +454,11 @@ performing this type of analysis is through the use of <strong>networks</strong>
 <strong>graphs</strong>.</p>
 <div class="proof definition admonition" id="definition-0">
 <p class="admonition-title"><span class="caption-number">Definition 1 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p>A <strong>graph</strong> <span class="math notranslate nohighlight">\(G=(V,E)\)</span> consists of a finite set <span class="math notranslate nohighlight">\(V\)</span> of <strong>vertices</strong> (or nodes)
 and a finite set <span class="math notranslate nohighlight">\(E\)</span> of <strong>edges</strong>, where each edge <span class="math notranslate nohighlight">\(e\in E\)</span> is of the form
 <span class="math notranslate nohighlight">\(e=\{u,v\}\)</span> with <span class="math notranslate nohighlight">\(u,v\in V\)</span>.</p>
-</div>
+</section>
 </div><p>And we will make here the following simplifying assumptions:</p>
 <ul class="simple">
 <li><p>we do not allow any edge to be a self-loop, i.e., an edge that starts and ends
@@ -299,27 +470,27 @@ edge <span class="math notranslate nohighlight">\(e = \{u,v\} = \{v,u\}\)</span>
 <p>Now, let us fix some notation and nomenclature.</p>
 <div class="proof definition admonition" id="definition-1">
 <p class="admonition-title"><span class="caption-number">Definition 2 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p>Two vertices, <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>, are called <strong>adjacent</strong> if there is an edge, <span class="math notranslate nohighlight">\(uv\)</span>,
 connecting them. We can express adjacency of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> by writing <span class="math notranslate nohighlight">\(u\sim v.\)</span></p>
-</div>
+</section>
 </div><div class="proof definition admonition" id="definition-2">
 <p class="admonition-title"><span class="caption-number">Definition 3 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p>If <span class="math notranslate nohighlight">\(v\)</span> is a vertex in a graph <span class="math notranslate nohighlight">\(G\)</span>, the <strong>degree</strong> of <span class="math notranslate nohighlight">\(v\)</span>, denoted <span class="math notranslate nohighlight">\(\operatorname{deg}(v)\)</span>,
 is the number of edges adjacent to <span class="math notranslate nohighlight">\(v\)</span>.</p>
-</div>
+</section>
 </div><div class="proof definition admonition" id="definition-3">
 <p class="admonition-title"><span class="caption-number">Definition 4 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p>A <strong>walk</strong> in a graph is a sequence of vertices and edges <span class="math notranslate nohighlight">\(v_0\)</span>, <span class="math notranslate nohighlight">\(e_1\)</span>, <span class="math notranslate nohighlight">\(v_1\)</span>, <span class="math notranslate nohighlight">\(e_2\)</span>, <span class="math notranslate nohighlight">\(v_2\)</span>, <span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(v_{k-1}\)</span>, <span class="math notranslate nohighlight">\(e_k\)</span>, <span class="math notranslate nohighlight">\(v_k\)</span> such that edge <span class="math notranslate nohighlight">\(e_i\)</span> connects vertices <span class="math notranslate nohighlight">\(v_{i-1}\)</span> and <span class="math notranslate nohighlight">\(v_i\)</span>, for <span class="math notranslate nohighlight">\(1 \leq i \leq k\)</span>.</p>
-</div>
+</section>
 </div><div class="proof definition admonition" id="definition-4">
 <p class="admonition-title"><span class="caption-number">Definition 5 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p>A graph <span class="math notranslate nohighlight">\(G\)</span> is <strong>connected</strong> if for any two vertices <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> of <span class="math notranslate nohighlight">\(G\)</span>,
 there is a <em>walk</em> in <span class="math notranslate nohighlight">\(G\)</span> from <span class="math notranslate nohighlight">\(u\)</span> to <span class="math notranslate nohighlight">\(v\)</span>.</p>
-</div>
+</section>
 </div><p>The first way to store a graph into a computer is as an <strong>adjacency matrix</strong>.
 Given a graph <span class="math notranslate nohighlight">\(G\)</span> with <span class="math notranslate nohighlight">\(n\)</span> vertices, we start by label them from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(n\)</span>, then
 the adjacency matrix representing this graph will be an <span class="math notranslate nohighlight">\(n\times n\)</span> matrix
@@ -332,13 +503,13 @@ whose entries are either 0 or 1, specifically</p>
 <p>We now have much of the dictionary we need to start investigating some examples
 of graphs and networks that are used in applications. We will uncover some more
 information by working through the test cases.</p>
-<div class="section" id="a-social-network-made-of-dolphins">
-<h2>A social network made of dolphins<a class="headerlink" href="#a-social-network-made-of-dolphins" title="Permalink to this headline">¶</a></h2>
+<section id="a-social-network-made-of-dolphins">
+<h2>A social network made of dolphins<a class="headerlink" href="#a-social-network-made-of-dolphins" title="Permalink to this headline">#</a></h2>
 <p>How can we use these abstract objects to model some systems of interest? We have
 said from the beginning that graphs are useful to describe pairwise interactions
 between vertices. We will start as usual from an example, and in particular we
 will focus on the network of social relationship between a population of
-Doubtful Sound bottlenose dolphins <span id="id1">[<a class="reference internal" href="#id9">Lus03</a>]</span>. It has been
+Doubtful Sound bottlenose dolphins <span id="id1">[<a class="reference internal" href="#id9" title="David Lusseau. The emergent properties of a dolphin social network. Proceedings of the Royal Society of London. Series B: Biological Sciences, 270(suppl_2):S186–S188, 2003.">Lus03</a>]</span>. It has been
 observed that gregarious, long-lived animals, such as gorillas (<em>Gorilla
 gorilla</em>), deer (<em>Cervus elaphus</em>), elephants (<em>Loxodonta
 africanus</em>) and bottlenose dolphins (<em>Tursiops truncatus</em>) rely
@@ -385,7 +556,7 @@ format and visualize it</p>
 <img alt="_images/graphsandnetworks_3_0.png" src="_images/graphsandnetworks_3_0.png" />
 </div>
 </div>
-<p>What are we seeing? In the word of the <em>author</em> <span id="id2">[<a class="reference internal" href="#id9">Lus03</a>]</span>:</p>
+<p>What are we seeing? In the word of the <em>author</em> <span id="id2">[<a class="reference internal" href="#id9" title="David Lusseau. The emergent properties of a dolphin social network. Proceedings of the Royal Society of London. Series B: Biological Sciences, 270(suppl_2):S186–S188, 2003.">Lus03</a>]</span>:</p>
 <blockquote>
 <div><p>Every time that
 a school of dolphins was encountered in the fjord between 1995 and
@@ -459,7 +630,12 @@ this case</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/graphsandnetworks_9_0.png" src="_images/graphsandnetworks_9_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;fitoptions&#39; requires Curve Fitting Toolbox.</span>
+
+
+</pre></div>
+</div>
 </div>
 </div>
 <p>We have obtained a reasonable fit</p>
@@ -470,13 +646,10 @@ this case</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     General model:
-     curve(x) = a*x.^(-b)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     Coefficients (with 95% confidence bounds):
-       a =       592.1  (-381.8, 1566)
-       b =       2.365  (1.523, 3.208)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;curve&#39; requires RF PCB Toolbox.</span>
+
+
 </pre></div>
 </div>
 </div>
@@ -537,13 +710,21 @@ attacks</em>. If we remove some random nodes the increase in the diameter is sma
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/graphsandnetworks_15_0.png" src="_images/graphsandnetworks_15_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;boxplot&#39; requires one of the following:</span>
+<span class=" -Color -Color-Red">  SimBiology</span>
+<span class=" -Color -Color-Red">  Statistics and Machine Learning Toolbox</span>
+
+
+</pre></div>
+</div>
+<img alt="_images/graphsandnetworks_15_1.png" src="_images/graphsandnetworks_15_1.png" />
 </div>
 </div>
-</div>
-<div class="section" id="finding-communities">
-<h2>Finding communities<a class="headerlink" href="#finding-communities" title="Permalink to this headline">¶</a></h2>
-<p>Let us start again from an example, we consider here some data from <span id="id3">[<a class="reference internal" href="#id11">vDKArguellesTico+14</a>]</span>
+</section>
+<section id="finding-communities">
+<h2>Finding communities<a class="headerlink" href="#finding-communities" title="Permalink to this headline">#</a></h2>
+<p>Let us start again from an example, we consider here some data from <span id="id3">[<a class="reference internal" href="#id11" title="Rene E van Dijk, Jennifer C Kaden, Araceli Argüelles-Ticó, Deborah A Dawson, Terry Burke, and Ben J Hatchwell. Cooperative investment in public goods is kin directed in communal nests of social birds. Ecology letters, 17(9):1141–1148, 2014.">vDKArguellesTico+14</a>]</span>
 related to the behavior of a specie of <em>social birds</em> that nest in communal
 chambers. These contains a set of networks constructed in the following way:</p>
 <blockquote>
@@ -556,7 +737,7 @@ either together in the nest chamber at the same time or at different times.
 These individuals werethus assumed to be associated.</p>
 </div></blockquote>
 <p>We read from the <a class="reference external" href="https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/aves-wildbird-network-1.edges">data file</a> the nodes,
-and edges of the network. The file (that we obtained from the Network Repository <span id="id4">[<a class="reference internal" href="#id10">RA15</a>]</span>)
+and edges of the network. The file (that we obtained from the Network Repository <span id="id4">[<a class="reference internal" href="#id10" title="Ryan A. Rossi and Nesreen K. Ahmed. The network data repository with interactive graph analytics and visualization. In AAAI. 2015. URL: https://networkrepository.com.">RA15</a>]</span>)
 is not formatted as a CSV file, but has instead spaces to separate the data,
 thus we use the command <code class="docutils literal notranslate"><span class="pre">dlmread</span></code>, that generalizes the <code class="docutils literal notranslate"><span class="pre">csvread</span></code> command</p>
 <div class="cell docutils container">
@@ -659,7 +840,12 @@ identify larger number of communities, by <strong>computing more eigenvectors</s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/graphsandnetworks_31_0.png" src="_images/graphsandnetworks_31_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;kmeans&#39; requires Statistics and Machine Learning Toolbox.</span>
+
+
+</pre></div>
+</div>
 </div>
 </div>
 <p>now we don’t have a clear cut between positive and negative values in a single
@@ -684,12 +870,12 @@ the mean of the points in <span class="math notranslate nohighlight">\(S_i\)</sp
 this idea we can use another concept from graph theory that is called <strong>modularity</strong>.</p>
 <div class="proof definition admonition" id="definition-5">
 <p class="admonition-title"><span class="caption-number">Definition 6 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p><strong>Modularity</strong> is a measure of the structure of networks or graphs which measures
 the strength of division of a network into communities, it is computed as
 the fraction of the edges that fall within the given groups minus the expected
 fraction if edges were distributed at random.</p>
-</div>
+</section>
 </div><p>There are several ways for computing this quantity, we give here a very
 straigthforward</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>Q<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">modularity</span><span class="p">(</span>A, g<span class="p">)</span><span class="w"></span>
@@ -741,7 +927,12 @@ straigthforward</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/graphsandnetworks_33_0.png" src="_images/graphsandnetworks_33_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;kmeans&#39; requires Statistics and Machine Learning Toolbox.</span>
+
+
+</pre></div>
+</div>
 </div>
 </div>
 <p>from which we observe that if we try to find more than three communities the
@@ -750,7 +941,7 @@ communities for this dataset.</p>
 <div class="exercise admonition" id="graphsandnetworks-exercise-6">
 
 <p class="admonition-title"><span class="caption-number">Exercise 8 </span></p>
-<div class="section" id="exercise-content">
+<section id="exercise-content">
 <p>We write a function that looks for in a graph up to <span class="math notranslate nohighlight">\(n\)</span> communities and returns
 the number of communities within <span class="math notranslate nohighlight">\(n\)</span> with the highest modularity.</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>[groups,outmodularity,optimum]<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">findcommunities</span><span class="p">(</span>G,k<span class="p">)</span><span class="w"></span>
@@ -796,26 +987,26 @@ sub-plots are to be created. This function produces reasonable values for the
 row and column inputs to subplot given the number of desired sub-plots.</p></li>
 </ul>
 </div>
+</section>
 </div>
-</div>
-</div>
-<div class="section" id="centrality">
-<h2>Centrality<a class="headerlink" href="#centrality" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="centrality">
+<h2>Centrality<a class="headerlink" href="#centrality" title="Permalink to this headline">#</a></h2>
 <p>The next type of analysis we want to address is the computation of a
 <strong>node centrality score</strong>, this type of analysis can (usually) be done by
 employing some <em>topological</em> measures, i.e., that depends only on the
 connections of the nodes, to score nodes by their “importance”.</p>
 <div class="proof definition admonition" id="definition-7">
 <p class="admonition-title"><span class="caption-number">Definition 7 </span></p>
-<div class="definition-content section" id="proof-content">
+<section class="definition-content" id="proof-content">
 <p>A <strong>graph Centrality measures</strong> are scalar values given to each node in the
 graph <span class="math notranslate nohighlight">\(G = (V,E)\)</span> to quantify its <em>importance</em>. The definition of what is
 <em>important</em> depends on the underlying model assumption.</p>
-</div>
+</section>
 </div><p>Let us see some <strong>measures</strong> on a sample graph <span class="math notranslate nohighlight">\(G = (V,E)\)</span> that could be, e.g.,
 the <em>contact network</em> <a class="reference external" href="https://github.com/Cirdans-Home/recipesforenvsciences/raw/main/src/data/ia-infect-hyper.mtx">ia-infect-hyper.mtx</a>
 where nodes represent humans and edges between them represent proximity, i.e.,
-a contact for a given period of time in the physical world; see <span id="id5">[<a class="reference internal" href="#id10">RA15</a>]</span>.</p>
+a contact for a given period of time in the physical world; see <span id="id5">[<a class="reference internal" href="#id10" title="Ryan A. Rossi and Nesreen K. Ahmed. The network data repository with interactive graph analytics and visualization. In AAAI. 2015. URL: https://networkrepository.com.">RA15</a>]</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">addpath</span><span class="p">(</span><span class="s">&#39;./data&#39;</span><span class="p">)</span><span class="w"></span>
@@ -955,10 +1146,9 @@ information we want</p>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      12          12            48             34           12   
-      34          34            34             12           34   
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      34          34            34             12           34   
 </pre></div>
 </div>
 </div>
@@ -1005,10 +1195,12 @@ We can compute it in MATLAB (together with the relevant <span class="math notran
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Degree vs Closeness tau = 0.581226 p-value = 7.253673e-20.
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Degree vs Eigenvector tau = 0.099558 p-value = 1.185833e-01.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
+<span class=" -Color -Color-Red">&#39;corr&#39; requires one of the following:</span>
+<span class=" -Color -Color-Red">  Econometrics Toolbox</span>
+<span class=" -Color -Color-Red">  Statistics and Machine Learning Toolbox</span>
+
+
 </pre></div>
 </div>
 </div>
@@ -1022,10 +1214,11 @@ Others like the degree are purely local popularity measure, while the ones
 based on the eigenvectors tend to reward highly connected nodes. You should
 always select your measure while taking into account the model behind the choice.</p>
 </div>
-</div>
-<div class="section" id="bibliography">
-<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="id6"><dl class="citation">
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id6">
+<dl class="citation">
 <dt class="label" id="id9"><span class="brackets">Lus03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
 <dd><p>David Lusseau. The emergent properties of a dolphin social network. <em>Proceedings of the Royal Society of London. Series B: Biological Sciences</em>, 270(suppl_2):S186–S188, 2003.</p>
 </dd>
@@ -1036,9 +1229,9 @@ always select your measure while taking into account the model behind the choice
 <dd><p>Rene E van Dijk, Jennifer C Kaden, Araceli Argüelles-Ticó, Deborah A Dawson, Terry Burke, and Ben J Hatchwell. Cooperative investment in public goods is kin directed in communal nests of social birds. <em>Ecology letters</em>, 17(9):1141–1148, 2014.</p>
 </dd>
 </dl>
-</p>
 </div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1062,9 +1255,11 @@ always select your measure while taking into account the model behind the choice
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="parameterfitting.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1080,26 +1275,28 @@ always select your measure while taking into account the model behind the choice
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Fabio Durastante<br/>
-        
-            &copy; Copyright 2022.<br/>
-      </p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Fabio Durastante<br/>
+  
+      &copy; Copyright 2023.<br/>
+</p>
+        </footer>
     </div>
-  </footer>
-</main>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
