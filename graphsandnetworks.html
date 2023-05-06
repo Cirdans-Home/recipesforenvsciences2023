@@ -453,7 +453,7 @@ by turning the analysis towards the connection between them. A natural way of
 performing this type of analysis is through the use of <strong>networks</strong> or
 <strong>graphs</strong>.</p>
 <div class="proof definition admonition" id="definition-0">
-<p class="admonition-title"><span class="caption-number">Definition 1 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 2 </span></p>
 <section class="definition-content" id="proof-content">
 <p>A <strong>graph</strong> <span class="math notranslate nohighlight">\(G=(V,E)\)</span> consists of a finite set <span class="math notranslate nohighlight">\(V\)</span> of <strong>vertices</strong> (or nodes)
 and a finite set <span class="math notranslate nohighlight">\(E\)</span> of <strong>edges</strong>, where each edge <span class="math notranslate nohighlight">\(e\in E\)</span> is of the form
@@ -469,24 +469,24 @@ edge <span class="math notranslate nohighlight">\(e = \{u,v\} = \{v,u\}\)</span>
 </ul>
 <p>Now, let us fix some notation and nomenclature.</p>
 <div class="proof definition admonition" id="definition-1">
-<p class="admonition-title"><span class="caption-number">Definition 2 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 3 </span></p>
 <section class="definition-content" id="proof-content">
 <p>Two vertices, <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>, are called <strong>adjacent</strong> if there is an edge, <span class="math notranslate nohighlight">\(uv\)</span>,
 connecting them. We can express adjacency of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> by writing <span class="math notranslate nohighlight">\(u\sim v.\)</span></p>
 </section>
 </div><div class="proof definition admonition" id="definition-2">
-<p class="admonition-title"><span class="caption-number">Definition 3 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 4 </span></p>
 <section class="definition-content" id="proof-content">
 <p>If <span class="math notranslate nohighlight">\(v\)</span> is a vertex in a graph <span class="math notranslate nohighlight">\(G\)</span>, the <strong>degree</strong> of <span class="math notranslate nohighlight">\(v\)</span>, denoted <span class="math notranslate nohighlight">\(\operatorname{deg}(v)\)</span>,
 is the number of edges adjacent to <span class="math notranslate nohighlight">\(v\)</span>.</p>
 </section>
 </div><div class="proof definition admonition" id="definition-3">
-<p class="admonition-title"><span class="caption-number">Definition 4 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 5 </span></p>
 <section class="definition-content" id="proof-content">
 <p>A <strong>walk</strong> in a graph is a sequence of vertices and edges <span class="math notranslate nohighlight">\(v_0\)</span>, <span class="math notranslate nohighlight">\(e_1\)</span>, <span class="math notranslate nohighlight">\(v_1\)</span>, <span class="math notranslate nohighlight">\(e_2\)</span>, <span class="math notranslate nohighlight">\(v_2\)</span>, <span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(v_{k-1}\)</span>, <span class="math notranslate nohighlight">\(e_k\)</span>, <span class="math notranslate nohighlight">\(v_k\)</span> such that edge <span class="math notranslate nohighlight">\(e_i\)</span> connects vertices <span class="math notranslate nohighlight">\(v_{i-1}\)</span> and <span class="math notranslate nohighlight">\(v_i\)</span>, for <span class="math notranslate nohighlight">\(1 \leq i \leq k\)</span>.</p>
 </section>
 </div><div class="proof definition admonition" id="definition-4">
-<p class="admonition-title"><span class="caption-number">Definition 5 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 6 </span></p>
 <section class="definition-content" id="proof-content">
 <p>A graph <span class="math notranslate nohighlight">\(G\)</span> is <strong>connected</strong> if for any two vertices <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> of <span class="math notranslate nohighlight">\(G\)</span>,
 there is a <em>walk</em> in <span class="math notranslate nohighlight">\(G\)</span> from <span class="math notranslate nohighlight">\(u\)</span> to <span class="math notranslate nohighlight">\(v\)</span>.</p>
@@ -869,7 +869,7 @@ the mean of the points in <span class="math notranslate nohighlight">\(S_i\)</sp
 <p>But how do we know if we haven’t lost some community in our analysis? To test
 this idea we can use another concept from graph theory that is called <strong>modularity</strong>.</p>
 <div class="proof definition admonition" id="definition-5">
-<p class="admonition-title"><span class="caption-number">Definition 6 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 7 </span></p>
 <section class="definition-content" id="proof-content">
 <p><strong>Modularity</strong> is a measure of the structure of networks or graphs which measures
 the strength of division of a network into communities, it is computed as
@@ -997,7 +997,7 @@ row and column inputs to subplot given the number of desired sub-plots.</p></li>
 employing some <em>topological</em> measures, i.e., that depends only on the
 connections of the nodes, to score nodes by their “importance”.</p>
 <div class="proof definition admonition" id="definition-7">
-<p class="admonition-title"><span class="caption-number">Definition 7 </span></p>
+<p class="admonition-title"><span class="caption-number">Definition 8 </span></p>
 <section class="definition-content" id="proof-content">
 <p>A <strong>graph Centrality measures</strong> are scalar values given to each node in the
 graph <span class="math notranslate nohighlight">\(G = (V,E)\)</span> to quantify its <em>importance</em>. The definition of what is

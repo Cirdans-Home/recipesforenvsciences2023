@@ -1,3 +1,15 @@
+---
+jupytext:
+  formats: md:myst
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Matlab
+  name: matlab
+  language: Matlab
+---
+
 # Reading, writing and plotting data
 
 One of the transverse usages of MATLAB is as a tool for analyzing and plotting
@@ -302,72 +314,287 @@ There are many others plotting functions, but we will focus on them in the
 following topics, while we solve problems for which they will be useful.
 :::
 
-## Writing data to screen and to file
+## Principal Component Analysis
 
-MATLAB provides a fairly transparent porting of C's screen printing functions
-(on data streams). That is, the fprintf function. For screen printing the
-prototype of this function is
-```
-fprintf(FORMAT, A, ...)
-```
-where FORMAT is a string that contains information about the format to be
-printed and `A` is an array that contains the data to be printed according to
-the FORMAT format. In general this is a string that can contain text accompanied
-by *escape* characters that tell you how to format the data contained in the
-`A` variable.
-![Caratteri di *escape* per il formato](./images/format.png)
+Principal Component Analysis (PCA) is just a method of **summarizing some data**.
+Whenever we collect data from an experiment we expect it to be described by a
+large number of characteristics, but fortunately *many* of them will *measure related properties*
+and so will be **redundant**. We could therefore think of "throwing away" some
+data to keep only the significant ones. Instead, PCA constructs some **new characteristics**
+that better summarize our list of data. Such characteristics will always be
+constructed by using the old ones.
 
-As described in the image, the *escape* for a formatting operator begins with
-the percent sign, `%`, and ends with a conversion character ({numref}`conversioncharacter`).
-The conversion character is required. Optionally, you can specify an identifier,
-flags, field width, *precision*, and a *subtype* operator between the `%` and the
-conversion.
+Such **new characteristics** will be constructed as **linear combinations** of
+the available data and will be constructed in such a way to **retain** as much as
+possible of the **variation** present **in the data** set.
 
-```{list-table} Conversion characters
-:header-rows: 1
-:name: conversioncharacter
-* - Carattere
-  - Conversione
-* - `%d` o `%i`
-  - Intero base 10
-* - `%f`
-  - Floating point fixed precision
-* - `%e`
-  - Floating point scientific notation
-* - `%c`
-  - Single character
-* - `%s`
-  - String
+We can describe PCA in many ways, the simplest way being to describe it in
+terms of the **data matrix factorization**. So we can take advantage of the
+knowledge of *(numerical) linear algebra* that we dusted off in our introduction
+to MATLAB.
+
+Consider an $n\times p$ data matrix, $X$, with column-wise zero empirical mean
+(the sample mean of each column has been shifted to zero), where each of the
+$n$ rows represents a different repetition of the experiment, and each of the
+$p$ columns gives a particular kind of feature (e.g, the results obtained from
+a particular sensor).
+
+PCA is then **defined** as an _orthogonal linear transformation_ that transforms
+the data to a **new coordinate system** such that
+1. the greatest variance by some scalar projection of the data comes to lie on
+the first coordinate: the first principal component;
+2. the second greatest variance on the second coordinate;
+3. the third on the third;
+
+Mathematically, the transformation is defined by a set of size $l$ of $p$-dimensional
+vectors of weights or coefficients $\mathbf {w} _{(k)}=(w_{1},\dots ,w_{p})_{(k)}$
+that map each row vector $\mathbf{x}_{(i)}$ of $X$ to a new vector of principal
+component scores ${\displaystyle \mathbf {t} _{(i)}=(t_{1},\dots ,t_{l})_{(i)}}$,
+given by
+```{math}
+{\displaystyle {t_{k}}_{(i)}=\mathbf {x} _{(i)}\cdot \mathbf {w} _{(k)}\qquad \mathrm {for} \qquad i=1,\dots ,n\qquad k=1,\dots ,l}
 ```
-An example:
+in such a way that the individual variables ${\displaystyle t_{1},\dots ,t_{l}}$
+of $t$ considered over the data set successively inherit the maximum possible
+variance from $X$, with each coefficient vector $w$ constrained to be a unit
+vector. To **reduce dimensionality** we need $l \ll p$!
+
+### Computing the PCA: Eingevalues and Singular Values
+
+To simply express this transformation we can use the following **matrix factorization**,
+that is called *singular value decomposition* (SVD) of the matrix $X$,
+```{math}
+    X = U \Sigma W^T
+```
+Here $\Sigma$ is an $n$-by-$p$ rectangular diagonal matrix of positive numbers
+$\sigma_k$, called the **singular values** of $X$; $U$ is an $n$-by-$n$ matrix,
+the columns of which are **orthogonal unit vectors** of length $n$ called the
+left singular vectors of $X$; and $W$ is a $p$-by-$p$ matrix whose columns are
+orthogonal unit vectors of length $p$ and called the right singular vectors of
+$X$.
+
+Let us investigate the connection and  the MATLAB commands starting from an
+example. First of all we [load a dataset](https://github.com/Cirdans-Home/recipesforenvsciences2023/blob/main/src/data/Pizza.csv)
+```{code-cell} matlab
+pizzadata = readtable('data/Pizza.csv'); % Use here the right path for you!
+```
+of which we can again look at the first few lines by doing:
+```{code-cell} matlab
+head(pizzadata)
+```
+The dataset describes the analysis of the pizzas produced by some bakeries with
+respect to the quantities of interest.
+
+First we can extract the observations matrix from the table, for example by doing:
+```{code-cell} matlab
+X = table2array(pizzadata(:,3:end));
+[n,p] = size(X);
+fprintf('We have %d experiments with %d characteristics.\n',n,p);
+```
+We need to make the data independent from the scales and the unit of measure,
+indeed if we look them now they are such that:
+```{code-cell} matlab
+boxplot(X,'Orientation','horizontal','Labels',pizzadata.Properties.VariableNames(3:end))
+title('Original data')
+```
+we should normalize the data, first by removing **averages**
+```{code-cell} matlab
+X = X - mean(X);
+boxplot(X,'Orientation','horizontal','Labels',pizzadata.Properties.VariableNames(3:end))
+title('Normalized around the mean')
+```
+and also normalizing with respect to the **standard deviation**
+```{code-cell} matlab
+X = X./std(X);
+boxplot(X,'Orientation','horizontal','Labels',pizzadata.Properties.VariableNames(3:end))
+title('Normalized data (mean,std)')
+```
+
+We now have two ways in front of us, calculate the correlation matrix, or work
+directly with the $X$ matrix. Let's start with the first.
+The **correlation matrix** can be computed by doing:
+```{code-cell} matlab
+C = (X'*X)/(n-1);
+```
+or using the relevant MATLAB function `corr`, that is
 ```{code-block} matlab
-fprintf("%f \n",pi);
-fprintf("%e \n",5*10^20);
-fprintf("%1.2f \n",pi);
-fprintf("%1.2e \n",5*10^20);
-fprintf("%c \n",'a')
-fprintf("%s \n",'Ciao, mondo!')
+C = corr(X);
 ```
-In the example we have repeatedly used the `\n` characters which symbolize a
-newline character. Other useful characters of this type are in
-{numref}`carformattazione`.
-```{list-table} Formatting characters
-:header-rows: 1
-:name: carformattazione
-* - Result
-  - String
-* - Single quotation mark
-  - `''`
-* - Percent symbol
-  - `%%`
-* - Backslash
-  - `\\`
-* - Backspace
-  - `\b`
-* - Tab horizontal
-  - `\t`
-* - Tab vertical
-  - `\v`
+we can check that the two quantities are indeed the same by looking at
+```{code-cell} matlab
+fprintf("|| (X'*X)/(n-1) - corr(X) ||_infty = %e\n",norm(C -  corr(X),"inf"));
 ```
-More information can be obtained by writing `help fprintf` in the
-*command line*.
+Then the PCA can be obtained by using the **eigendecomposition** of $C$.
+
+:::{prf:definition}
+Given a matrix $A \in \mathbb{C}^{p \times p}$ we say that $\mathbf{0} \neq \mathbf{v}  \in \mathbb{C}^{p}$
+is an **eigenvector** of matrix $A$ related to the **eigenvalue** $\lambda \in \mathbb{C}$ if
+```{math}
+ A \mathbf{v} = \lambda \mathbf{v}.
+```
+If $A$ admits $p$ *linearly independent* eigenvectors we can then decompose
+```{math}
+A = V \Lambda V^{-1}, \quad \Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_p), \; V = [\mathbf{v}_1,\ldots,\mathbf{v}_p].
+```
+Furthermore, if $A = A^H$ then we know that such *linearly independent* eigenvectors
+always exist and the matrix $V$ can be selected to be *orthogonal*, i.e., $V^T = V^{-1}$.
+:::
+
+The eigenvectors are then the **principal axes** or **principal directions** of
+the data. Projections of the data on the principal axes are the **principal components**,
+or the **PC scores**, i.e., the new **transformed variables**:
+- the $j$th principal component is given by $j$th column of $XV$,
+- the coordinates of the $i$th data point in the new space are given by the $i$th row of $XV$.
+
+We can **compute them in MATLAB** by using the `eig` command
+```{code-cell} matlab
+help eig
+```
+In our case this reduces to
+```{code-cell} matlab
+[V,L] = eig(C);
+```
+and we can visualize the component variances by doing
+```{code-cell} matlab
+figure(1)
+semilogy(1:p,sort(diag(L),"descend"),'o')
+xlabel("p")
+ylabel("Component variances")
+```
+
+### PCA from SVD
+
+We can now travel the second road and use the SVD on $X$. In MATLAB the **singular value decomposition**
+(SVD) can be computed with the `svd`
+command:
+```{code-cell} matlab
+help svd
+```
+If we now perform singular value decomposition of $X$, we obtain a decomposition
+$X = U \Sigma W^T$. From here one can easily see that
+```{math}
+C = W \Sigma U^T U \Sigma W^T = W \Sigma^2 W^T \equiv V \Lambda V^T.
+```
+This can be done with few lines of code:
+```{code-cell} matlab
+[W,S,U] = svd(C);
+figure(1)
+semilogy(1:p,sort(diag(L),"descend"),'o',1:p,diag(S),'x')
+xlabel("p")
+ylabel("Component variances")
+legend({'EIG','SVD'},'Location','east')
+```
+
+### Using the MATLAB routine
+
+Both strategies are already implemented in a suitable MATLAB command `pca`, that
+we can investigate by doing
+```{code-cell} matlab
+help pca
+```
+For our test application this can be done
+```{code-cell} matlab
+[coeff,score,latent,tsquared,explained,mu] = pca(X);
+figure(1)
+semilogy(1:p,sort(diag(L),"descend"),'o',1:p,diag(S),'x',...
+  1:p,latent,'s');
+xlabel("p")
+ylabel("Component variances")
+legend({'EIG','SVD','PCA'},'Location','east')
+```
+To visualize the result we can use a **biplot** these are a type of *exploratory graph*
+often used in statistics. They are a generalization of the simple two-variable
+*scatterplot*. A **biplot** overlays a *score plot* with a *loading plot*:
+- samples are displayed as points,
+- variables are displayed as vectors or linear axes.
+We can do this in MATLAB by doing:
+```{code-cell} matlab
+biplot(coeff(:,1:2),'scores',score(:,1:2),'varlabels',pizzadata.Properties.VariableNames(3:end));
+```
+We have chosen to display only the first two components because these already
+explain most of the data:
+```{code-cell} matlab
+pareto(explained)
+```
+
+You can choose **between the two construction algorithms** that we have seen by
+selecting either
+```{code-block} matlab
+[coeff,score,latent,tsquared,explained,mu] = pca(X,"Algorithm","svd");
+```
+or
+```{code-block} matlab
+[coeff,score,latent,tsquared,explained,mu] = pca(X,"Algorithm","eig");
+```
+
+## Nonnegative Matrix Factorization
+
+If we look at some of the values obtained in the factorization these are negative.
+This makes the results obtained less interpretable than we would like. Let us
+consider another example.
+
+Let us start from another dataset called the **MIT CBCL FACE DATABASE** that can be
+[downloaded from here](http://www.ai.mit.edu/courses/6.899/lectures/faces.tar.gz).
+
+We first **read the data**
+```{code-cell} matlab
+p = 100;
+data = cell(p,1);
+index = 1;
+for i=1:5:5*p
+    % Put in the following the right path to your data!
+    data{index} = imread(sprintf("data/faces/face.train/train/face/face%05d.pgm",i));
+    index = index+1;
+end
+```
+and visualize (few) of them
+```{code-cell} matlab
+figure(1)
+for i=1:20
+    subplot(4,5,i)
+    imshow(data{i});
+end
+```
+We can use the PCA to extract some features of the data:
+```{code-cell} matlab
+n = size(data{1},1);
+X = zeros(n^2,p);
+for i=1:p
+    X(:,i) = data{i}(:);
+end
+[coeff,score,latent] = pca(double(X));
+% Characters
+for i=1:20
+ figure(2)
+ subplot(4,5,i)
+ imshow(reshape(int8(score(:,i)),n,n));
+end
+```
+The features are not very descriptive, they have many zone that are made of
+**negative numbers**, they do not correspond to any interpretable data.
+
+We can use instead the Nonnegative Matrix Factorization (`nnmf`) to require for
+all entries to be positive, i.e., for all extracted feature to be interpretable.
+This approach refers to a group of algorithms in numerical linear algebra
+where the matrix of data $X$ is factorized into (usually) two matrices $W$ and $H$,
+with the property that **all three matrices have no negative elements**.
+This non-negativity makes the resulting matrices easier to inspect.
+
+```{warning}
+Usually an exact factorization of this type does not exist. So we have to
+approximate what we have. The number of columns of $W$ and the number of rows
+of $H$ in NMF should be selected so the product $WH$ will become an
+approximation to $V$. Since this will be only an approximation, a **residual** $U$,
+such that: $V = WH + U$ with elements that can either be negative or positive will
+always be there.
+```
+
+This can be done with:
+```{code-cell} matlab
+[W,H,D] = nnmf(double(X),10,"replicates",10);
+for i=1:size(W,2)
+ figure(3)
+ subplot(2,5,i)
+ imshow(reshape(int8(W(:,i)),n,n));
+end
+```

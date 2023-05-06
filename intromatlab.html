@@ -405,6 +405,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#writing-data-to-screen-and-to-file">
+   Writing data to screen and to file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bibliography">
    Bibliography
   </a>
@@ -500,6 +505,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#some-exercises">
    Some exercises
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#writing-data-to-screen-and-to-file">
+   Writing data to screen and to file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1663,6 +1673,101 @@ graph obtained with the previous script is the following:
 <img alt="Viswanath and Fibonacci sequences with their asymptotic behavior" src="_images/viswanath.png" /></p>
 </section>
 </div>
+</section>
+<section id="writing-data-to-screen-and-to-file">
+<h2>Writing data to screen and to file<a class="headerlink" href="#writing-data-to-screen-and-to-file" title="Permalink to this headline">#</a></h2>
+<p>MATLAB provides a fairly transparent porting of C’s screen printing functions
+(on data streams). That is, the fprintf function. For screen printing the
+prototype of this function is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fprintf</span><span class="p">(</span><span class="n">FORMAT</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where FORMAT is a string that contains information about the format to be
+printed and <code class="docutils literal notranslate"><span class="pre">A</span></code> is an array that contains the data to be printed according to
+the FORMAT format. In general this is a string that can contain text accompanied
+by <em>escape</em> characters that tell you how to format the data contained in the
+<code class="docutils literal notranslate"><span class="pre">A</span></code> variable.
+<img alt="Caratteri di escape per il formato" src="_images/format.png" /></p>
+<p>As described in the image, the <em>escape</em> for a formatting operator begins with
+the percent sign, <code class="docutils literal notranslate"><span class="pre">%</span></code>, and ends with a conversion character (<a class="reference internal" href="#conversioncharacter"><span class="std std-numref">Table 6</span></a>).
+The conversion character is required. Optionally, you can specify an identifier,
+flags, field width, <em>precision</em>, and a <em>subtype</em> operator between the <code class="docutils literal notranslate"><span class="pre">%</span></code> and the
+conversion.</p>
+<table class="table" id="conversioncharacter">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Conversion characters</span><a class="headerlink" href="#conversioncharacter" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Carattere</p></th>
+<th class="head"><p>Conversione</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">%d</span></code> o <code class="docutils literal notranslate"><span class="pre">%i</span></code></p></td>
+<td><p>Intero base 10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">%f</span></code></p></td>
+<td><p>Floating point fixed precision</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">%e</span></code></p></td>
+<td><p>Floating point scientific notation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">%c</span></code></p></td>
+<td><p>Single character</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">%s</span></code></p></td>
+<td><p>String</p></td>
+</tr>
+</tbody>
+</table>
+<p>An example:</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%f \n&quot;</span><span class="p">,</span><span class="nb">pi</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%e \n&quot;</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="mi">10</span>^<span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%1.2f \n&quot;</span><span class="p">,</span><span class="nb">pi</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%1.2e \n&quot;</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="mi">10</span>^<span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%c \n&quot;</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%s \n&quot;</span><span class="p">,</span><span class="s">&#39;Ciao, mondo!&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In the example we have repeatedly used the <code class="docutils literal notranslate"><span class="pre">\n</span></code> characters which symbolize a
+newline character. Other useful characters of this type are in
+<a class="reference internal" href="#carformattazione"><span class="std std-numref">Table 7</span></a>.</p>
+<table class="table" id="carformattazione">
+<caption><span class="caption-number">Table 7 </span><span class="caption-text">Formatting characters</span><a class="headerlink" href="#carformattazione" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Result</p></th>
+<th class="head"><p>String</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Single quotation mark</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">''</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Percent symbol</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%%</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Backslash</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">\\</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Backspace</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">\b</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Tab horizontal</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">\t</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Tab vertical</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">\v</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>More information can be obtained by writing <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">fprintf</span></code> in the
+<em>command line</em>.</p>
 </section>
 <section id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">#</a></h2>

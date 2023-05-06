@@ -204,6 +204,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/Cirdans-Home/recipesforenvsciences2023/main?urlpath=tree/src/ioplot.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -271,6 +300,23 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
+        <a href="_sources/ioplot.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download notebook file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
         <a href="_sources/ioplot.md"
    class="headerbtn"
    data-toggle="tooltip"
@@ -331,8 +377,30 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#writing-data-to-screen-and-to-file">
-   Writing data to screen and to file
+  <a class="reference internal nav-link" href="#principal-component-analysis">
+   Principal Component Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-pca-eingevalues-and-singular-values">
+     Computing the PCA: Eingevalues and Singular Values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pca-from-svd">
+     PCA from SVD
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-the-matlab-routine">
+     Using the MATLAB routine
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#nonnegative-matrix-factorization">
+   Nonnegative Matrix Factorization
   </a>
  </li>
 </ul>
@@ -355,8 +423,30 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#writing-data-to-screen-and-to-file">
-   Writing data to screen and to file
+  <a class="reference internal nav-link" href="#principal-component-analysis">
+   Principal Component Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-pca-eingevalues-and-singular-values">
+     Computing the PCA: Eingevalues and Singular Values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pca-from-svd">
+     PCA from SVD
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-the-matlab-routine">
+     Using the MATLAB routine
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#nonnegative-matrix-factorization">
+   Nonnegative Matrix Factorization
   </a>
  </li>
 </ul>
@@ -646,100 +736,631 @@ using a <code class="docutils literal notranslate"><span class="pre">for</span><
 <p>There are many others plotting functions, but we will focus on them in the
 following topics, while we solve problems for which they will be useful.</p>
 </div>
-<section id="writing-data-to-screen-and-to-file">
-<h2>Writing data to screen and to file<a class="headerlink" href="#writing-data-to-screen-and-to-file" title="Permalink to this headline">#</a></h2>
-<p>MATLAB provides a fairly transparent porting of C’s screen printing functions
-(on data streams). That is, the fprintf function. For screen printing the
-prototype of this function is</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fprintf</span><span class="p">(</span><span class="n">FORMAT</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<section id="principal-component-analysis">
+<h2>Principal Component Analysis<a class="headerlink" href="#principal-component-analysis" title="Permalink to this headline">#</a></h2>
+<p>Principal Component Analysis (PCA) is just a method of <strong>summarizing some data</strong>.
+Whenever we collect data from an experiment we expect it to be described by a
+large number of characteristics, but fortunately <em>many</em> of them will <em>measure related properties</em>
+and so will be <strong>redundant</strong>. We could therefore think of “throwing away” some
+data to keep only the significant ones. Instead, PCA constructs some <strong>new characteristics</strong>
+that better summarize our list of data. Such characteristics will always be
+constructed by using the old ones.</p>
+<p>Such <strong>new characteristics</strong> will be constructed as <strong>linear combinations</strong> of
+the available data and will be constructed in such a way to <strong>retain</strong> as much as
+possible of the <strong>variation</strong> present <strong>in the data</strong> set.</p>
+<p>We can describe PCA in many ways, the simplest way being to describe it in
+terms of the <strong>data matrix factorization</strong>. So we can take advantage of the
+knowledge of <em>(numerical) linear algebra</em> that we dusted off in our introduction
+to MATLAB.</p>
+<p>Consider an <span class="math notranslate nohighlight">\(n\times p\)</span> data matrix, <span class="math notranslate nohighlight">\(X\)</span>, with column-wise zero empirical mean
+(the sample mean of each column has been shifted to zero), where each of the
+<span class="math notranslate nohighlight">\(n\)</span> rows represents a different repetition of the experiment, and each of the
+<span class="math notranslate nohighlight">\(p\)</span> columns gives a particular kind of feature (e.g, the results obtained from
+a particular sensor).</p>
+<p>PCA is then <strong>defined</strong> as an <em>orthogonal linear transformation</em> that transforms
+the data to a <strong>new coordinate system</strong> such that</p>
+<ol class="simple">
+<li><p>the greatest variance by some scalar projection of the data comes to lie on
+the first coordinate: the first principal component;</p></li>
+<li><p>the second greatest variance on the second coordinate;</p></li>
+<li><p>the third on the third;</p></li>
+</ol>
+<p>Mathematically, the transformation is defined by a set of size <span class="math notranslate nohighlight">\(l\)</span> of <span class="math notranslate nohighlight">\(p\)</span>-dimensional
+vectors of weights or coefficients <span class="math notranslate nohighlight">\(\mathbf {w} _{(k)}=(w_{1},\dots ,w_{p})_{(k)}\)</span>
+that map each row vector <span class="math notranslate nohighlight">\(\mathbf{x}_{(i)}\)</span> of <span class="math notranslate nohighlight">\(X\)</span> to a new vector of principal
+component scores <span class="math notranslate nohighlight">\({\displaystyle \mathbf {t} _{(i)}=(t_{1},\dots ,t_{l})_{(i)}}\)</span>,
+given by</p>
+<div class="math notranslate nohighlight">
+\[{\displaystyle {t_{k}}_{(i)}=\mathbf {x} _{(i)}\cdot \mathbf {w} _{(k)}\qquad \mathrm {for} \qquad i=1,\dots ,n\qquad k=1,\dots ,l}\]</div>
+<p>in such a way that the individual variables <span class="math notranslate nohighlight">\({\displaystyle t_{1},\dots ,t_{l}}\)</span>
+of <span class="math notranslate nohighlight">\(t\)</span> considered over the data set successively inherit the maximum possible
+variance from <span class="math notranslate nohighlight">\(X\)</span>, with each coefficient vector <span class="math notranslate nohighlight">\(w\)</span> constrained to be a unit
+vector. To <strong>reduce dimensionality</strong> we need <span class="math notranslate nohighlight">\(l \ll p\)</span>!</p>
+<section id="computing-the-pca-eingevalues-and-singular-values">
+<h3>Computing the PCA: Eingevalues and Singular Values<a class="headerlink" href="#computing-the-pca-eingevalues-and-singular-values" title="Permalink to this headline">#</a></h3>
+<p>To simply express this transformation we can use the following <strong>matrix factorization</strong>,
+that is called <em>singular value decomposition</em> (SVD) of the matrix <span class="math notranslate nohighlight">\(X\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[    X = U \Sigma W^T\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\Sigma\)</span> is an <span class="math notranslate nohighlight">\(n\)</span>-by-<span class="math notranslate nohighlight">\(p\)</span> rectangular diagonal matrix of positive numbers
+<span class="math notranslate nohighlight">\(\sigma_k\)</span>, called the <strong>singular values</strong> of <span class="math notranslate nohighlight">\(X\)</span>; <span class="math notranslate nohighlight">\(U\)</span> is an <span class="math notranslate nohighlight">\(n\)</span>-by-<span class="math notranslate nohighlight">\(n\)</span> matrix,
+the columns of which are <strong>orthogonal unit vectors</strong> of length <span class="math notranslate nohighlight">\(n\)</span> called the
+left singular vectors of <span class="math notranslate nohighlight">\(X\)</span>; and <span class="math notranslate nohighlight">\(W\)</span> is a <span class="math notranslate nohighlight">\(p\)</span>-by-<span class="math notranslate nohighlight">\(p\)</span> matrix whose columns are
+orthogonal unit vectors of length <span class="math notranslate nohighlight">\(p\)</span> and called the right singular vectors of
+<span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>Let us investigate the connection and  the MATLAB commands starting from an
+example. First of all we <a class="reference external" href="https://github.com/Cirdans-Home/recipesforenvsciences2023/blob/main/src/data/Pizza.csv">load a dataset</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">pizzadata</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">readtable</span><span class="p">(</span><span class="s">&#39;data/Pizza.csv&#39;</span><span class="p">);</span><span class="w"> </span><span class="c">% Use here the right path for you!</span><span class="w"></span>
 </pre></div>
 </div>
-<p>where FORMAT is a string that contains information about the format to be
-printed and <code class="docutils literal notranslate"><span class="pre">A</span></code> is an array that contains the data to be printed according to
-the FORMAT format. In general this is a string that can contain text accompanied
-by <em>escape</em> characters that tell you how to format the data contained in the
-<code class="docutils literal notranslate"><span class="pre">A</span></code> variable.
-<img alt="Caratteri di escape per il formato" src="_images/format.png" /></p>
-<p>As described in the image, the <em>escape</em> for a formatting operator begins with
-the percent sign, <code class="docutils literal notranslate"><span class="pre">%</span></code>, and ends with a conversion character (<a class="reference internal" href="#conversioncharacter"><span class="std std-numref">Table 6</span></a>).
-The conversion character is required. Optionally, you can specify an identifier,
-flags, field width, <em>precision</em>, and a <em>subtype</em> operator between the <code class="docutils literal notranslate"><span class="pre">%</span></code> and the
-conversion.</p>
-<table class="table" id="conversioncharacter">
-<caption><span class="caption-number">Table 6 </span><span class="caption-text">Conversion characters</span><a class="headerlink" href="#conversioncharacter" title="Permalink to this table">#</a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Carattere</p></th>
-<th class="head"><p>Conversione</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">%d</span></code> o <code class="docutils literal notranslate"><span class="pre">%i</span></code></p></td>
-<td><p>Intero base 10</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">%f</span></code></p></td>
-<td><p>Floating point fixed precision</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">%e</span></code></p></td>
-<td><p>Floating point scientific notation</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">%c</span></code></p></td>
-<td><p>Single character</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">%s</span></code></p></td>
-<td><p>String</p></td>
-</tr>
-</tbody>
-</table>
-<p>An example:</p>
-<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%f \n&quot;</span><span class="p">,</span><span class="nb">pi</span><span class="p">);</span><span class="w"></span>
-<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%e \n&quot;</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="mi">10</span>^<span class="mi">20</span><span class="p">);</span><span class="w"></span>
-<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%1.2f \n&quot;</span><span class="p">,</span><span class="nb">pi</span><span class="p">);</span><span class="w"></span>
-<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%1.2e \n&quot;</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="mi">10</span>^<span class="mi">20</span><span class="p">);</span><span class="w"></span>
-<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%c \n&quot;</span><span class="p">,</span><span class="s">&#39;a&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;%s \n&quot;</span><span class="p">,</span><span class="s">&#39;Ciao, mondo!&#39;</span><span class="p">)</span><span class="w"></span>
+</div>
+</div>
+<p>of which we can again look at the first few lines by doing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">head</span><span class="p">(</span><span class="n">pizzadata</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>In the example we have repeatedly used the <code class="docutils literal notranslate"><span class="pre">\n</span></code> characters which symbolize a
-newline character. Other useful characters of this type are in
-<a class="reference internal" href="#carformattazione"><span class="std std-numref">Table 7</span></a>.</p>
-<table class="table" id="carformattazione">
-<caption><span class="caption-number">Table 7 </span><span class="caption-text">Formatting characters</span><a class="headerlink" href="#carformattazione" title="Permalink to this table">#</a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Result</p></th>
-<th class="head"><p>String</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Single quotation mark</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">''</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Percent symbol</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">%%</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Backslash</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">\\</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Backspace</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">\b</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Tab horizontal</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">\t</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Tab vertical</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">\v</span></code></p></td>
-</tr>
-</tbody>
-</table>
-<p>More information can be obtained by writing <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">fprintf</span></code> in the
-<em>command line</em>.</p>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    brand     id      mois     prot      fat     ash     sodium    carb    cal 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    _____    _____    _____    _____    _____    ____    ______    ____    ____
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14069    27.82    21.43    44.87    5.11     1.77     0.77    4.93
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14053    28.49    21.26    43.89    5.34     1.79     1.02    4.84
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14025    28.35    19.99    45.78    5.08     1.63      0.8    4.95
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14016    30.55    20.15    43.13    4.79     1.61     1.38    4.74
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14005    30.49    21.28    41.65    4.82     1.64     1.76    4.67
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14075    31.14    20.23    42.31    4.92     1.65      1.4    4.67
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14082    31.21    20.97    41.34    4.71     1.58     1.77    4.63
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    {&#39;A&#39;}    14097    28.76    21.41     41.6    5.28     1.75     2.95    4.72
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dataset describes the analysis of the pizzas produced by some bakeries with
+respect to the quantities of interest.</p>
+<p>First we can extract the observations matrix from the table, for example by doing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">table2array</span><span class="p">(</span><span class="n">pizzadata</span><span class="p">(:,</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span><span class="w"></span>
+<span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">);</span><span class="w"></span>
+<span class="nb">fprintf</span><span class="p">(</span><span class="s">&#39;We have %d experiments with %d characteristics.\n&#39;</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>We have 300 experiments with 7 characteristics.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to make the data independent from the scales and the unit of measure,
+indeed if we look them now they are such that:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">boxplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s">&#39;Orientation&#39;</span><span class="p">,</span><span class="s">&#39;horizontal&#39;</span><span class="p">,</span><span class="s">&#39;Labels&#39;</span><span class="p">,</span><span class="n">pizzadata</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">))</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Original data&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_7_0.png" src="_images/ioplot_7_0.png" />
+</div>
+</div>
+<p>we should normalize the data, first by removing <strong>averages</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">X</span><span class="p">);</span><span class="w"></span>
+<span class="n">boxplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s">&#39;Orientation&#39;</span><span class="p">,</span><span class="s">&#39;horizontal&#39;</span><span class="p">,</span><span class="s">&#39;Labels&#39;</span><span class="p">,</span><span class="n">pizzadata</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">))</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Normalized around the mean&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_9_0.png" src="_images/ioplot_9_0.png" />
+</div>
+</div>
+<p>and also normalizing with respect to the <strong>standard deviation</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">X</span><span class="o">./</span><span class="nb">std</span><span class="p">(</span><span class="n">X</span><span class="p">);</span><span class="w"></span>
+<span class="n">boxplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s">&#39;Orientation&#39;</span><span class="p">,</span><span class="s">&#39;horizontal&#39;</span><span class="p">,</span><span class="s">&#39;Labels&#39;</span><span class="p">,</span><span class="n">pizzadata</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">))</span><span class="w"></span>
+<span class="nb">title</span><span class="p">(</span><span class="s">&#39;Normalized data (mean,std)&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_11_0.png" src="_images/ioplot_11_0.png" />
+</div>
+</div>
+<p>We now have two ways in front of us, calculate the correlation matrix, or work
+directly with the <span class="math notranslate nohighlight">\(X\)</span> matrix. Let’s start with the first.
+The <strong>correlation matrix</strong> can be computed by doing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">X</span><span class="o">&#39;*</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>or using the relevant MATLAB function <code class="docutils literal notranslate"><span class="pre">corr</span></code>, that is</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">corr</span><span class="p">(</span><span class="n">X</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>we can check that the two quantities are indeed the same by looking at</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">fprintf</span><span class="p">(</span><span class="s">&quot;|| (X&#39;*X)/(n-1) - corr(X) ||_infty = %e\n&quot;</span><span class="p">,</span><span class="nb">norm</span><span class="p">(</span><span class="n">C</span><span class="w"> </span><span class="o">-</span><span class="w">  </span><span class="n">corr</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="s">&quot;inf&quot;</span><span class="p">));</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|| (X&#39;*X)/(n-1) - corr(X) ||_infty = 1.738193e-15
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then the PCA can be obtained by using the <strong>eigendecomposition</strong> of <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<div class="proof definition admonition" id="definition-1">
+<p class="admonition-title"><span class="caption-number">Definition 1 </span></p>
+<section class="definition-content" id="proof-content">
+<p>Given a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{C}^{p \times p}\)</span> we say that <span class="math notranslate nohighlight">\(\mathbf{0} \neq \mathbf{v}  \in \mathbb{C}^{p}\)</span>
+is an <strong>eigenvector</strong> of matrix <span class="math notranslate nohighlight">\(A\)</span> related to the <strong>eigenvalue</strong> <span class="math notranslate nohighlight">\(\lambda \in \mathbb{C}\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[ A \mathbf{v} = \lambda \mathbf{v}.\]</div>
+<p>If <span class="math notranslate nohighlight">\(A\)</span> admits <span class="math notranslate nohighlight">\(p\)</span> <em>linearly independent</em> eigenvectors we can then decompose</p>
+<div class="math notranslate nohighlight">
+\[A = V \Lambda V^{-1}, \quad \Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_p), \; V = [\mathbf{v}_1,\ldots,\mathbf{v}_p].\]</div>
+<p>Furthermore, if <span class="math notranslate nohighlight">\(A = A^H\)</span> then we know that such <em>linearly independent</em> eigenvectors
+always exist and the matrix <span class="math notranslate nohighlight">\(V\)</span> can be selected to be <em>orthogonal</em>, i.e., <span class="math notranslate nohighlight">\(V^T = V^{-1}\)</span>.</p>
+</section>
+</div><p>The eigenvectors are then the <strong>principal axes</strong> or <strong>principal directions</strong> of
+the data. Projections of the data on the principal axes are the <strong>principal components</strong>,
+or the <strong>PC scores</strong>, i.e., the new <strong>transformed variables</strong>:</p>
+<ul class="simple">
+<li><p>the <span class="math notranslate nohighlight">\(j\)</span>th principal component is given by <span class="math notranslate nohighlight">\(j\)</span>th column of <span class="math notranslate nohighlight">\(XV\)</span>,</p></li>
+<li><p>the coordinates of the <span class="math notranslate nohighlight">\(i\)</span>th data point in the new space are given by the <span class="math notranslate nohighlight">\(i\)</span>th row of <span class="math notranslate nohighlight">\(XV\)</span>.</p></li>
+</ul>
+<p>We can <strong>compute them in MATLAB</strong> by using the <code class="docutils literal notranslate"><span class="pre">eig</span></code> command</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">help</span><span class="w"> </span><span class="nb">eig</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> eig - Eigenvalues and eigenvectors
+    This MATLAB function returns a column vector containing the eigenvalues
+    of square matrix A.
+
+    Syntax
+      e = eig(A)
+      [V,D] = eig(A)
+      [V,D,W] = eig(A)
+
+      e = eig(A,B)
+      [V,D] = eig(A,B)
+      [V,D,W] = eig(A,B)
+
+      [___] = eig(A,balanceOption)
+      [___] = eig(A,B,algorithm)
+
+      [___] = eig(___,outputForm)
+
+    Input Arguments
+      A - Input matrix
+        square matrix
+      B - Generalized eigenvalue problem input matrix
+        square matrix
+      balanceOption - Balance option
+        &#39;balance&#39; (default) | &#39;nobalance&#39;
+      algorithm - Generalized eigenvalue algorithm
+        &#39;chol&#39; | &#39;qz&#39;
+      outputForm - Output format of eigenvalues
+        &#39;vector&#39; | &#39;matrix&#39;
+
+    Output Arguments
+      e - Eigenvalues (returned as vector)
+        column vector
+      V - Right eigenvectors
+        square matrix
+      D - Eigenvalues (returned as matrix)
+        diagonal matrix
+      W - Left eigenvectors
+        square matrix
+
+    Examples
+    
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Eigenvalues of Matrix
+      Eigenvalues and Eigenvectors of Matrix
+      Sorted Eigenvalues and Eigenvectors
+      Left Eigenvectors
+      Eigenvalues of Nondiagonalizable (Defective) Matrix
+      Generalized Eigenvalues
+      Generalized Eigenvalues Using QZ Algorithm for Badly Conditioned Matrices
+      Generalized Eigenvalues Where One Matrix Is Singular
+
+    See also eigs, polyeig, balance, condeig, cdf2rdf, hess, schur, qz
+
+    Introduced in MATLAB before R2006a
+    Documentation for eig
+       doc eig
+
+    Other uses of eig
+
+       codistributed/eig    gpuArray/eig    sym/eig    symbolic/eig
+       DynamicSystem/eig
+</pre></div>
+</div>
+</div>
+</div>
+<p>In our case this reduces to</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">V</span><span class="p">,</span><span class="n">L</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">eig</span><span class="p">(</span><span class="n">C</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>and we can visualize the component variances by doing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">semilogy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="nb">sort</span><span class="p">(</span><span class="nb">diag</span><span class="p">(</span><span class="n">L</span><span class="p">),</span><span class="s">&quot;descend&quot;</span><span class="p">),</span><span class="s">&#39;o&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&quot;Component variances&quot;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_21_0.png" src="_images/ioplot_21_0.png" />
+</div>
+</div>
+</section>
+<section id="pca-from-svd">
+<h3>PCA from SVD<a class="headerlink" href="#pca-from-svd" title="Permalink to this headline">#</a></h3>
+<p>We can now travel the second road and use the SVD on <span class="math notranslate nohighlight">\(X\)</span>. In MATLAB the <strong>singular value decomposition</strong>
+(SVD) can be computed with the <code class="docutils literal notranslate"><span class="pre">svd</span></code>
+command:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">help</span><span class="w"> </span><span class="nb">svd</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> svd - Singular value decomposition
+    This MATLAB function returns the singular values of matrix A in
+    descending order.
+
+    Syntax
+      S = svd(A)
+      [U,S,V] = svd(A)
+      [___] = svd(A,&quot;econ&quot;)
+      [___] = svd(A,0)
+      [___] = svd(___,outputForm)
+
+    Input Arguments
+      A - Input matrix
+        matrix
+      outputForm - Output format of singular values
+        &quot;vector&quot; | &quot;matrix&quot;
+
+    Output Arguments
+      U - Left singular vectors
+        matrix
+      S - Singular values
+        diagonal matrix | column vector
+      V - Right singular vectors
+        matrix
+
+    Examples
+      Singular Values of Matrix
+      Singular Value Decomposition
+      Economy-Size Decomposition
+      Control Singular Value Output Format
+      Rank, Column Space, and Null Space of Matrix
+
+    See also svds, svdsketch, pagesvd, rank, orth, null, gsvd
+
+    Introduced in MATLAB before R2006a
+    Documentation for svd
+       doc svd
+
+    Other uses of svd
+
+       codistributed/svd    gpuArray/svd    sym/svd    tall/svd
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       double/svd
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we now perform singular value decomposition of <span class="math notranslate nohighlight">\(X\)</span>, we obtain a decomposition
+<span class="math notranslate nohighlight">\(X = U \Sigma W^T\)</span>. From here one can easily see that</p>
+<div class="math notranslate nohighlight">
+\[C = W \Sigma U^T U \Sigma W^T = W \Sigma^2 W^T \equiv V \Lambda V^T.\]</div>
+<p>This can be done with few lines of code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">W</span><span class="p">,</span><span class="n">S</span><span class="p">,</span><span class="n">U</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">svd</span><span class="p">(</span><span class="n">C</span><span class="p">);</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">semilogy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="nb">sort</span><span class="p">(</span><span class="nb">diag</span><span class="p">(</span><span class="n">L</span><span class="p">),</span><span class="s">&quot;descend&quot;</span><span class="p">),</span><span class="s">&#39;o&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="nb">diag</span><span class="p">(</span><span class="n">S</span><span class="p">),</span><span class="s">&#39;x&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&quot;Component variances&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">legend</span><span class="p">({</span><span class="s">&#39;EIG&#39;</span><span class="p">,</span><span class="s">&#39;SVD&#39;</span><span class="p">},</span><span class="s">&#39;Location&#39;</span><span class="p">,</span><span class="s">&#39;east&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_25_0.png" src="_images/ioplot_25_0.png" />
+</div>
+</div>
+</section>
+<section id="using-the-matlab-routine">
+<h3>Using the MATLAB routine<a class="headerlink" href="#using-the-matlab-routine" title="Permalink to this headline">#</a></h3>
+<p>Both strategies are already implemented in a suitable MATLAB command <code class="docutils literal notranslate"><span class="pre">pca</span></code>, that
+we can investigate by doing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">help</span><span class="w"> </span><span class="n">pca</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> pca - Principal component analysis of raw data
+    This MATLAB function returns the principal component coefficients, also
+    known as loadings, for the n-by-p data matrix X.
+
+    Syntax
+      coeff = pca(X)
+      coeff = pca(X,Name,Value)
+      [coeff,score,latent] = pca(___)
+      [coeff,score,latent,tsquared] = pca(___)
+      [coeff,score,latent,tsquared,explained,mu] = pca(___)
+
+    Input Arguments
+      X - Input data
+        matrix
+
+    Name-Value Arguments
+      Algorithm - Principal component algorithm
+        &#39;svd&#39; (default) | &#39;eig&#39; | &#39;als&#39;
+      Centered - Indicator for centering columns
+        true (default) | false
+      Economy - Indicator for economy size output
+        true (default) | false
+      NumComponents - Number of components requested
+        number of variables (default) | scalar integer
+      Rows - Action to take for NaN values
+        &#39;complete&#39; (default) | &#39;pairwise&#39; | &#39;all&#39;
+      Weights - Observation weights
+        ones (default) | row vector
+      VariableWeights - Variable
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> weights
+        row vector | &#39;variance&#39;
+      Coeff0 - Initial value for coefficients
+        matrix of random values (default) | p-by-k matrix
+      Score0 - Initial value for scores
+        matrix of random values (default) | k-by-m matrix
+      Options - Options for iterations
+        structure
+
+    Output Arguments
+      coeff - Principal component coefficients
+        matrix
+      score - Principal component scores
+        matrix
+      latent - Principal component variances
+        column vector
+      tsquared - Hotellings T-squared statistic
+        column vector
+      explained - Percentage of total variance explained
+        column vector
+      mu - Estimated means
+        row vector
+
+    Examples
+      Principal Components of a Data Set
+      Weighted PCA
+      PCA Using ALS for Missing Data
+      Principal Component Coefficients, Scores, and Variances
+      T-Squared Statistic
+      Percent Variability Explained by Principal Components
+      Apply PCA to New Data and Generate C/C++ Code
+
+    See a
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lso barttest, biplot, canoncorr, factoran, pcacov, pcares,
+      rotatefactors, ppca, Reduce Dimensionality
+
+    Introduced in Statistics and Machine Learning Toolbox in R2012b
+    Documentation for pca
+       doc pca
+
+    Other uses of pca
+
+       gpuArray/pca    tall/pca
+</pre></div>
+</div>
+</div>
+</div>
+<p>For our test application this can be done</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">coeff</span><span class="p">,</span><span class="n">score</span><span class="p">,</span><span class="n">latent</span><span class="p">,</span><span class="n">tsquared</span><span class="p">,</span><span class="n">explained</span><span class="p">,</span><span class="n">mu</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca</span><span class="p">(</span><span class="n">X</span><span class="p">);</span><span class="w"></span>
+<span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="nb">semilogy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="nb">sort</span><span class="p">(</span><span class="nb">diag</span><span class="p">(</span><span class="n">L</span><span class="p">),</span><span class="s">&quot;descend&quot;</span><span class="p">),</span><span class="s">&#39;o&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="nb">diag</span><span class="p">(</span><span class="n">S</span><span class="p">),</span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="k">...</span><span class="w"></span>
+<span class="w">  </span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="n">latent</span><span class="p">,</span><span class="s">&#39;s&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">ylabel</span><span class="p">(</span><span class="s">&quot;Component variances&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="nb">legend</span><span class="p">({</span><span class="s">&#39;EIG&#39;</span><span class="p">,</span><span class="s">&#39;SVD&#39;</span><span class="p">,</span><span class="s">&#39;PCA&#39;</span><span class="p">},</span><span class="s">&#39;Location&#39;</span><span class="p">,</span><span class="s">&#39;east&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_29_0.png" src="_images/ioplot_29_0.png" />
+</div>
+</div>
+<p>To visualize the result we can use a <strong>biplot</strong> these are a type of <em>exploratory graph</em>
+often used in statistics. They are a generalization of the simple two-variable
+<em>scatterplot</em>. A <strong>biplot</strong> overlays a <em>score plot</em> with a <em>loading plot</em>:</p>
+<ul class="simple">
+<li><p>samples are displayed as points,</p></li>
+<li><p>variables are displayed as vectors or linear axes.
+We can do this in MATLAB by doing:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">biplot</span><span class="p">(</span><span class="n">coeff</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;scores&#39;</span><span class="p">,</span><span class="n">score</span><span class="p">(:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span><span class="s">&#39;varlabels&#39;</span><span class="p">,</span><span class="n">pizzadata</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">VariableNames</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="k">end</span><span class="p">));</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_31_0.png" src="_images/ioplot_31_0.png" />
+</div>
+</div>
+<p>We have chosen to display only the first two components because these already
+explain most of the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">pareto</span><span class="p">(</span><span class="n">explained</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_33_0.png" src="_images/ioplot_33_0.png" />
+</div>
+</div>
+<p>You can choose <strong>between the two construction algorithms</strong> that we have seen by
+selecting either</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">coeff</span><span class="p">,</span><span class="n">score</span><span class="p">,</span><span class="n">latent</span><span class="p">,</span><span class="n">tsquared</span><span class="p">,</span><span class="n">explained</span><span class="p">,</span><span class="n">mu</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s">&quot;Algorithm&quot;</span><span class="p">,</span><span class="s">&quot;svd&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">coeff</span><span class="p">,</span><span class="n">score</span><span class="p">,</span><span class="n">latent</span><span class="p">,</span><span class="n">tsquared</span><span class="p">,</span><span class="n">explained</span><span class="p">,</span><span class="n">mu</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s">&quot;Algorithm&quot;</span><span class="p">,</span><span class="s">&quot;eig&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="nonnegative-matrix-factorization">
+<h2>Nonnegative Matrix Factorization<a class="headerlink" href="#nonnegative-matrix-factorization" title="Permalink to this headline">#</a></h2>
+<p>If we look at some of the values obtained in the factorization these are negative.
+This makes the results obtained less interpretable than we would like. Let us
+consider another example.</p>
+<p>Let us start from another dataset called the <strong>MIT CBCL FACE DATABASE</strong> that can be
+<a class="reference external" href="http://www.ai.mit.edu/courses/6.899/lectures/faces.tar.gz">downloaded from here</a>.</p>
+<p>We first <strong>read the data</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">cell</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">index</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="o">*</span><span class="n">p</span><span class="w"></span>
+<span class="w">    </span><span class="c">% Put in the following the right path to your data!</span><span class="w"></span>
+<span class="w">    </span><span class="n">data</span><span class="p">{</span><span class="n">index</span><span class="p">}</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">imread</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s">&quot;data/faces/face.train/train/face/face%05d.pgm&quot;</span><span class="p">,</span><span class="nb">i</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">index</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>and visualize (few) of them</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">20</span><span class="w"></span>
+<span class="w">    </span><span class="nb">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nb">imshow</span><span class="p">(</span><span class="n">data</span><span class="p">{</span><span class="nb">i</span><span class="p">});</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_37_0.png" src="_images/ioplot_37_0.png" />
+</div>
+</div>
+<p>We can use the PCA to extract some features of the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">data</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">zeros</span><span class="p">(</span><span class="n">n</span>^<span class="mi">2</span><span class="p">,</span><span class="n">p</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="w"></span>
+<span class="w">    </span><span class="n">X</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">data</span><span class="p">{</span><span class="nb">i</span><span class="p">}(:);</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="p">[</span><span class="n">coeff</span><span class="p">,</span><span class="n">score</span><span class="p">,</span><span class="n">latent</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pca</span><span class="p">(</span><span class="nb">double</span><span class="p">(</span><span class="n">X</span><span class="p">));</span><span class="w"></span>
+<span class="c">% Characters</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">20</span><span class="w"></span>
+<span class="w"> </span><span class="nb">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="nb">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="nb">imshow</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="nb">int8</span><span class="p">(</span><span class="n">score</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)),</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_39_0.png" src="_images/ioplot_39_0.png" />
+</div>
+</div>
+<p>The features are not very descriptive, they have many zone that are made of
+<strong>negative numbers</strong>, they do not correspond to any interpretable data.</p>
+<p>We can use instead the Nonnegative Matrix Factorization (<code class="docutils literal notranslate"><span class="pre">nnmf</span></code>) to require for
+all entries to be positive, i.e., for all extracted feature to be interpretable.
+This approach refers to a group of algorithms in numerical linear algebra
+where the matrix of data <span class="math notranslate nohighlight">\(X\)</span> is factorized into (usually) two matrices <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(H\)</span>,
+with the property that <strong>all three matrices have no negative elements</strong>.
+This non-negativity makes the resulting matrices easier to inspect.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Usually an exact factorization of this type does not exist. So we have to
+approximate what we have. The number of columns of <span class="math notranslate nohighlight">\(W\)</span> and the number of rows
+of <span class="math notranslate nohighlight">\(H\)</span> in NMF should be selected so the product <span class="math notranslate nohighlight">\(WH\)</span> will become an
+approximation to <span class="math notranslate nohighlight">\(V\)</span>. Since this will be only an approximation, a <strong>residual</strong> <span class="math notranslate nohighlight">\(U\)</span>,
+such that: <span class="math notranslate nohighlight">\(V = WH + U\)</span> with elements that can either be negative or positive will
+always be there.</p>
+</div>
+<p>This can be done with:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">W</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">D</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nnmf</span><span class="p">(</span><span class="nb">double</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="mi">10</span><span class="p">,</span><span class="s">&quot;replicates&quot;</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">W</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="nb">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="nb">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="nb">i</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="nb">imshow</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="nb">int8</span><span class="p">(</span><span class="n">W</span><span class="p">(:,</span><span class="nb">i</span><span class="p">)),</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">));</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ioplot_41_0.png" src="_images/ioplot_41_0.png" />
+</div>
+</div>
 </section>
 </section>
 
@@ -752,16 +1373,16 @@ newline character. Other useful characters of this type are in
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "matlab"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "matlab",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'matlab'</script>
 
               </div>
               
