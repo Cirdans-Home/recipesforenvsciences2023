@@ -1067,6 +1067,75 @@ on MATLAB, to decode the commands in this section use `help`. An example of the
 graph obtained with the previous script is the following:
 ![Viswanath and Fibonacci sequences with their asymptotic behavior](./images/viswanath.png)
 ::::
+## Writing data to screen and to file
+
+MATLAB provides a fairly transparent porting of C's screen printing functions
+(on data streams). That is, the fprintf function. For screen printing the
+prototype of this function is
+```
+fprintf(FORMAT, A, ...)
+```
+where FORMAT is a string that contains information about the format to be
+printed and `A` is an array that contains the data to be printed according to
+the FORMAT format. In general this is a string that can contain text accompanied
+by *escape* characters that tell you how to format the data contained in the
+`A` variable.
+![Caratteri di *escape* per il formato](./images/format.png)
+
+As described in the image, the *escape* for a formatting operator begins with
+the percent sign, `%`, and ends with a conversion character ({numref}`conversioncharacter`).
+The conversion character is required. Optionally, you can specify an identifier,
+flags, field width, *precision*, and a *subtype* operator between the `%` and the
+conversion.
+
+```{list-table} Conversion characters
+:header-rows: 1
+:name: conversioncharacter
+* - Carattere
+  - Conversione
+* - `%d` o `%i`
+  - Intero base 10
+* - `%f`
+  - Floating point fixed precision
+* - `%e`
+  - Floating point scientific notation
+* - `%c`
+  - Single character
+* - `%s`
+  - String
+```
+An example:
+```{code-block} matlab
+fprintf("%f \n",pi);
+fprintf("%e \n",5*10^20);
+fprintf("%1.2f \n",pi);
+fprintf("%1.2e \n",5*10^20);
+fprintf("%c \n",'a')
+fprintf("%s \n",'Ciao, mondo!')
+```
+In the example we have repeatedly used the `\n` characters which symbolize a
+newline character. Other useful characters of this type are in
+{numref}`carformattazione`.
+```{list-table} Formatting characters
+:header-rows: 1
+:name: carformattazione
+* - Result
+  - String
+* - Single quotation mark
+  - `''`
+* - Percent symbol
+  - `%%`
+* - Backslash
+  - `\\`
+* - Backspace
+  - `\b`
+* - Tab horizontal
+  - `\t`
+* - Tab vertical
+  - `\v`
+```
+More information can be obtained by writing `help fprintf` in the
+*command line*.
 
 ## Bibliography
 
