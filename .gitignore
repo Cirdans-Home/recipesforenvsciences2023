@@ -1,6 +1,7 @@
 src/_build
 src/matlabcodes/*.csv
 src/*.mat
+*.asv
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
