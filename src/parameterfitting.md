@@ -114,6 +114,7 @@ the parameters
 passing to it the data and the model we have defined.
 
 ```{code-cell} matlab
+% Array containing the data
 data = [ 4 126 % Time (min) and Temperature (°F)
   5 125
   7 123
