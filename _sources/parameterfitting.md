@@ -320,7 +320,6 @@ legend({'S^*(t)','I^*(t)','R^*(t)','N^*(t)',...
 axis tight
 ```
 
-
 ## Bibliography
 
 ```{bibliography}
