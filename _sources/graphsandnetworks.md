@@ -81,6 +81,7 @@ social structure is surely of interest.
 
 First of all, let us fetch and load the data into the MATLAB environment
 ```{code-cell} matlab
+%% Loading the Network
 websave('dolphins.mat','https://suitesparse-collection-website.herokuapp.com/mat/Newman/dolphins.mat');
 load('dolphins.mat')
 disp(Problem)

@@ -518,7 +518,8 @@ social structure is surely of interest.</p>
 <p>First of all, let us fetch and load the data into the MATLAB environment</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">websave</span><span class="p">(</span><span class="s">&#39;dolphins.mat&#39;</span><span class="p">,</span><span class="s">&#39;https://suitesparse-collection-website.herokuapp.com/mat/Newman/dolphins.mat&#39;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">%% Loading the Network</span><span class="w"></span>
+<span class="nb">websave</span><span class="p">(</span><span class="s">&#39;dolphins.mat&#39;</span><span class="p">,</span><span class="s">&#39;https://suitesparse-collection-website.herokuapp.com/mat/Newman/dolphins.mat&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="nb">load</span><span class="p">(</span><span class="s">&#39;dolphins.mat&#39;</span><span class="p">)</span><span class="w"></span>
 <span class="nb">disp</span><span class="p">(</span><span class="n">Problem</span><span class="p">)</span><span class="w"></span>
 </pre></div>
@@ -630,12 +631,7 @@ this case</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;fitoptions&#39; requires Curve Fitting Toolbox.</span>
-
-
-</pre></div>
-</div>
+<img alt="_images/graphsandnetworks_9_0.png" src="_images/graphsandnetworks_9_0.png" />
 </div>
 </div>
 <p>We have obtained a reasonable fit</p>
@@ -646,10 +642,13 @@ this case</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;curve&#39; requires RF PCB Toolbox.</span>
-
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     General model:
+     curve(x) = a*x.^(-b)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     Coefficients (with 95% confidence bounds):
+       a =       592.1  (-381.8, 1566)
+       b =       2.365  (1.523, 3.208)
 </pre></div>
 </div>
 </div>
@@ -710,15 +709,7 @@ attacks</em>. If we remove some random nodes the increase in the diameter is sma
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;boxplot&#39; requires one of the following:</span>
-<span class=" -Color -Color-Red">  SimBiology</span>
-<span class=" -Color -Color-Red">  Statistics and Machine Learning Toolbox</span>
-
-
-</pre></div>
-</div>
-<img alt="_images/graphsandnetworks_15_1.png" src="_images/graphsandnetworks_15_1.png" />
+<img alt="_images/graphsandnetworks_15_0.png" src="_images/graphsandnetworks_15_0.png" />
 </div>
 </div>
 </section>
@@ -840,12 +831,7 @@ identify larger number of communities, by <strong>computing more eigenvectors</s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;kmeans&#39; requires Statistics and Machine Learning Toolbox.</span>
-
-
-</pre></div>
-</div>
+<img alt="_images/graphsandnetworks_31_0.png" src="_images/graphsandnetworks_31_0.png" />
 </div>
 </div>
 <p>now we don’t have a clear cut between positive and negative values in a single
@@ -927,12 +913,7 @@ straigthforward</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;kmeans&#39; requires Statistics and Machine Learning Toolbox.</span>
-
-
-</pre></div>
-</div>
+<img alt="_images/graphsandnetworks_33_0.png" src="_images/graphsandnetworks_33_0.png" />
 </div>
 </div>
 <p>from which we observe that if we try to find more than three communities the
@@ -1151,6 +1132,9 @@ information we want</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      34          34            34             12           34   
 </pre></div>
 </div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </div>
 <p>To compare the different rankings we can also look at the <strong>scatter plot</strong> of
@@ -1195,12 +1179,10 @@ We can compute it in MATLAB (together with the relevant <span class="math notran
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;corr&#39; requires one of the following:</span>
-<span class=" -Color -Color-Red">  Econometrics Toolbox</span>
-<span class=" -Color -Color-Red">  Statistics and Machine Learning Toolbox</span>
-
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Degree vs Closeness tau = 0.581226 p-value = 7.253673e-20.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Degree vs Eigenvector tau = 0.099558 p-value = 1.185833e-01.
 </pre></div>
 </div>
 </div>
