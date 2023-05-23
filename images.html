@@ -460,7 +460,8 @@ types of image file formats:</p>
 MATLAB:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">websave</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span><span class="s">&#39;https://upload.wikimedia.org/wikipedia/commons/5/52/Panthera_leo_stretching_%28Etosha%2C_2012%29.jpg&#39;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Download an image from the web</span><span class="w"></span>
+<span class="nb">websave</span><span class="p">(</span><span class="s">&#39;cat.jpg&#39;</span><span class="p">,</span><span class="s">&#39;https://upload.wikimedia.org/wikipedia/commons/5/52/Panthera_leo_stretching_%28Etosha%2C_2012%29.jpg&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="n">A</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">imread</span><span class="p">(</span><span class="s">&quot;cat.jpg&quot;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
@@ -573,8 +574,8 @@ In imfinfo (line 228)
 
   struct with fields:
 
-           Filename: &#39;/home/cirdan/Documenti/Didattica/phdmodena/recipesforenvsciences2023/src/cat.jpg&#39;
-        FileModDate: &#39;25-Apr-2023 18:33:17&#39;
+           Filename: &#39;/home/cirdan/Documenti/Didattica/Corso Modena/phdmodena/recipesforenvsciences2023/src/cat.jpg&#39;
+        FileModDate: &#39;23-May-2023 14:27:28&#39;
            FileSize: 5210752
              Format: &#39;jpg&#39;
       FormatVersion: &#39;&#39;
@@ -648,13 +649,7 @@ image:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using eval</span>
-<span class=" -Color -Color-Red">&#39;wdenoise2&#39; requires Wavelet Toolbox.</span>
-
-
-</pre></div>
-</div>
-<img alt="_images/images_15_1.png" src="_images/images_15_1.png" />
+<img alt="_images/images_15_0.png" src="_images/images_15_0.png" />
 </div>
 </div>
 <div class="admonition tip">
@@ -696,18 +691,7 @@ be called by doing:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Error using toolboxdir</span>
-<span class=" -Color -Color-Red">Could not locate the base directory for nnet.</span>
-
-<span class=" -Color -Color-Red">Error in images.internal.requiresNeuralNetworkToolbox (line 7)</span>
-<span class=" -Color -Color-Red">if ~isfolder(toolboxdir(&#39;nnet&#39;))</span>
-
-<span class=" -Color -Color-Red">Error in denoisingNetwork (line 45)</span>
-<span class=" -Color -Color-Red">images.internal.requiresNeuralNetworkToolbox(mfilename);</span>
-
-
-</pre></div>
-</div>
+<img alt="_images/images_17_0.png" src="_images/images_17_0.png" />
 </div>
 </div>
 <p>the network <code class="docutils literal notranslate"><span class="pre">denoisingNetwork('DnCNN')</span></code> is a rather complex object whose
@@ -719,9 +703,162 @@ structure can be investigated by doing</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Red">Unable to resolve the name &#39;net.Layers&#39;.</span>
-
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  59x1 Layer array with layers:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     1   &#39;InputLayer&#39;             Image Input           50x50x1 images
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     2   &#39;Conv1&#39;                  2-D Convolution       64 3x3x1 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     3   &#39;ReLU1&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     4   &#39;Conv2&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     5   &#39;BNorm2&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     6   &#39;ReLU2&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     7   &#39;Conv3&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     8   &#39;BNorm3&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     9   &#39;ReLU3&#39;                  ReLU                  ReLU
+    10   &#39;Conv4&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    11   &#39;BNorm4&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    12   &#39;ReLU4&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    13   &#39;Conv5&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    14   &#39;BNorm5&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    15   &#39;ReLU5&#39;                  ReLU                  ReLU
+    16   &#39;Conv6&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    17   &#39;BNorm6&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    18   &#39;ReLU6&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    19   &#39;Conv7&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    20   &#39;BNorm7&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    21   &#39;ReLU7&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    22   &#39;Conv8&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    23   &#39;BNorm8&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    24   &#39;ReLU8&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    25   &#39;Conv9&#39;                  2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    26   &#39;BNorm9&#39;                 Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    27   &#39;ReLU9&#39;                  ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    28   &#39;Conv10&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    29   &#39;BNorm10&#39;                Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    30   &#39;ReLU10&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    31   &#39;Conv11&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    32   &#39;BNorm11&#39;                Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    33   &#39;ReLU11&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    34   &#39;Conv12&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    35   &#39;BNorm12&#39;                Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    36   &#39;ReLU12&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    37   &#39;Conv13&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    38   &#39;BNorm13&#39;                Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    39   &#39;ReLU13&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    40   &#39;Conv14&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    41   &#39;BNorm14&#39;                Batch Normalization   Batch normalization with 64 channels
+    42   &#39;ReLU14&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    43   &#39;Conv15&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    44   &#39;BNorm15&#39;                Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    45   &#39;ReLU15&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    46   &#39;Conv16&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    47   &#39;BNorm16&#39;                Batch Normalization   Batch normalization with 64 channels
+    48   &#39;ReLU16&#39;                 ReLU                  ReLU
+    49   &#39;Conv17&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+    50   &#39;BNorm17&#39;                Batch Normalization   Batch normalization with 64 channels
+    51   &#39;ReLU17&#39;                 ReLU                  ReLU
+    52   &#39;Conv18&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+    53   &#39;BNorm18&#39;                Batch Normalization   Batch normalization with 64 channels
+    54   &#39;ReLU18&#39;                 ReLU                  ReLU
+    55   &#39;Conv19&#39;                 2-D Convolution       64 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    56   &#39;BNorm19&#39;                Batch Normalization   Batch normalization with 64 channels
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    57   &#39;ReLU19&#39;                 ReLU                  ReLU
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    58   &#39;Conv20&#39;                 2-D Convolution       1 3x3x64 convolutions with stride [1  1] and padding [1  1  1  1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    59   &#39;FinalRegressionLayer&#39;   Regression Output     mean-squared-error with response &#39;Response&#39;
 </pre></div>
 </div>
 </div>
