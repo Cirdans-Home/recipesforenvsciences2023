@@ -33,6 +33,7 @@ types of image file formats:
 Let us start by downloading from the internet a cat photo and loading it into
 MATLAB:
 ```{code-cell} matlab
+% Download an image from the web
 websave('cat.jpg','https://upload.wikimedia.org/wikipedia/commons/5/52/Panthera_leo_stretching_%28Etosha%2C_2012%29.jpg');
 A = imread("cat.jpg");
 ```
@@ -329,7 +330,7 @@ That is indeed a better result.
 To have a complete introduction to this type of problems a good starting point
 is the book {cite}`MR2584074`, there are then a number of books covering
 specific aspects ranging from the atmosphere {cite}`doicu2010numerical` to
-geophysical {cite}`zhdanov2002geophysical,sun2013inverse`. 
+geophysical {cite}`zhdanov2002geophysical,sun2013inverse`.
 
 ## Bibliography
 
